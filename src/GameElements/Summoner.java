@@ -20,7 +20,7 @@ public class Summoner {
     private FlexData                flexData;
     private TwistedTreelineData     ttData;
 
-    private JSONArray rankedInfo;
+    private JSONArray               rankedInfo;
 
     public Summoner(String name, String encryptedId, int level, int iconId, JSONArray rankedInfo) {
         this.name = name;
