@@ -21,10 +21,10 @@ public class RiotAPIHandler {
 
     private static Logger LOGGER;
     private String summonerName = "KashyyykNative";             // Hardcoded for now
-    private ArrayList<String> queueTypes;
-    private ArrayList<String> divisions;
-    private ArrayList<String> basicTiers;
-    private ArrayList<String> eliteTiers;
+//    private ArrayList<String> queueTypes;
+//    private ArrayList<String> divisions;
+//    private ArrayList<String> basicTiers;
+//    private ArrayList<String> eliteTiers;
 
     private String api_key; // Expires: Sat, Jul 13th, 2019 @ 3:45pm (CT)
 
@@ -45,7 +45,6 @@ public class RiotAPIHandler {
         }
 
     }
-
 
     public Summoner getSummonerData(String summonerName) {
         this.summonerName = summonerName;
@@ -187,37 +186,37 @@ public class RiotAPIHandler {
         this.summonerName = summonerName;
     }
 
-    public ArrayList<String> getQueueTypes() {
-        return queueTypes;
-    }
-
-    public void addQueueType(String queueType) {
-        this.queueTypes.add(queueType);
-    }
-
-    public ArrayList<String> getDivisions() {
-        return divisions;
-    }
-
-    public void addDivision(String division) {
-        this.divisions.add(division);
-    }
-
-    public ArrayList<String> getBasicTiers() {
-        return basicTiers;
-    }
-
-    public void addBasicTier(String basicTier) {
-        this.basicTiers.add(basicTier);
-    }
-
-    public ArrayList<String> getEliteTiers() {
-        return eliteTiers;
-    }
-
-    public void addEliteTier(String eliteTier) {
-        this.eliteTiers.add(eliteTier);
-    }
+//    public ArrayList<String> getQueueTypes() {
+//        return queueTypes;
+//    }
+//
+//    public void addQueueType(String queueType) {
+//        this.queueTypes.add(queueType);
+//    }
+//
+//    public ArrayList<String> getDivisions() {
+//        return divisions;
+//    }
+//
+//    public void addDivision(String division) {
+//        this.divisions.add(division);
+//    }
+//
+//    public ArrayList<String> getBasicTiers() {
+//        return basicTiers;
+//    }
+//
+//    public void addBasicTier(String basicTier) {
+//        this.basicTiers.add(basicTier);
+//    }
+//
+//    public ArrayList<String> getEliteTiers() {
+//        return eliteTiers;
+//    }
+//
+//    public void addEliteTier(String eliteTier) {
+//        this.eliteTiers.add(eliteTier);
+//    }
 
     String getApi_key() {
         return api_key;
