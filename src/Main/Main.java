@@ -19,6 +19,6 @@ public class Main {
 //        LOGGER.log(Level.INFO, "Starting LoL stats application...");
         System.out.println("Testing API...");
         RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
-        System.out.println(riotAPIHandler.getAPIData());
+        System.out.println(riotAPIHandler.getSummonerData("KashyyykNative"));
     }
 }

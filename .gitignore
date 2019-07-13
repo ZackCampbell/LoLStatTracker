@@ -14,8 +14,13 @@
 /captures
 .externalNativeBuild
 
+# JSON files
+ApiKey.json
+
 # Log file
 *.log
+*.log.lck
+*.lck
 
 # BlueJ files
 *.ctxt

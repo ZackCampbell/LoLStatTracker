@@ -1,1 +1,16 @@
 2019-07-12 18:45:26 SEVERE API.RiotAPIHandler getAPIData java.io.IOException: Server returned HTTP response code: 403 for URL: https://na1.api.riotgames.com/lol/league/v4/summoners/by-name/KashyyykNative?api_key=RGAPI-e01adcb4-1167-484c-94c5-768094c7af50
+2019-07-13 10:52:21 SEVERE API.RiotAPIHandler <init> ApiKey.json (The system cannot find the file specified)
+2019-07-13 10:52:22 SEVERE API.RiotAPIHandler getSummonerData Server returned HTTP response code: 400 for URL: https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/KashyyykNative
+2019-07-13 10:52:22 SEVERE API.RiotAPIHandler getSummonerData Null response from initial api call
+2019-07-13 10:52:43 SEVERE API.RiotAPIHandler <init> .\ApiKey.json (The system cannot find the file specified)
+2019-07-13 10:52:44 SEVERE API.RiotAPIHandler getSummonerData Server returned HTTP response code: 400 for URL: https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/KashyyykNative
+2019-07-13 10:52:44 SEVERE API.RiotAPIHandler getSummonerData Null response from initial api call
+2019-07-13 10:53:42 SEVERE API.RiotAPIHandler <init> ..\ApiKey.json (The system cannot find the file specified)
+2019-07-13 10:53:43 SEVERE API.RiotAPIHandler getSummonerData Server returned HTTP response code: 400 for URL: https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/KashyyykNative
+2019-07-13 10:53:43 SEVERE API.RiotAPIHandler getSummonerData Null response from initial api call
+2019-07-13 10:55:12 SEVERE API.RiotAPIHandler <init> ApiKey (The system cannot find the file specified)
+2019-07-13 10:55:13 SEVERE API.RiotAPIHandler getSummonerData Server returned HTTP response code: 400 for URL: https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/KashyyykNative
+2019-07-13 10:55:13 SEVERE API.RiotAPIHandler getSummonerData Null response from initial api call
+2019-07-13 10:56:25 SEVERE API.RiotAPIHandler <init> .\ApiKey.json (The system cannot find the file specified)
+2019-07-13 10:56:26 SEVERE API.RiotAPIHandler getSummonerData Server returned HTTP response code: 400 for URL: https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/KashyyykNative
+2019-07-13 10:56:26 SEVERE API.RiotAPIHandler getSummonerData Null response from initial api call
