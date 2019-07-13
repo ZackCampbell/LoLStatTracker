@@ -1,0 +1,1 @@
+2019-07-12 18:45:26 SEVERE API.RiotAPIHandler getAPIData java.io.IOException: Server returned HTTP response code: 403 for URL: https://na1.api.riotgames.com/lol/league/v4/summoners/by-name/KashyyykNative?api_key=RGAPI-e01adcb4-1167-484c-94c5-768094c7af50
