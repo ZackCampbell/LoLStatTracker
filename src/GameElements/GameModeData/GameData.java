@@ -3,11 +3,8 @@ package GameElements.GameModeData;
 public abstract class GameData {
 
     protected String      leagueId;
-    protected String      queueType;
     protected String      tier;
     protected String      rank;
-    protected String      summonerId;
-    protected String      summonerName;
     protected int         leaguePoints;
     protected int         wins;
     protected int         losses;
@@ -15,19 +12,14 @@ public abstract class GameData {
     protected boolean     inactive;
     protected boolean     freshBlood;
     protected boolean     hotStreak;
+    protected double      winRatio;
 
     abstract public String      getLeagueId();
-    abstract public String      getSummonerName();
-    abstract public String      getSummonerId();
     abstract public String      getRank();
     abstract public String      getTier();
-    abstract public String      getQueueType();
     abstract public void        setLeagueId(String leagueId);
-    abstract public void        setQueueType(String queueType);
     abstract public void        setTier(String tier);
     abstract public void        setRank(String rank);
-    abstract public void        setSummonerId(String summonerId);
-    abstract public void        setSummonerName(String summonerName);
     abstract public void        setWins(int wins);
     abstract public void        setLeaguePoints(int leaguePoints);
     abstract public void        setLosses(int losses);
@@ -42,5 +34,13 @@ public abstract class GameData {
     abstract public boolean     isInactive();
     abstract public boolean     isFreshBlood();
     abstract public boolean     isHotStreak();
+
+    public double getWinRatio() {
+        if (losses == 0)
+            this.winRatio = 100.0;
+        else
+            this.winRatio = Math.round(((double)wins / (double)(wins + losses)) * 1000.0) / 10.0;
+        return this.winRatio;
+    }
 
 }

@@ -2,137 +2,127 @@ package GameElements.GameModeData;
 
 public class FlexData extends GameData{
 
-    public FlexData() {
-        // TODO: Implement this class
+    public FlexData(
+            String tier,
+            String rank,
+            int leaguePoints,
+            int wins,
+            int losses,
+            boolean veteran,
+            boolean inactive,
+            boolean freshBlood,
+            boolean hotStreak,
+            String leagueId
+    ) {
+        this.leagueId = leagueId;
+        this.freshBlood = freshBlood;
+        this.hotStreak = hotStreak;
+        this.inactive = inactive;
+        this.leaguePoints = leaguePoints;
+        this.losses = losses;
+        this.rank = rank;
+        this.wins = wins;
+        this.tier = tier;
+        this.veteran = veteran;
     }
 
     @Override
     public String getLeagueId() {
-        return null;
-    }
-
-    @Override
-    public String getSummonerName() {
-        return null;
-    }
-
-    @Override
-    public String getSummonerId() {
-        return null;
+        return this.leagueId;
     }
 
     @Override
     public String getRank() {
-        return null;
+        return this.rank;
     }
 
     @Override
     public String getTier() {
-        return null;
-    }
-
-    @Override
-    public String getQueueType() {
-        return null;
+        return this.tier;
     }
 
     @Override
     public void setLeagueId(String leagueId) {
-
-    }
-
-    @Override
-    public void setQueueType(String queueType) {
-
+        this.leagueId = leagueId;
     }
 
     @Override
     public void setTier(String tier) {
-
+        this.tier = tier;
     }
 
     @Override
     public void setRank(String rank) {
-
-    }
-
-    @Override
-    public void setSummonerId(String summonerId) {
-
-    }
-
-    @Override
-    public void setSummonerName(String summonerName) {
-
+        this.rank = rank;
     }
 
     @Override
     public void setWins(int wins) {
-
+        this.wins = wins;
     }
 
     @Override
     public void setLeaguePoints(int leaguePoints) {
-
+        this.leaguePoints = leaguePoints;
     }
 
     @Override
     public void setLosses(int losses) {
-
+        this.losses = losses;
     }
 
     @Override
     public void setVeteran(boolean veteran) {
-
+        this.veteran = veteran;
     }
 
     @Override
     public void setInactive(boolean inactive) {
-
+        this.inactive = inactive;
     }
 
     @Override
     public void setFreshBlood(boolean freshBlood) {
-
+        this.freshBlood = freshBlood;
     }
 
     @Override
     public void setHotStreak(boolean hotStreak) {
-
+        this.hotStreak = hotStreak;
     }
 
     @Override
     public int getLeaguePoints() {
-        return 0;
+        return this.leaguePoints;
     }
 
     @Override
     public int getWins() {
-        return 0;
+        return this.wins;
     }
 
     @Override
     public int getLosses() {
-        return 0;
+        return this.losses;
     }
 
     @Override
     public boolean isVeteran() {
-        return false;
+        return this.veteran;
     }
 
     @Override
     public boolean isInactive() {
-        return false;
+        return this.inactive;
     }
 
     @Override
     public boolean isFreshBlood() {
-        return false;
+        return this.freshBlood;
     }
 
     @Override
     public boolean isHotStreak() {
-        return false;
+        return this.hotStreak;
     }
 }
