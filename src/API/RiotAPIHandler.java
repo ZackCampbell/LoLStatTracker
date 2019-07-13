@@ -32,7 +32,7 @@ public class RiotAPIHandler {
 
     public RiotAPIHandler() {
         LOGGER = initializeLogger(RiotAPIHandler.class.getName());
-        initializeLists();
+//        initializeLists();
         try {
             FileReader reader = new FileReader(new File("././src/API/ApiKey.json"));
             JSONTokener tokener = new JSONTokener(reader);
@@ -117,43 +117,43 @@ public class RiotAPIHandler {
         return "https://" + region + ".api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerId;
     }
 
-    private void initializeLists() {
-        queueTypes = new ArrayList<>() {
-            {
-                add("RANKED_SOLO_5x5");
-                add("RANKED_FLEX_SR");
-                add("RANKED_FLEX_TT");
-            }
-        };
-
-        divisions = new ArrayList<>() {
-            {
-                add("I");
-                add("II");
-                add("III");
-                add("IV");
-            }
-        };
-
-        basicTiers = new ArrayList<>() {
-            {
-                add("DIAMOND");
-                add("PLATINUM");
-                add("GOLD");
-                add("SILVER");
-                add("BRONZE");
-                add("IRON");
-            }
-        };
-
-        eliteTiers = new ArrayList<>() {
-            {
-                add("CHALLENGER");
-                add("GRANDMASTER");
-                add("MASTER");
-            }
-        };
-    }
+//    private void initializeLists() {
+//        queueTypes = new ArrayList<>() {
+//            {
+//                add("RANKED_SOLO_5x5");
+//                add("RANKED_FLEX_SR");
+//                add("RANKED_FLEX_TT");
+//            }
+//        };
+//
+//        divisions = new ArrayList<>() {
+//            {
+//                add("I");
+//                add("II");
+//                add("III");
+//                add("IV");
+//            }
+//        };
+//
+//        basicTiers = new ArrayList<>() {
+//            {
+//                add("DIAMOND");
+//                add("PLATINUM");
+//                add("GOLD");
+//                add("SILVER");
+//                add("BRONZE");
+//                add("IRON");
+//            }
+//        };
+//
+//        eliteTiers = new ArrayList<>() {
+//            {
+//                add("CHALLENGER");
+//                add("GRANDMASTER");
+//                add("MASTER");
+//            }
+//        };
+//    }
 
     private String getSummonerId(JSONObject initialInfo) {
         if (initialInfo == null) {
