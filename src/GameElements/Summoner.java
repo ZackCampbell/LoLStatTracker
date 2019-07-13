@@ -64,7 +64,6 @@ public class Summoner {
         }
     }
 
-
     public String getName() {
         return name;
     }

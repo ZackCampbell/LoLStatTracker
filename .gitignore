@@ -17,6 +17,11 @@
 # JSON files
 ApiKey.json
 
+# Image Files
+*.png
+*.jpg
+*.gif
+
 # Log file
 *.log
 *.log.lck
