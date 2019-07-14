@@ -11,21 +11,39 @@ import javafx.stage.StageStyle;
  */
 public class MasterController {
 
-    private static Stage mainStage = null;
+    private Stage mainStage = null;
+    private Stage currentStage = null;
     private int windowX = 1200;
     private int windowY = 800;
+    private final StageStyle STAGE_STYLE = StageStyle.UNDECORATED;
 
     MasterController() {}
 
-    public MasterController(Stage initialStage, Parent root) throws Exception {
+    // TODO: Should check cached data to see if user needs to log in or can directly display their summoner information
+
+    public MasterController(Stage initialStage, Parent root) {
         initialStage.setTitle("LoL Stat Tracker");
-        initialStage.initStyle(StageStyle.UNDECORATED);
+        initialStage.initStyle(STAGE_STYLE);
         mainStage = initialStage;
         mainStage.setScene(new Scene(root));
     }
 
     public void showHomePage() {
         mainStage.show();
+    }
+
+    public void showCurrentPage() {
+        currentStage.show();
+    }
+
+    // UNTESTED - This probably won't work
+    void setStage(Stage stage, Parent root) {
+        currentStage = stage;
+        currentStage.setScene(new Scene(root));
+    }
+    
+    Stage getCurrentStage() {
+        return currentStage;
     }
 
     Stage getMainStage() {

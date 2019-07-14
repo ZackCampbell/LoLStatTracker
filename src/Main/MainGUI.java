@@ -17,10 +17,11 @@ public class MainGUI extends Application {
 
     private static Logger LOGGER;
 
-
     public static void main(String[] args) {
         launch(args);
     }
+
+    // TODO: Add program arguments to specify whether it should run the GUI or not (for testing convenience)
 
     @Override
     public void start(Stage primaryStage) throws Exception {
