@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+// TODO: Add ability to store historical game data (up to ~10 games) for displaying graphs of winrate, kd ratio, etc.
 public class Summoner {
 
     private String                  name;
@@ -20,7 +21,7 @@ public class Summoner {
     private FlexData                flexData;
     private TwistedTreelineData     ttData;
 
-    private JSONArray rankedInfo;
+    private JSONArray               rankedInfo;
 
     public Summoner(String name, String encryptedId, int level, int iconId, JSONArray rankedInfo) {
         this.name = name;
