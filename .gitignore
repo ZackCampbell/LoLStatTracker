@@ -24,6 +24,7 @@ ApiKey.json
 *.gif
 
 # Log file
+logs
 *.log
 *.log.lck
 *.lck
