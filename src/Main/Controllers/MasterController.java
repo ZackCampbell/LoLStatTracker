@@ -18,18 +18,17 @@ public class MasterController {
 
     private static Stage stage = null;
     private String currentPage;
-    private int windowX = 1200;
-    private int windowY = 800;
+    private final int windowX = 1200;
+    private final int windowY = 800;
     private double xOffset = 0.0;
     private double yOffset = 0.0;
     private final StageStyle STAGE_STYLE = StageStyle.UNDECORATED;
 
-    private static Logger LOGGER;
+    private static Logger LOGGER = initializeLogger(MasterController.class.getName());
 
     MasterController() {}
 
     public MasterController(Stage initialStage, Parent root) {
-        LOGGER = initializeLogger(MasterController.class.getName());
         initialStage.setTitle("LoL Stat Tracker");
         initialStage.initStyle(STAGE_STYLE);
         stage = initialStage;

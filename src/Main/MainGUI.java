@@ -14,7 +14,7 @@ import static Utils.Utils.initializeLogger;
 
 public class MainGUI extends Application {
 
-    private static Logger LOGGER;
+    private static Logger LOGGER = initializeLogger(MainGUI.class.getName());
 
     public static void main(String[] args) {
         String guiEnabled = "true";
@@ -41,7 +41,6 @@ public class MainGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        LOGGER = initializeLogger(MainGUI.class.getName());
         System.out.print("Testing API...");
         RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
         //riotAPIHandler.getSummonerData("KashyyykNative");
