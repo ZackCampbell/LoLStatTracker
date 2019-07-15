@@ -5,9 +5,7 @@ import Main.Controllers.MasterController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.util.logging.Logger;
 
@@ -18,7 +16,10 @@ public class MainGUI extends Application {
     private static Logger LOGGER;
 
     public static void main(String[] args) {
-        String guiEnabled = args[0];
+        String guiEnabled = null;
+        if (args.length > 0) {
+            guiEnabled = args[0];
+        }
         if (guiEnabled.equals("false")) {
             startWithoutGUI();
         } else {
