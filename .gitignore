@@ -3,6 +3,7 @@
 
 # XML files
 *.iml
+LoLJavaStatProject.iml
 .gradle
 /local.properties
 .idea/
@@ -20,6 +21,7 @@ ApiKey.json
 *.gif
 
 # Log file
+logs
 *.log
 *.log.lck
 *.lck
