@@ -18,15 +18,26 @@ public class MainGUI extends Application {
     private static Logger LOGGER;
 
     public static void main(String[] args) {
-        launch(args);
+        String guiEnabled = args[0];
+        if (guiEnabled.equals("false")) {
+            startWithoutGUI();
+        } else {
+            launch(args);
+        }
     }
 
-    // TODO: Add program arguments to specify whether it should run the GUI or not (for testing convenience)
+    public static void startWithoutGUI() {
+        System.out.println("Started without GUI");
+
+        // Add any functions here
+
+
+        System.exit(0);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         LOGGER = initializeLogger(MainGUI.class.getName());
-//        LOGGER.log(Level.INFO, "Starting LoL stats application...");
         System.out.print("Testing API...");
         RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
         riotAPIHandler.getSummonerData("KashyyykNative");
