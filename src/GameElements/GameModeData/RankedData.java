@@ -1,19 +1,40 @@
 package GameElements.GameModeData;
 
-public class RankedData extends GameData {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties({ "summonerId", "summonerName" })
+public class RankedData {
+    private String      queueType;
+    private String      leagueId;
+    private String      tier;
+    private String      rank;
+    private int         leaguePoints;
+    private int         wins;
+    private int         losses;
+    private boolean     veteran;
+    private boolean     inactive;
+    private boolean     freshBlood;
+    private boolean     hotStreak;
+
+    private double      winRatio;
+
+    @JsonCreator
     public RankedData(
-            String tier,
-            String rank,
-            int leaguePoints,
-            int wins,
-            int losses,
-            boolean veteran,
-            boolean inactive,
-            boolean freshBlood,
-            boolean hotStreak,
-            String leagueId
+            @JsonProperty("queueType") String queueType,
+            @JsonProperty("tier") String tier,
+            @JsonProperty("rank") String rank,
+            @JsonProperty("leaguePoints") int leaguePoints,
+            @JsonProperty("wins") int wins,
+            @JsonProperty("losses") int losses,
+            @JsonProperty("veteran") boolean veteran,
+            @JsonProperty("inactive") boolean inactive,
+            @JsonProperty("freshBlood") boolean freshBlood,
+            @JsonProperty("hotStreak") boolean hotStreak,
+            @JsonProperty("leagueId") String leagueId
     ) {
+        this.queueType = queueType;
         this.leagueId = leagueId;
         this.freshBlood = freshBlood;
         this.hotStreak = hotStreak;
@@ -26,104 +47,100 @@ public class RankedData extends GameData {
         this.veteran = veteran;
     }
 
-    @Override
+    public double getWinRatio() {
+        if (losses == 0)
+            this.winRatio = 100.0;
+        else
+            this.winRatio = Math.round(((double)wins / (double)(wins + losses)) * 1000.0) / 10.0;
+        return this.winRatio;
+    }
+
     public String getLeagueId() {
         return this.leagueId;
     }
 
-    @Override
     public String getRank() {
         return this.rank;
     }
 
-    @Override
     public String getTier() {
         return this.tier;
     }
 
-    @Override
+    public String getQueueType() {
+        return this.queueType;
+    }
+
     public void setLeagueId(String leagueId) {
         this.leagueId = leagueId;
     }
 
-    @Override
     public void setTier(String tier) {
         this.tier = tier;
     }
 
-    @Override
     public void setRank(String rank) {
         this.rank = rank;
     }
 
-    @Override
     public void setWins(int wins) {
         this.wins = wins;
     }
 
-    @Override
     public void setLeaguePoints(int leaguePoints) {
         this.leaguePoints = leaguePoints;
     }
 
-    @Override
     public void setLosses(int losses) {
         this.losses = losses;
     }
 
-    @Override
     public void setVeteran(boolean veteran) {
         this.veteran = veteran;
     }
 
-    @Override
     public void setInactive(boolean inactive) {
         this.inactive = inactive;
     }
 
-    @Override
     public void setFreshBlood(boolean freshBlood) {
         this.freshBlood = freshBlood;
     }
 
-    @Override
     public void setHotStreak(boolean hotStreak) {
         this.hotStreak = hotStreak;
     }
 
-    @Override
     public int getLeaguePoints() {
         return this.leaguePoints;
     }
 
-    @Override
     public int getWins() {
         return this.wins;
     }
 
-    @Override
     public int getLosses() {
         return this.losses;
     }
 
-    @Override
     public boolean isVeteran() {
         return this.veteran;
     }
 
-    @Override
     public boolean isInactive() {
         return this.inactive;
     }
 
-    @Override
     public boolean isFreshBlood() {
         return this.freshBlood;
     }
 
-    @Override
     public boolean isHotStreak() {
         return this.hotStreak;
     }
 
+    @Override
+    public String toString() {
+        return getQueueType() + "\nRank: " + getTier() + " " + getRank();
+    }
 }
