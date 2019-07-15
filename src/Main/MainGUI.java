@@ -1,6 +1,7 @@
 package Main;
 
 import API.RiotAPIHandler;
+import GameElements.Summoner;
 import Main.Controllers.MasterController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -36,15 +37,26 @@ public class MainGUI extends Application {
         System.exit(0);
     }
 
+    // TODO: Should check cached data to see if user needs to log in or can directly display their summoner information
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         LOGGER = initializeLogger(MainGUI.class.getName());
         System.out.print("Testing API...");
         RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
-        riotAPIHandler.getSummonerData("KashyyykNative");
-        System.out.println("Success");
-        Parent root = FXMLLoader.load(getClass().getResource("Views/Home.fxml"));
-        MasterController masterController = new MasterController(primaryStage, root);
-        masterController.showHomePage();
+        //riotAPIHandler.getSummonerData("KashyyykNative");
+        //System.out.println("Success");
+        boolean isSummonerCached = false;       // Set this based on whether the summoner data was cached or not (maybe pass as a param?)
+        MasterController masterController;
+        Parent root;
+        if (isSummonerCached) {
+            Summoner summoner = null;
+            root = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
+            masterController = new MasterController(primaryStage, root, summoner);
+        } else {
+            root = FXMLLoader.load(getClass().getResource("./Views/Login.fxml"));
+            masterController = new MasterController(primaryStage, root);
+        }
+        masterController.showStage();
     }
 }
