@@ -16,7 +16,7 @@ public class MainGUI extends Application {
     private static Logger LOGGER;
 
     public static void main(String[] args) {
-        String guiEnabled = null;
+        String guiEnabled = "true";
         if (args.length > 0) {
             guiEnabled = args[0];
         }

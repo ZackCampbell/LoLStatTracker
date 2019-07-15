@@ -24,8 +24,8 @@ public class MainGUIController extends MasterController implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        parent.prefWidth(getWindowX());
-        parent.prefHeight(getWindowY());
+//        parent.prefWidth(getWindowX());
+//        parent.prefHeight(getWindowY());
         makeStageDraggable();
     }
 
