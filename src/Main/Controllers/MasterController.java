@@ -10,8 +10,8 @@ import javafx.stage.StageStyle;
  */
 public class MasterController {
 
-    private Stage mainStage = null;
-    private Stage currentStage = null;
+    private static Stage mainStage = null;
+    private static Stage currentStage = null;
     private int windowX = 1200;
     private int windowY = 800;
     private final StageStyle STAGE_STYLE = StageStyle.UNDECORATED;
