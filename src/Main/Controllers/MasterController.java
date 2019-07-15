@@ -41,7 +41,7 @@ public class MasterController {
         currentStage = stage;
         currentStage.setScene(new Scene(root));
     }
-    
+
     Stage getCurrentStage() {
         return currentStage;
     }
