@@ -1,67 +1,73 @@
 package GameElements;
 
-import GameElements.GameModeData.FlexData;
+import API.Session;
 import GameElements.GameModeData.RankedData;
-import GameElements.GameModeData.TwistedTreelineData;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static Utils.Utils.initializeLogger;
+
+@JsonIgnoreProperties({ "accountId", "puuid", "revisionDate" })
 public class Summoner {
+    private static Logger LOGGER = initializeLogger(Summoner.class.getName());
 
-    private String                  name;
-    private String                  encryptedId;
-    private int                     level;
-    private int                     iconId;
-    private ArrayList<String>       queuesCompleted;
+    @JsonProperty("name") private String name;
+    @JsonProperty("id") private String encryptedId;
 
-    private RankedData              rankedData;
-    private FlexData                flexData;
-    private TwistedTreelineData     ttData;
+    @JsonProperty("summonerLevel") private int level;
 
-    private JSONArray rankedInfo;
+    @JsonProperty("profileIconId") private int iconId;
+    private ArrayList<RankedData>       rankedData;
 
-    public Summoner(String name, String encryptedId, int level, int iconId, JSONArray rankedInfo) {
+    public Summoner(String name, String encryptedId, int level, int iconId) {
         this.name = name;
         this.encryptedId = encryptedId;
         this.level = level;
         this.iconId = iconId;
-        this.rankedInfo = rankedInfo;
-        extractRankedInfo();
+        this.rankedData = new ArrayList<>();
     }
 
-    private void extractRankedInfo() {
-        queuesCompleted = new ArrayList<>();
-        for (Object data : rankedInfo) {
-            JSONObject dataObj = (JSONObject) data;
-            switch (dataObj.getString("queueType")) {
-                case ("RANKED_SOLO_5x5"):
-                    queuesCompleted.add("RANKED_SOLO_5x5");
-                    rankedData = new RankedData(dataObj.getString("tier"), dataObj.getString("rank"),
-                            dataObj.getInt("leaguePoints"), dataObj.getInt("wins"), dataObj.getInt("losses"),
-                            dataObj.getBoolean("veteran"), dataObj.getBoolean("inactive"),
-                            dataObj.getBoolean("freshBlood"), dataObj.getBoolean("hotStreak"),
-                            dataObj.getString("leagueId"));
-                    break;
-                case ("RANKED_FLEX_SR"):
-                    queuesCompleted.add("RANKED_FLEX_SR");
-                    flexData = new FlexData(dataObj.getString("tier"), dataObj.getString("rank"),
-                            dataObj.getInt("leaguePoints"), dataObj.getInt("wins"), dataObj.getInt("losses"),
-                            dataObj.getBoolean("veteran"), dataObj.getBoolean("inactive"),
-                            dataObj.getBoolean("freshBlood"), dataObj.getBoolean("hotStreak"),
-                            dataObj.getString("leagueId"));
-                    break;
-                case ("RANKED_FLEX_TT"):
-                    queuesCompleted.add("RANKED_FLEX_TT");
-                    ttData = new TwistedTreelineData(dataObj.getString("tier"), dataObj.getString("rank"),
-                            dataObj.getInt("leaguePoints"), dataObj.getInt("wins"), dataObj.getInt("losses"),
-                            dataObj.getBoolean("veteran"), dataObj.getBoolean("inactive"),
-                            dataObj.getBoolean("freshBlood"), dataObj.getBoolean("hotStreak"),
-                            dataObj.getString("leagueId"));
-                    break;
-            }
-        }
+    /**
+     * Stub constructor for when we get the initial request with just the summoner name. This effectively is cache-able
+     * since none of the information will ever become stale. When data is requested, or caches need to be regenerated,
+     * a request can be made from the data in this stub.
+     * @param name If you don't know what this is you have bigger problems
+     * @param encryptedId Pulled from the initial request response
+     */
+    @JsonCreator
+    public Summoner(
+            @JsonProperty("name") String name,
+            @JsonProperty("id") String encryptedId
+    ) {
+        this.name = name;
+        this.encryptedId = encryptedId;
+        this.level = -1;
+        this.iconId = -1;
+        this.rankedData = new ArrayList<>();
+    }
+
+    /**
+     * Constructs an empty, invalid Summoner
+     */
+    public Summoner() {
+        this.name = null;
+        this.encryptedId = null;
+        this.level = -1;
+        this.iconId = -1;
+        this.rankedData = new ArrayList<>();
+    }
+
+    public static Summoner retrieveFromCache(String summonerName) {
+        return Session.getInstance().getSummoner(summonerName);
+    }
+
+    public boolean isValid() {
+        return this.encryptedId != null && this.name != null;
     }
 
     public String getName() {
@@ -74,10 +80,6 @@ public class Summoner {
 
     public String getEncryptedId() {
         return encryptedId;
-    }
-
-    public void setEncryptedId(String encryptedId) {
-        this.encryptedId = encryptedId;
     }
 
     public int getLevel() {
@@ -96,38 +98,14 @@ public class Summoner {
         this.iconId = iconId;
     }
 
-    public RankedData getRankedData() {
+    public ArrayList<RankedData> getRankedData() {
         return rankedData;
-    }
-
-    public FlexData getFlexData() {
-        return flexData;
-    }
-
-    public TwistedTreelineData getTtData() {
-        return ttData;
     }
 
     @Override
     public String toString() {
         String toReturn = "SUMMONER: " + getName() + "\nEncryptedId: " + getEncryptedId() + "\nLevel: " + getLevel()
                 + "\nIcon: " + getIconId();
-        for (String queueType : queuesCompleted) {
-            switch (queueType) {
-                case ("RANKED_SOLO_5x5"):
-                    toReturn += "\nRanked Solo: " + getRankedData().getTier() + " " + getRankedData().getRank()
-                            + " - Win Ratio: " + getRankedData().getWinRatio();
-                    break;
-                case ("RANKED_FLEX_SR"):
-                    toReturn += "\nRanked Flex: " + getFlexData().getTier() + " " + getFlexData().getRank()
-                            + " - Win Ratio: " + getFlexData().getWinRatio();
-                    break;
-                case ("RANKED_FLEX_TT"):
-                    toReturn += "\nRanked Twisted Treeline: " + getTtData().getTier() + " " + getTtData().getRank()
-                            + " - Win Ratio: " + getTtData().getWinRatio();
-                    break;
-            }
-        }
 
         return toReturn;
     }
