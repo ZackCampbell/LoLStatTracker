@@ -55,6 +55,8 @@ public class RiotAPIHandler {
             summoner = getResponseData(new URL(buildInitialURL(summonerName)), Summoner.class);
 
             Session.getInstance().addSummoner(summoner);
+
+            return summoner;
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
         }
