@@ -1,52 +1,90 @@
 package Main.Controllers;
 
+import GameElements.Summoner;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.util.logging.Logger;
+
+import static Utils.Utils.initializeLogger;
 
 /**
  * Controls the controllers and decides which window to display, keeps track of the window sizes and constants
  */
 public class MasterController {
 
-    private Stage mainStage = null;
-    private Stage currentStage = null;
-    private int windowX = 1200;
-    private int windowY = 800;
+    private static Stage stage = null;
+    private String currentPage;
+    private final int windowX = 1200;
+    private final int windowY = 800;
+    private double xOffset = 0.0;
+    private double yOffset = 0.0;
     private final StageStyle STAGE_STYLE = StageStyle.UNDECORATED;
 
-    MasterController() {}
+    private static Logger LOGGER = initializeLogger(MasterController.class.getName());
 
-    // TODO: Should check cached data to see if user needs to log in or can directly display their summoner information
+    MasterController() {}
 
     public MasterController(Stage initialStage, Parent root) {
         initialStage.setTitle("LoL Stat Tracker");
         initialStage.initStyle(STAGE_STYLE);
-        mainStage = initialStage;
-        mainStage.setScene(new Scene(root));
+        stage = initialStage;
+        stage.setScene(new Scene(root));
+        currentPage = "login";
     }
 
-    public void showHomePage() {
-        mainStage.show();
+    public MasterController(Stage initialStage, Parent root, Summoner summoner) {
+        LOGGER = initializeLogger(MasterController.class.getName());
+        initialStage.setTitle("LoL Stat Tracker");
+        initialStage.initStyle(STAGE_STYLE);
+        stage = initialStage;
+        stage.setScene(new Scene(root));
+        initializeSummoner(summoner);
+        currentPage = "summoner";
     }
 
-    public void showCurrentPage() {
-        currentStage.show();
+    void initializeSummoner(Summoner summoner) {
+        // Get all the information pertaining to the input summoner for displaying on the GUI
     }
 
-    // UNTESTED - This probably won't work
-    void setStage(Stage stage, Parent root) {
-        currentStage = stage;
-        currentStage.setScene(new Scene(root));
+    void initializeStage(AnchorPane parent) {
+        parent.setPrefHeight(getWindowY());
+        parent.setPrefWidth(getWindowX());
+        makeStageDraggable(parent);
     }
 
-    Stage getCurrentStage() {
-        return currentStage;
+    void makeStageDraggable(AnchorPane parent) {
+        parent.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+        parent.setOnMouseDragged(event -> {
+            getStage().setX(event.getScreenX() - xOffset);
+            getStage().setY(event.getScreenY() - yOffset);
+        });
     }
 
-    Stage getMainStage() {
-        return mainStage;
+    void minimizeStage(Stage stage) {
+        stage.setIconified(true);
+    }
+
+    void closeApp() {
+        System.exit(0);
+    }
+
+    public void showStage() {
+        stage.show();
+    }
+
+    String getPage() {
+        return currentPage;
+    }
+
+    Stage getStage() {
+        return stage;
     }
 
     int getWindowX() {

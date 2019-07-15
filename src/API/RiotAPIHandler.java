@@ -1,9 +1,8 @@
 package API;
 
+import GameElements.GameModeData.RankedData;
 import GameElements.Summoner;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -12,14 +11,13 @@ import java.net.URL;
 
 import static Utils.Utils.*;
 
-import java.util.Scanner;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RiotAPIHandler {
 
     private static Logger LOGGER;
-    private String summonerName = "KashyyykNative";             // Hardcoded for now
 //    private ArrayList<String> queueTypes;
 //    private ArrayList<String> divisions;
 //    private ArrayList<String> basicTiers;
@@ -33,82 +31,76 @@ public class RiotAPIHandler {
         LOGGER = initializeLogger(RiotAPIHandler.class.getName());
 //        initializeLists();
         try {
-            FileReader reader = new FileReader(new File("././src/API/ApiKey.json"));
-            JSONTokener tokener = new JSONTokener(reader);
-            JSONObject obj = new JSONObject(tokener);
-            api_key = obj.getString("api_key");
+            ObjectMapper mapper = new ObjectMapper();
+            Map apiKey = mapper.readValue(new File("././src/API/ApiKey.json"), Map.class);
+            api_key = (String) apiKey.getOrDefault("api_key", null);
         } catch (FileNotFoundException e) {
             System.out.println("Failed to find ApiKey.json");
             LOGGER.log(Level.SEVERE, e.getMessage());
             api_key = null;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
-    public Summoner getSummonerData(String summonerName) {
-        this.summonerName = summonerName;
+    public Summoner getSummonerStub(String summonerName) {
+        Summoner summoner = Summoner.retrieveFromCache(summonerName);
 
-        JSONObject initialInfo = null;
-        JSONArray rankedInfo = null;
-        String initialData = " ", rankedData = " ";
+        if (summoner.isValid()) {
+            return summoner;
+        }
 
+        // Didn't get from cache, make a request for it
         try {
-            URL riotGamesUrl = new URL(buildInitialURL());
-            initialData = getData(initialData, riotGamesUrl);
+            summoner = getResponseData(new URL(buildInitialURL(summonerName)), Summoner.class);
+
+            Session.getInstance().addSummoner(summoner);
+
+            return summoner;
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
         }
-        if (!initialData.equals(" ")) {
-            initialInfo = new JSONObject(initialData);
-        } else {
-            LOGGER.log(Level.SEVERE, "Null response from initial api call");
-            return null;
-        }
 
-        try {
-            URL riotGamesUrl = new URL(buildRankedURL(getSummonerId(initialInfo)));
-            rankedData = getData(rankedData, riotGamesUrl);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage());
-        }
-        if (!rankedData.equals(" ")) {
-            rankedInfo = new JSONArray(rankedData);
-        } else {
-            LOGGER.log(Level.SEVERE, "Null response from ranked api call");
-            return null;
-        }
-
-        return buildSummoner(initialInfo, rankedInfo);
+        return new Summoner();
     }
 
-    private String getData(String data, URL riotGamesUrl) throws IOException {
+    public RankedData[] getRankedData(String summonerName) {
+        Summoner summoner = getSummonerStub(summonerName);
+
+        if (summoner.isValid()) {
+            try {
+                URL riotGamesUrl = new URL(buildRankedURL(summoner.getEncryptedId()));
+                return getResponseData(riotGamesUrl, RankedData[].class);
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, e.getMessage());
+                return new RankedData[]{};
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "Could not retrieve summoner from cache or API request");
+            return new RankedData[]{};
+        }
+    }
+
+    public RankedData[] getRankedData(Summoner summoner) {
+        if (summoner.isValid()) {
+            return getRankedData(summoner.getName());
+        } else {
+            LOGGER.log(Level.SEVERE, "Can't retrieve ranked info for invalid summoner");
+            return new RankedData[]{};
+        }
+    }
+
+    private <T> T getResponseData(URL riotGamesUrl, Class<T> expectedClass) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+
         HttpURLConnection urlConnection = (HttpURLConnection)riotGamesUrl.openConnection();
         setRequestHeaders(urlConnection);
         InputStream inputStream = urlConnection.getInputStream();
-        Scanner scanner = new Scanner(inputStream);
 
-        while (scanner.hasNext()) {
-            data += scanner.nextLine();
-        }
-        urlConnection.disconnect();
-        return data;
+        return mapper.readValue(inputStream, expectedClass);
     }
 
-    private Summoner buildSummoner(JSONObject initialInfo, JSONArray rankedInfo) {
-        if (initialInfo == null) {
-            LOGGER.log(Level.WARNING, "Invalid response from Riot API");
-            return null;
-        }
-
-        int profileIconId = initialInfo.getInt("profileIconId");
-        int summonerLevel = initialInfo.getInt("summonerLevel");
-        String summonerId = initialInfo.getString("id");
-        String summonerName = initialInfo.getString("name");
-
-        return new Summoner(summonerName, summonerId, summonerLevel, profileIconId, rankedInfo);
-    }
-
-    private String buildInitialURL() {
+    private String buildInitialURL(String summonerName) {
         return "https://" + region + ".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerName;
     }
 
@@ -154,14 +146,6 @@ public class RiotAPIHandler {
 //        };
 //    }
 
-    private String getSummonerId(JSONObject initialInfo) {
-        if (initialInfo == null) {
-            LOGGER.log(Level.WARNING, "Invalid response from Riot API");
-            return null;
-        }
-        return initialInfo.getString("id");
-    }
-
     // -------------------------------- GETTERS AND SETTERS -----------------------------------------
 
     public String getRegion() {
@@ -175,14 +159,6 @@ public class RiotAPIHandler {
     private void setRequestHeaders(HttpURLConnection urlConnection) throws ProtocolException {
         urlConnection.setRequestMethod("GET");
         urlConnection.setRequestProperty("X-Riot-Token", api_key);
-    }
-
-    public String getSummonerName() {
-        return summonerName;
-    }
-
-    public void setSummonerName(String summonerName) {
-        this.summonerName = summonerName;
     }
 
 //    public ArrayList<String> getQueueTypes() {
