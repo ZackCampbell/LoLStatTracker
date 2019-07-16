@@ -1,10 +1,13 @@
 package Main.Controllers;
 
+import API.Session;
 import GameElements.Summoner;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -19,12 +22,10 @@ import java.util.ResourceBundle;
  */
 public class LoginController extends MasterController implements Initializable {
 
-    @FXML
-    private AnchorPane parent;
-    @FXML
-    private HBox top;
-    @FXML
-    private Pane content;
+    @FXML private AnchorPane parent;
+    @FXML private HBox top;
+    @FXML private Pane content;
+    @FXML private TextField summNameInput;
 
 
     @Override
@@ -34,13 +35,12 @@ public class LoginController extends MasterController implements Initializable {
 
     @FXML
     private void handleLogin(MouseEvent event) throws IOException {
-        Summoner summoner = null;
-        // Query session singleton hashmap with summoner name as key
-        // If stub doesn't have relevant information, send for additional from the API
-        initializeSummoner(summoner);
-        Parent summonerFXML = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
-        content.getChildren().removeAll();
-        content.getChildren().setAll(summonerFXML);
+        System.out.println("Pressed Login");
+//        Session session = Session.getInstance();
+//        initializeSummoner(session.getSummoner(summNameInput.getText()));
+//        Parent summonerFXML = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
+//        content.getChildren().removeAll();
+//        content.getChildren().setAll(summonerFXML);
     }
 
     @FXML
