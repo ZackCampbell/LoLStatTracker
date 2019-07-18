@@ -1,6 +1,6 @@
 package Main.Controllers;
 
-import API.Session;
+import Main.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,7 +46,7 @@ public class LoginController extends MasterController implements Initializable {
         initializeStage(parent);
         errorLabel.setTextFill(Paint.valueOf("red"));
         loginActive = true;
-        initBgImage();
+        //initBgImage();
     }
 
     private void initBgImage() {
@@ -64,8 +64,7 @@ public class LoginController extends MasterController implements Initializable {
                 }
                 try {
                     Thread.sleep(20000);
-                } catch (InterruptedException e) {
-                }
+                } catch (InterruptedException e) {}
             }
         });
         backgroundThread.start();
@@ -83,6 +82,7 @@ public class LoginController extends MasterController implements Initializable {
         Session session = Session.getInstance();
         boolean success = initializeSummoner(session.getSummoner(summNameInput.getText()));
         if (!success) {
+            // TODO: Success is always false - check initializeSummoner to fix
             errorLabel.setText("Error Retrieving Input Summoner");
             return;
         }

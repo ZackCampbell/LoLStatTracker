@@ -64,7 +64,7 @@ public class MasterController {
         makeStageDraggable(parent);
     }
 
-    void makeStageDraggable(AnchorPane parent) {
+    private void makeStageDraggable(AnchorPane parent) {
         parent.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -95,11 +95,11 @@ public class MasterController {
         return stage;
     }
 
-    int getWindowX() {
+    private int getWindowX() {
         return windowX;
     }
 
-    int getWindowY() {
+    private int getWindowY() {
         return windowY;
     }
 
