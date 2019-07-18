@@ -1,5 +1,6 @@
 package Main;
 
+import Utils.Utils;
 import API.RiotAPIHandler;
 import GameElements.Summoner;
 import Main.Controllers.MasterController;
@@ -32,7 +33,7 @@ public class MainGUI extends Application {
         System.out.println("Started without GUI");
 
         // Add any functions here
-
+        System.out.println(Utils.getRelativePath());
 
         System.exit(0);
     }
