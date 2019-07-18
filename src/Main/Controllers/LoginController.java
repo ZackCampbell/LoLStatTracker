@@ -45,8 +45,8 @@ public class LoginController extends MasterController implements Initializable {
         Session session = Session.getInstance();
         initializeSummoner(session.getSummoner(summNameInput.getText()));
         Parent summonerFXML = FXMLLoader.load(getClass().getResource("../Views/Summoner.fxml"));
-        content.getChildren().removeAll();
-        content.getChildren().setAll(summonerFXML);
+        parent.getChildren().removeAll();
+        parent.getChildren().setAll(summonerFXML);
     }
 
     @FXML

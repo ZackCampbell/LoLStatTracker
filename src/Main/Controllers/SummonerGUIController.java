@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -30,6 +31,16 @@ public class SummonerGUIController extends MasterController implements Initializ
         Parent loginFXML = FXMLLoader.load(getClass().getResource("../Views/Login.fxml"));
         content.getChildren().removeAll();
         content.getChildren().setAll(loginFXML);
+    }
+
+    @FXML
+    void minimizeStage(MouseEvent event) {
+        super.minimizeStage(getStage());
+    }
+
+    @FXML
+    void closeApp(MouseEvent event) {
+        super.closeApp();
     }
 
 }
