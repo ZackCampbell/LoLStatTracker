@@ -49,10 +49,11 @@ public class MasterController {
 
     void initializeSummoner(Summoner summoner) {
         if (!summoner.isValid()) {
-            // Make initial API call to get encryptedSummId and populate summoner
+            // TODO: Make initial API call to get encryptedSummId and populate summoner
         }
-        // Get all the information pertaining to the input summoner for displaying on the GUI
+        // TODO: Get all the information pertaining to the input summoner for displaying on the GUI
         currentSummoner = summoner;
+        System.out.println(currentSummoner);
     }
 
     void initializeStage(AnchorPane parent) {
