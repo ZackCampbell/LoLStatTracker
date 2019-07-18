@@ -5,10 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
@@ -20,17 +18,19 @@ import java.util.ResourceBundle;
  */
 public class SummonerGUIController extends MasterController implements Initializable {
 
-    @FXML
-    private AnchorPane parent;
-    @FXML
-    private HBox top;
-    @FXML
-    private Pane content;
-
+    @FXML private AnchorPane parent;
+    @FXML private Pane content;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeStage(parent);
+    }
+
+    @FXML
+    private void handleLogout(ActionEvent event) throws IOException {
+        Parent loginFXML = FXMLLoader.load(getClass().getResource("../Views/Login.fxml"));
+        content.getChildren().removeAll();
+        content.getChildren().setAll(loginFXML);
     }
 
     @FXML
@@ -41,13 +41,6 @@ public class SummonerGUIController extends MasterController implements Initializ
     @FXML
     void closeApp(MouseEvent event) {
         super.closeApp();
-    }
-
-    @FXML
-    private void handleLogout(ActionEvent event) throws IOException {
-        Parent loginFXML = FXMLLoader.load(getClass().getResource("./Views/Login.fxml"));
-        content.getChildren().removeAll();
-        content.getChildren().setAll(loginFXML);
     }
 
 }

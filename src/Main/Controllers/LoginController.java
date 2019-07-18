@@ -1,10 +1,13 @@
 package Main.Controllers;
 
-import GameElements.Summoner;
+import API.Session;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -19,28 +22,31 @@ import java.util.ResourceBundle;
  */
 public class LoginController extends MasterController implements Initializable {
 
-    @FXML
-    private AnchorPane parent;
-    @FXML
-    private HBox top;
-    @FXML
-    private Pane content;
-
+    @FXML private AnchorPane parent;
+    @FXML private HBox top;
+    @FXML private Pane content;
+    @FXML private TextField summNameInput;
+    @FXML private Button loginButton;
+    @FXML private Pane logoPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeStage(parent);
     }
 
+    /**
+     * Handler for the login button - get's the input summoner's information and loads their summoner page
+     *
+     * @param event is the press of the login button
+     * @throws IOException on FXMLLoader
+     */
     @FXML
-    private void handleLogin(MouseEvent event) throws IOException {
-        Summoner summoner = null;
-        // Query session singleton hashmap with summoner name as key
-        // If stub doesn't have relevant information, send for additional from the API
-        initializeSummoner(summoner);
-        Parent summonerFXML = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
-        content.getChildren().removeAll();
-        content.getChildren().setAll(summonerFXML);
+    private void handleLogin(ActionEvent event) throws IOException {
+        Session session = Session.getInstance();
+        initializeSummoner(session.getSummoner(summNameInput.getText()));
+        Parent summonerFXML = FXMLLoader.load(getClass().getResource("../Views/Summoner.fxml"));
+        parent.getChildren().removeAll();
+        parent.getChildren().setAll(summonerFXML);
     }
 
     @FXML

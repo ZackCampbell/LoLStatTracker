@@ -43,8 +43,6 @@ public class MainGUI extends Application {
     public void start(Stage primaryStage) throws Exception {
         System.out.print("Testing API...");
         RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
-        //riotAPIHandler.getSummonerData("KashyyykNative");
-        //System.out.println("Success");
         boolean isSummonerCached = false;       // Set this based on whether the summoner data was cached or not (maybe pass as a param?)
         MasterController masterController;
         Parent root;
