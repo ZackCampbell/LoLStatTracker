@@ -11,12 +11,14 @@ import java.util.logging.Logger;
 
 import static Utils.Utils.initializeLogger;
 
-@JsonIgnoreProperties({ "accountId", "puuid", "revisionDate" })
+@JsonIgnoreProperties({ "revisionDate" })
 public class Summoner {
     private static Logger LOGGER = initializeLogger(Summoner.class.getName());
 
     @JsonProperty("name") private String name;
-    @JsonProperty("id") private String encryptedId;
+    @JsonProperty("accountId") private String encryptedId;
+    @JsonProperty("id") private String summonerId;
+    @JsonProperty("puuid") private String puuidId;
 
     @JsonProperty("summonerLevel") private int level;
 
@@ -41,7 +43,7 @@ public class Summoner {
     @JsonCreator
     public Summoner(
             @JsonProperty("name") String name,
-            @JsonProperty("id") String encryptedId
+            @JsonProperty("accountId") String encryptedId
     ) {
         this.name = name;
         this.encryptedId = encryptedId;

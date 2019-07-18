@@ -19,18 +19,11 @@ import java.util.logging.Logger;
 public class RiotAPIHandler {
 
     private static Logger LOGGER;
-//    private ArrayList<String> queueTypes;
-//    private ArrayList<String> divisions;
-//    private ArrayList<String> basicTiers;
-//    private ArrayList<String> eliteTiers;
-
-    private String api_key; // Expires: Sat, Jul 13th, 2019 @ 3:45pm (CT)
-
+    private String api_key;
     private String region = "na1";
 
     public RiotAPIHandler() {
         LOGGER = initializeLogger(RiotAPIHandler.class.getName());
-//        initializeLists();
         try {
             ObjectMapper mapper = new ObjectMapper();
             Map apiKey = mapper.readValue(new File("././src/API/ApiKey.json"), Map.class);
@@ -42,71 +35,6 @@ public class RiotAPIHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public Summoner getSummonerStub(String summonerName) {
-        Summoner summoner = Summoner.retrieveFromCache(summonerName);
-
-        if (summoner.isValid()) {
-            return summoner;
-        }
-
-        // Didn't get from cache, make a request for it
-        try {
-            summoner = getResponseData(new URL(buildInitialURL(summonerName)), Summoner.class);
-
-            Session.getInstance().addSummoner(summoner);
-
-            return summoner;
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage());
-        }
-
-        return new Summoner();
-    }
-
-    public RankedData[] getRankedData(String summonerName) {
-        Summoner summoner = getSummonerStub(summonerName);
-
-        if (summoner.isValid()) {
-            try {
-                URL riotGamesUrl = new URL(buildRankedURL(summoner.getEncryptedId()));
-                return getResponseData(riotGamesUrl, RankedData[].class);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, e.getMessage());
-                return new RankedData[]{};
-            }
-        } else {
-            LOGGER.log(Level.SEVERE, "Could not retrieve summoner from cache or API request");
-            return new RankedData[]{};
-        }
-    }
-
-    public RankedData[] getRankedData(Summoner summoner) {
-        if (summoner.isValid()) {
-            return getRankedData(summoner.getName());
-        } else {
-            LOGGER.log(Level.SEVERE, "Can't retrieve ranked info for invalid summoner");
-            return new RankedData[]{};
-        }
-    }
-
-    private <T> T getResponseData(URL riotGamesUrl, Class<T> expectedClass) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-
-        HttpURLConnection urlConnection = (HttpURLConnection)riotGamesUrl.openConnection();
-        setRequestHeaders(urlConnection);
-        InputStream inputStream = urlConnection.getInputStream();
-
-        return mapper.readValue(inputStream, expectedClass);
-    }
-
-    private String buildInitialURL(String summonerName) {
-        return "https://" + region + ".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerName;
-    }
-
-    private String buildRankedURL(String summonerId) {
-        return "https://" + region + ".api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerId;
     }
 
 //    private void initializeLists() {
@@ -157,11 +85,6 @@ public class RiotAPIHandler {
         this.region = region;
     }
 
-    private void setRequestHeaders(HttpURLConnection urlConnection) throws ProtocolException {
-        urlConnection.setRequestMethod("GET");
-        urlConnection.setRequestProperty("X-Riot-Token", api_key);
-    }
-
 //    public ArrayList<String> getQueueTypes() {
 //        return queueTypes;
 //    }
@@ -194,7 +117,7 @@ public class RiotAPIHandler {
 //        this.eliteTiers.add(eliteTier);
 //    }
 
-    String getApi_key() {
+    public String getApi_key() {
         return api_key;
     }
 
