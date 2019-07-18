@@ -54,6 +54,14 @@ public class Summoner {
     /**
      * Constructs an empty, invalid Summoner
      */
+    public Summoner(String name) {
+        this.name = name;
+        this.encryptedId = null;
+        this.level = -1;
+        this.iconId = -1;
+        this.rankedData = new ArrayList<>();
+    }
+
     public Summoner() {
         this.name = null;
         this.encryptedId = null;

@@ -38,7 +38,7 @@ public class Session {
     }
 
     public Summoner getSummoner(String name) {
-        Summoner cached = loadedSummoners.getOrDefault(name, new Summoner());
+        Summoner cached = loadedSummoners.getOrDefault(name, new Summoner(name));
 
         if (!cached.isValid()) {
             LOGGER.log(Level.INFO, "No session stored value for: %s", name);

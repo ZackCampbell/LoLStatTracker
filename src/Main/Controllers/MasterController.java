@@ -23,6 +23,7 @@ public class MasterController {
     private double xOffset = 0.0;
     private double yOffset = 0.0;
     private final StageStyle STAGE_STYLE = StageStyle.UNDECORATED;
+    private Summoner currentSummoner;
 
     private static Logger LOGGER = initializeLogger(MasterController.class.getName());
 
@@ -47,7 +48,12 @@ public class MasterController {
     }
 
     void initializeSummoner(Summoner summoner) {
-        // Get all the information pertaining to the input summoner for displaying on the GUI
+        if (!summoner.isValid()) {
+            // TODO: Make initial API call to get encryptedSummId and populate summoner
+        }
+        // TODO: Get all the information pertaining to the input summoner for displaying on the GUI
+        currentSummoner = summoner;
+        System.out.println(currentSummoner);
     }
 
     void initializeStage(AnchorPane parent) {
