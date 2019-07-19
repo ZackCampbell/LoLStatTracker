@@ -47,13 +47,15 @@ public class MasterController {
         currentPage = "summoner";
     }
 
-    void initializeSummoner(Summoner summoner) {
+    boolean initializeSummoner(Summoner summoner) {
         if (!summoner.isValid()) {
             // TODO: Make initial API call to get encryptedSummId and populate summoner
+            // TODO: If still not a valid response from the API (ie. Summoner doesn't exist), return false
         }
         // TODO: Get all the information pertaining to the input summoner for displaying on the GUI
         currentSummoner = summoner;
         System.out.println(currentSummoner);
+        return false;
     }
 
     void initializeStage(AnchorPane parent) {
@@ -62,7 +64,7 @@ public class MasterController {
         makeStageDraggable(parent);
     }
 
-    void makeStageDraggable(AnchorPane parent) {
+    private void makeStageDraggable(AnchorPane parent) {
         parent.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -93,11 +95,11 @@ public class MasterController {
         return stage;
     }
 
-    int getWindowX() {
+    private int getWindowX() {
         return windowX;
     }
 
-    int getWindowY() {
+    private int getWindowY() {
         return windowY;
     }
 

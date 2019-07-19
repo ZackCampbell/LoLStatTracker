@@ -1,5 +1,6 @@
 package Main;
 
+import Utils.*;
 import API.RiotAPIHandler;
 import API.SummonerEndpoint;
 import GameElements.Summoner;
@@ -48,19 +49,16 @@ public class MainGUI extends Application {
         System.exit(0);
     }
 
-    // TODO: Should check cached data to see if user needs to log in or can directly display their summoner information
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.out.print("Testing API...");
-        RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
-        boolean isSummonerCached = false;       // Set this based on whether the summoner data was cached or not (maybe pass as a param?)
+        System.out.print("Starting with GUI enabled...");
+//        RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
+        Summoner cachedSummoner = (Summoner)Session.getCache().getLast();
         MasterController masterController;
         Parent root;
-        if (isSummonerCached) {
-            Summoner summoner = null;
+        if (cachedSummoner != null) {
             root = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
-            masterController = new MasterController(primaryStage, root, summoner);
+            masterController = new MasterController(primaryStage, root, cachedSummoner);
         } else {
             root = FXMLLoader.load(getClass().getResource("./Views/Login.fxml"));
             masterController = new MasterController(primaryStage, root);
