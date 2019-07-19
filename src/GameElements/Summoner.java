@@ -1,13 +1,12 @@
 package GameElements;
 
-import API.Session;
+import Main.Session;
 import GameElements.GameModeData.RankedData;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static Utils.Utils.initializeLogger;
