@@ -107,7 +107,7 @@ public class LoginController extends MasterController implements Initializable {
     }
 
     private void addRegionChoiceBox() {
-        regions.setItems(FXCollections.observableArrayList(Utils.getRegionCodes()));
+        regions.setItems(FXCollections.observableArrayList(Utils.getRegionCodes()).sorted());
         regions.setValue("NA");
         regions.setTooltip(new Tooltip("Select the region"));
     }

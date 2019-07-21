@@ -19,15 +19,18 @@ public class LoggingHandler {
     public void addHandler(String className) {
         String fileName = className.split("\\.")[0];
         String path = "././logs/" + fileName + ".log";
-        try {
-            FileHandler fileHandler = new FileHandler(path, true);
-            fileHandler.setFormatter(new SimpleFormatter());
-            fileHandler.setFilter(new FilterHandler(className));
-            LOGGER.addHandler(fileHandler);
-        } catch (IOException e) {
-            System.out.println("Failed to initialize logging handler for " + className +
-                    "\nEnsure logs folder is created (LoLStatTracker/logs)");
-            LOGGER.setUseParentHandlers(true);
+        File newLog = new File(path);
+        if (!newLog.exists()) {
+            try {
+                FileHandler fileHandler = new FileHandler(path, true);
+                fileHandler.setFormatter(new SimpleFormatter());
+                fileHandler.setFilter(new FilterHandler(className));
+                LOGGER.addHandler(fileHandler);
+            } catch (IOException e) {
+                System.out.println("Failed to initialize logging handler for " + className +
+                        "\nEnsure logs folder is created (LoLStatTracker/logs)");
+                LOGGER.setUseParentHandlers(true);
+            }
         }
     }
 

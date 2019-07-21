@@ -26,7 +26,7 @@ public class MasterController {
     private double yOffset = 0.0;
     private final StageStyle STAGE_STYLE = StageStyle.UNDECORATED;
     private Summoner currentSummoner;
-    private RiotAPIHandler apiHandler;
+    private RiotAPIHandler apiHandler = new RiotAPIHandler();;
     private SummonerEndpoint summonerEndpoint;
 
     private static Logger LOGGER = initializeLogger(MasterController.class.getName());
@@ -77,7 +77,7 @@ public class MasterController {
         initialStage.initStyle(STAGE_STYLE);
         stage = initialStage;
         stage.setScene(new Scene(root));
-        apiHandler = new RiotAPIHandler();
+
     }
 
     void initializeStage(AnchorPane parent) {
