@@ -1,6 +1,7 @@
 package Main;
 
-import Utils.*;
+import API.DTO.*;
+import API.MatchEndpoint;
 import API.RiotAPIHandler;
 import API.SummonerEndpoint;
 import GameElements.Summoner;
@@ -11,40 +12,44 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.logging.Logger;
 
 import static Utils.Utils.initializeLogger;
 
-public class MainGUI extends Application {
+        public class MainGUI extends Application {
 
-    private static Logger LOGGER = initializeLogger(MainGUI.class.getName());
+            private static Logger LOGGER = initializeLogger(MainGUI.class.getName());
 
-    public static void main(String[] args) {
-        String guiEnabled = "true";
-        if (args.length > 0) {
-            guiEnabled = args[0];
-        }
-        if (guiEnabled.equals("false")) {
-            startWithoutGUI();
-        } else {
-            launch(args);
-        }
-    }
+            public static void main(String[] args) {
+                String guiEnabled = "true";
+                if (args.length > 0) {
+                    guiEnabled = args[0];
+                }
+                if (guiEnabled.equals("false")) {
+                    startWithoutGUI();
+                } else {
+                    launch(args);
+                }
+            }
 
-    public static void startWithoutGUI() {
-        System.out.println("Started without GUI");
+            public static void startWithoutGUI() {
+                System.out.println("Started without GUI");
 
-        RiotAPIHandler apiHandler = new RiotAPIHandler();
-        SummonerEndpoint se = new SummonerEndpoint("na1", apiHandler.getApi_key());
+                RiotAPIHandler apiHandler = new RiotAPIHandler();
+                SummonerEndpoint se = new SummonerEndpoint("na1", apiHandler.getApi_key());
+                MatchEndpoint me = new MatchEndpoint("na1", apiHandler.getApi_key());
 
-        // Simple SummonerEndpoint test
-        try {
-            Summoner s = se.getSummonerByName("Seer");
-            System.out.println(s);
-            System.out.println(se.getSummonerByEncryptedId(s.getEncryptedId()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                // Simple endpoint test
+                SummonerDTO s = se.getSummonerByName("Seer");
+
+                if (s != null) {
+                    MatchListDTO ml = me.getMatchListByAccountId(s.accountId);
+                    MatchReferenceDTO ref = ml.matches.get(0);
+                    MatchTimelineDTO timeline = me.getMatchTimelinesById(ref.gameId);
+
+                    System.out.println(ref.champion);
+                }
 
         System.exit(0);
     }
