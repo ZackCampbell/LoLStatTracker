@@ -1,5 +1,9 @@
 package API;
 
+import API.DTO.MatchDTO;
+import API.DTO.MatchListDTO;
+import API.DTO.MatchTimelineDTO;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -19,36 +23,53 @@ public class MatchEndpoint extends Endpoint {
         return 4;
     }
 
-    // TODO: make this return a Match object
-    public Object getMatchById(int matchId) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("matches") + matchId);
+    public MatchDTO getMatchById(long matchId) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("matches") + matchId);
 
-        return this.send(requestUrl, RequestMethod.GET, Object.class);
+        if (requestUrl == null) {
+            return null;
+        }
+
+        return this.send(requestUrl, RequestMethod.GET, MatchDTO.class);
     }
 
-    // TODO: make this return a list of Match objects
-    public Object getMatchListByAccountId(int accountId) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("matchlists/by-account") + accountId);
+    public MatchListDTO getMatchListByAccountId(String accountId) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("matchlists/by-account") + accountId);
 
-        return this.send(requestUrl, RequestMethod.GET, Object.class);
+        if (requestUrl == null) {
+            return null;
+        }
+
+        return this.send(requestUrl, RequestMethod.GET, MatchListDTO.class);
     }
 
-    // TODO: make this return a list of MatchTimeline objects
-    public Object[] getMatchTimelinesById(int matchId) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("timelines/by-match") + matchId);
+    public MatchTimelineDTO getMatchTimelinesById(long matchId) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("timelines/by-match") + matchId);
 
-        return this.send(requestUrl, RequestMethod.GET, Object[].class);
+        if (requestUrl == null) {
+            return null;
+        }
+
+        return this.send(requestUrl, RequestMethod.GET, MatchTimelineDTO.class);
     }
 
-    public long[] getMatchIdsByTournamentCode(int tournamentCode) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("matches/by-tournament-code/") + tournamentCode + "/ids");
+    public long[] getMatchIdsByTournamentCode(long tournamentCode) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("matches/by-tournament-code/") + tournamentCode + "/ids");
+
+        if (requestUrl == null) {
+            return null;
+        }
 
         return this.send(requestUrl, RequestMethod.GET, long[].class);
     }
 
-    public Object getMatchByIdAndTournamentCode(int matchId, int tournamentCode) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("matches") + matchId + "/by-tournament-code/" + tournamentCode);
+    public MatchDTO getMatchByIdAndTournamentCode(long matchId, long tournamentCode) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("matches") + matchId + "/by-tournament-code/" + tournamentCode);
 
-        return this.send(requestUrl, RequestMethod.GET, Object.class);
+        if (requestUrl == null) {
+            return null;
+        }
+
+        return this.send(requestUrl, RequestMethod.GET, MatchDTO.class);
     }
 }
