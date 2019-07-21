@@ -25,7 +25,8 @@ public class LoggingHandler {
             fileHandler.setFilter(new FilterHandler(className));
             LOGGER.addHandler(fileHandler);
         } catch (IOException e) {
-            System.out.println("Failed to initialize handler for " + className);
+            System.out.println("Failed to initialize logging handler for " + className +
+                    "\nEnsure logs folder is created (LoLStatTracker/logs)");
             LOGGER.setUseParentHandlers(true);
         }
     }

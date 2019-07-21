@@ -1,5 +1,7 @@
 package Main.Controllers;
 
+import API.RiotAPIHandler;
+import API.SummonerEndpoint;
 import GameElements.Summoner;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,38 +26,58 @@ public class MasterController {
     private double yOffset = 0.0;
     private final StageStyle STAGE_STYLE = StageStyle.UNDECORATED;
     private Summoner currentSummoner;
+    private RiotAPIHandler apiHandler;
+    private SummonerEndpoint summonerEndpoint;
 
     private static Logger LOGGER = initializeLogger(MasterController.class.getName());
 
     MasterController() {}
 
     public MasterController(Stage initialStage, Parent root) {
-        initialStage.setTitle("LoL Stat Tracker");
-        initialStage.initStyle(STAGE_STYLE);
-        stage = initialStage;
-        stage.setScene(new Scene(root));
+        initializeMasterController(initialStage, root);
         currentPage = "login";
     }
 
     public MasterController(Stage initialStage, Parent root, Summoner summoner) {
+        initializeMasterController(initialStage, root);
+        getInitSummoner(summoner);
+        currentPage = "summoner";
+    }
+
+    boolean getInitSummoner(Summoner summoner) {
+        if (!summoner.isValid()) {
+
+            // TODO: Make initial API call to get encryptedSummId and populate summoner, add them to the cache
+            // TODO: If still not a valid response from the API (ie. Summoner doesn't exist), return false
+        }
+        // TODO: Get all the information pertaining to the input summoner for displaying on the GUI
+        summonerEndpoint = new SummonerEndpoint(summoner.getRegion(), apiHandler.getApi_key());
+        currentSummoner = summoner;
+        System.out.println(currentSummoner);
+        return false;
+    }
+
+    boolean getInputSummoner(Summoner summoner, String region) {
+        if (!summoner.isValid()) {
+            // TODO: Make initial API call to get encryptedSummId and populate summoner, add them to the cache
+            // TODO: If still not a valid response from the API (ie. Summoner doesn't exist), return false
+//            return false;
+        }
+        // TODO: Get all the information pertaining to the input summoner for displaying on the GUI
+        summonerEndpoint = new SummonerEndpoint(region, apiHandler.getApi_key());
+        currentSummoner = summoner;
+        System.out.println(currentSummoner);
+//        return true;
+        return false;
+    }
+
+    private void initializeMasterController(Stage initialStage, Parent root) {
         LOGGER = initializeLogger(MasterController.class.getName());
         initialStage.setTitle("LoL Stat Tracker");
         initialStage.initStyle(STAGE_STYLE);
         stage = initialStage;
         stage.setScene(new Scene(root));
-        initializeSummoner(summoner);
-        currentPage = "summoner";
-    }
-
-    boolean initializeSummoner(Summoner summoner) {
-        if (!summoner.isValid()) {
-            // TODO: Make initial API call to get encryptedSummId and populate summoner
-            // TODO: If still not a valid response from the API (ie. Summoner doesn't exist), return false
-        }
-        // TODO: Get all the information pertaining to the input summoner for displaying on the GUI
-        currentSummoner = summoner;
-        System.out.println(currentSummoner);
-        return false;
+        apiHandler = new RiotAPIHandler();
     }
 
     void initializeStage(AnchorPane parent) {

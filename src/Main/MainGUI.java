@@ -21,6 +21,7 @@ public class MainGUI extends Application {
 
     public static void main(String[] args) {
         String guiEnabled = "true";
+        Utils.initRegionCodes();
         if (args.length > 0) {
             guiEnabled = args[0];
         }
@@ -45,15 +46,14 @@ public class MainGUI extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         System.exit(0);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Session session = Session.getInstance();
         System.out.print("Starting with GUI enabled...");
-//        RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
-        Summoner cachedSummoner = (Summoner)Session.getCache().getLast();
+        Summoner cachedSummoner = (Summoner)session.getCache().getLast();
         MasterController masterController;
         Parent root;
         if (cachedSummoner != null) {
@@ -64,5 +64,6 @@ public class MainGUI extends Application {
             masterController = new MasterController(primaryStage, root);
         }
         masterController.showStage();
+        System.out.println("success");
     }
 }

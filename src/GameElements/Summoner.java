@@ -19,10 +19,10 @@ public class Summoner {
     @JsonProperty("accountId") private String encryptedId;
     @JsonProperty("id") private String summonerId;
     @JsonProperty("puuid") private String puuidId;
-
     @JsonProperty("summonerLevel") private int level;
-
     @JsonProperty("profileIconId") private int iconId;
+
+    private String region = "NA";
     private ArrayList<RankedData>       rankedData;
 
     public Summoner(String name, String encryptedId, int level, int iconId) {
@@ -101,6 +101,14 @@ public class Summoner {
 
     public int getIconId() {
         return iconId;
+    }
+
+    public String getRegion() {
+        return this.region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public void setIconId(int iconId) {

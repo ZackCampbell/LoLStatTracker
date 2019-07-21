@@ -30,7 +30,7 @@ public class Session {
         return instance;
     }
 
-    public static Cache getCache() {
+    public Cache getCache() {
         return cache;
     }
 
