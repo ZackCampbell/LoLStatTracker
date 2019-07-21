@@ -1,10 +1,13 @@
 package API;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
@@ -37,12 +40,37 @@ abstract class Endpoint {
         return "https://" + this.regionName + URL_PREFIX + getEndpointName() + "/v" + getVersion() + "/" + subEndpointName + '/';
     }
 
-    <T> T send(URL requestUrl, RequestMethod method, Class<T> expectedResponseClass) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
-        this.setRequestHeaders(method, urlConnection);
-        InputStream inputStream = urlConnection.getInputStream();
+    URL buildUrl(String url) {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
-        return new ObjectMapper().readValue(inputStream, expectedResponseClass);
+    <T> T send(URL requestUrl, RequestMethod method, Class<T> expectedResponseClass) {
+        try {
+            HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
+            this.setRequestHeaders(method, urlConnection);
+
+            int code = urlConnection.getResponseCode();
+
+            if (code == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = urlConnection.getInputStream();
+
+                return new ObjectMapper().readValue(inputStream, expectedResponseClass);
+            } else if (code == HttpURLConnection.HTTP_BAD_REQUEST) {
+
+            } else if (code == 429) {
+                // Rate limit exceed, checkout Retry-After in header
+                String retryAfter = urlConnection.getHeaderField("Retry-After");
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
     private void setRequestHeaders(RequestMethod method, HttpURLConnection urlConnection) throws ProtocolException {

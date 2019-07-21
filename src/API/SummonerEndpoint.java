@@ -1,6 +1,6 @@
 package API;
 
-import GameElements.Summoner;
+import API.DTO.SummonerDTO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,27 +21,43 @@ public class SummonerEndpoint extends Endpoint {
         return 4;
     }
 
-    public Summoner getSummonerByEncryptedId(String encryptedId) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("summoners/by-account") + encryptedId);
+    public SummonerDTO getSummonerByEncryptedId(String encryptedId) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("summoners/by-account") + encryptedId);
 
-        return this.send(requestUrl, RequestMethod.GET, Summoner.class);
+        if (requestUrl == null) {
+            return null;
+        }
+
+        return this.send(requestUrl, RequestMethod.GET, SummonerDTO.class);
     }
 
-    public Summoner getSummonerByName(String name) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("summoners/by-name") + name);
+    public SummonerDTO getSummonerByName(String name) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("summoners/by-name") + name);
 
-        return this.send(requestUrl, RequestMethod.GET, Summoner.class);
+        if (requestUrl == null) {
+            return null;
+        }
+
+        return this.send(requestUrl, RequestMethod.GET, SummonerDTO.class);
     }
 
-    public Summoner getSummonerByPuuid(String puuid) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("summoners/by-puuid") + puuid);
+    public SummonerDTO getSummonerByPuuid(String puuid) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("summoners/by-puuid") + puuid);
 
-        return this.send(requestUrl, RequestMethod.GET, Summoner.class);
+        if (requestUrl == null) {
+            return null;
+        }
+
+        return this.send(requestUrl, RequestMethod.GET, SummonerDTO.class);
     }
 
-    public Summoner getSummonerBySummonerId(String summonerId) throws IOException {
-        URL requestUrl = new URL(this.getBaseUrl("summoners") + summonerId);
+    public SummonerDTO getSummonerBySummonerId(String summonerId) {
+        URL requestUrl = this.buildUrl(this.getBaseUrl("summoners") + summonerId);
 
-        return this.send(requestUrl, RequestMethod.GET, Summoner.class);
+        if (requestUrl == null) {
+            return null;
+        }
+
+        return this.send(requestUrl, RequestMethod.GET, SummonerDTO.class);
     }
 }
