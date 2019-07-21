@@ -56,9 +56,9 @@ import static Utils.Utils.initializeLogger;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Session session = Session.getInstance();
         System.out.print("Starting with GUI enabled...");
-//        RiotAPIHandler riotAPIHandler = new RiotAPIHandler();
-        Summoner cachedSummoner = (Summoner)Session.getCache().getLast();
+        Summoner cachedSummoner = (Summoner)session.getCache().getLast();
         MasterController masterController;
         Parent root;
         if (cachedSummoner != null) {
@@ -69,5 +69,6 @@ import static Utils.Utils.initializeLogger;
             masterController = new MasterController(primaryStage, root);
         }
         masterController.showStage();
+        System.out.println("success");
     }
 }

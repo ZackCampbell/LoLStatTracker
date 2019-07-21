@@ -38,6 +38,8 @@ public class Cache<K, V> {
 
     public V getLast() {
         synchronized (cacheMap) {
+            if (cacheMap.isEmpty())
+                return null;
             return cacheMap.get(cacheMap.lastKey()).value;
         }
     }
