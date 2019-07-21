@@ -1,14 +1,18 @@
 package Main.Controllers;
 
+import API.DTO.SummonerDTO;
 import API.RiotAPIHandler;
 import API.SummonerEndpoint;
 import GameElements.Summoner;
+import Main.Session;
+import Utils.Cache;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static Utils.Utils.initializeLogger;
@@ -26,7 +30,7 @@ public class MasterController {
     private double yOffset = 0.0;
     private final StageStyle STAGE_STYLE = StageStyle.UNDECORATED;
     private Summoner currentSummoner;
-    private RiotAPIHandler apiHandler = new RiotAPIHandler();;
+    private RiotAPIHandler apiHandler = new RiotAPIHandler();
     private SummonerEndpoint summonerEndpoint;
 
     private static Logger LOGGER = initializeLogger(MasterController.class.getName());
@@ -44,31 +48,46 @@ public class MasterController {
         currentPage = "summoner";
     }
 
+    // TODO: Come back and update once summoner updates himself
     boolean getInitSummoner(Summoner summoner) {
         if (!summoner.isValid()) {
-
-            // TODO: Make initial API call to get encryptedSummId and populate summoner, add them to the cache
-            // TODO: If still not a valid response from the API (ie. Summoner doesn't exist), return false
+            summonerEndpoint = new SummonerEndpoint(summoner.getRegion(), apiHandler.getApi_key());
+            if (testSummonerDTO(summoner, summoner.getRegion())) return false;
         }
-        // TODO: Get all the information pertaining to the input summoner for displaying on the GUI
-        summonerEndpoint = new SummonerEndpoint(summoner.getRegion(), apiHandler.getApi_key());
         currentSummoner = summoner;
         System.out.println(currentSummoner);
         return false;
     }
 
+    private boolean testSummonerDTO(Summoner summoner, String region) {
+        SummonerDTO summDTO = summonerEndpoint.getSummonerByName(summoner.getName());
+        if (summDTO == null) {
+            LOGGER.log(Level.WARNING, "Summoner: " + summoner.getName() + " does not exist");
+            return true;
+        }
+        setSummonerInfo(summoner, region, summDTO);
+        Session session = Session.getInstance();
+        Cache cache = session.getCache();
+        cache.put(summoner.getName(), summoner);
+        return false;
+    }
+
+    // TODO: Come back and update once summoner updates himself
     boolean getInputSummoner(Summoner summoner, String region) {
         if (!summoner.isValid()) {
-            // TODO: Make initial API call to get encryptedSummId and populate summoner, add them to the cache
-            // TODO: If still not a valid response from the API (ie. Summoner doesn't exist), return false
-//            return false;
+            summonerEndpoint = new SummonerEndpoint(region, apiHandler.getApi_key());
+            if (testSummonerDTO(summoner, region)) return false;
         }
-        // TODO: Get all the information pertaining to the input summoner for displaying on the GUI
-        summonerEndpoint = new SummonerEndpoint(region, apiHandler.getApi_key());
         currentSummoner = summoner;
         System.out.println(currentSummoner);
-//        return true;
-        return false;
+        return true;
+    }
+
+    private void setSummonerInfo(Summoner summoner, String region, SummonerDTO summDTO) {
+        summoner.setRegion(region);
+        summoner.setLevel(summDTO.summonerLevel);
+        summoner.setEncryptedId(summDTO.accountId);
+        summoner.setIconId(summDTO.profileIconId);
     }
 
     private void initializeMasterController(Stage initialStage, Parent root) {
