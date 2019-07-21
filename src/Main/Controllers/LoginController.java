@@ -1,14 +1,14 @@
 package Main.Controllers;
 
 import Main.Session;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -38,12 +38,15 @@ public class LoginController extends MasterController implements Initializable {
     @FXML private AnchorPane loginAnchorPane;
     @FXML private Label errorLabel;
     @FXML private ImageView bgImageLogin;
+    @FXML private ChoiceBox<String> regions;
 
     private boolean loginActive;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeStage(parent);
+        addRegionChoiceBox();
+
         errorLabel.setTextFill(Paint.valueOf("red"));
         loginActive = true;
         //initBgImage();
@@ -80,7 +83,8 @@ public class LoginController extends MasterController implements Initializable {
     private void handleLogin(ActionEvent event) throws IOException {
         errorLabel.setText("");
         Session session = Session.getInstance();
-        boolean success = initializeSummoner(session.getSummoner(summNameInput.getText()));
+        System.out.println(regions.getValue());
+        boolean success = getInputSummoner(session.getSummoner(summNameInput.getText()), regions.getValue());
         if (!success) {
             // TODO: Success is always false - check initializeSummoner to fix
             errorLabel.setText("Error Retrieving Input Summoner");
@@ -100,6 +104,12 @@ public class LoginController extends MasterController implements Initializable {
     @FXML
     void closeApp(MouseEvent event) {
         super.closeApp();
+    }
+
+    private void addRegionChoiceBox() {
+        regions.setItems(FXCollections.observableArrayList(Utils.getRegionCodes()));
+        regions.setValue("NA");
+        regions.setTooltip(new Tooltip("Select the region"));
     }
 
 }

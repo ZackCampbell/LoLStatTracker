@@ -21,6 +21,7 @@ public class MainGUI extends Application {
 
     public static void main(String[] args) {
         String guiEnabled = "true";
+        Utils.initRegionCodes();
         if (args.length > 0) {
             guiEnabled = args[0];
         }
@@ -63,5 +64,6 @@ public class MainGUI extends Application {
             masterController = new MasterController(primaryStage, root);
         }
         masterController.showStage();
+        System.out.println("success");
     }
 }
