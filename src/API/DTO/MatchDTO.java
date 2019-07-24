@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -22,33 +24,35 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "gameDuration",
     "gameCreation"
 })
+@Getter
+@ToString
 public class MatchDTO {
 
     @JsonProperty("seasonId")
-    public Long seasonId;
+    private Long seasonId;
     @JsonProperty("queueId")
-    public Long queueId;
+    private Long queueId;
     @JsonProperty("gameId")
-    public Long gameId;
+    private Long gameId;
     @JsonProperty("participantIdentities")
-    public List<ParticipantIdentityDTO> participantIdentities = null;
+    private List<ParticipantIdentityDTO> participantIdentities = null;
     @JsonProperty("gameVersion")
-    public String gameVersion;
+    private String gameVersion;
     @JsonProperty("platformId")
-    public String platformId;
+    private String platformId;
     @JsonProperty("gameMode")
-    public String gameMode;
+    private String gameMode;
     @JsonProperty("mapId")
-    public Long mapId;
+    private Long mapId;
     @JsonProperty("gameType")
-    public String gameType;
+    private String gameType;
     @JsonProperty("teams")
-    public List<TeamStatsDTO> teams = null;
+    private List<TeamStatsDTO> teams = null;
     @JsonProperty("participants")
-    public List<ParticipantDTO> participants = null;
+    private List<ParticipantDTO> participants = null;
     @JsonProperty("gameDuration")
-    public Long gameDuration;
+    private Long gameDuration;
     @JsonProperty("gameCreation")
-    public Long gameCreation;
+    private Long gameCreation;
 
 }

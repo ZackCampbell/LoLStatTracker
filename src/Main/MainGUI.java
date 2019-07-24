@@ -6,50 +6,54 @@ import API.RiotAPIHandler;
 import API.SummonerEndpoint;
 import GameElements.Summoner;
 import Main.Controllers.MasterController;
+import Utils.Utils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.Base64;
 import java.util.logging.Logger;
 
 import static Utils.Utils.initializeLogger;
 
-        public class MainGUI extends Application {
+public class MainGUI extends Application {
 
-            private static Logger LOGGER = initializeLogger(MainGUI.class.getName());
+    private static Logger LOGGER = initializeLogger(MainGUI.class.getName());
 
-            public static void main(String[] args) {
-                String guiEnabled = "true";
-                if (args.length > 0) {
-                    guiEnabled = args[0];
-                }
-                if (guiEnabled.equals("false")) {
-                    startWithoutGUI();
-                } else {
-                    launch(args);
-                }
-            }
+    public static void main(String[] args) {
+        String guiEnabled = "true";
+        if (args.length > 0) {
+            guiEnabled = args[0];
+        }
 
-            public static void startWithoutGUI() {
-                System.out.println("Started without GUI");
+        Utils.initRegionCodes();
+        ChampionDTO.init();
 
-                RiotAPIHandler apiHandler = new RiotAPIHandler();
-                SummonerEndpoint se = new SummonerEndpoint("na1", apiHandler.getApi_key());
-                MatchEndpoint me = new MatchEndpoint("na1", apiHandler.getApi_key());
+        if (guiEnabled.equals("false")) {
+            startWithoutGUI();
+        } else {
+            launch(args);
+        }
+    }
 
-                // Simple endpoint test
-                SummonerDTO s = se.getSummonerByName("Seer");
+    public static void startWithoutGUI() {
+        System.out.println("Started without GUI");
 
-                if (s != null) {
-                    MatchListDTO ml = me.getMatchListByAccountId(s.accountId);
-                    MatchReferenceDTO ref = ml.matches.get(0);
-                    MatchTimelineDTO timeline = me.getMatchTimelinesById(ref.gameId);
+        RiotAPIHandler apiHandler = new RiotAPIHandler();
+        SummonerEndpoint se = new SummonerEndpoint("na1", apiHandler.getApi_key());
+        MatchEndpoint me = new MatchEndpoint("na1", apiHandler.getApi_key());
 
-                    System.out.println(ref.champion);
-                }
+        // Simple endpoint test
+        SummonerDTO s = se.getSummonerByName("Seer");
+
+        if (s != null) {
+            MatchListDTO ml = me.getMatchListByAccountId(s.getAccountId());
+            MatchReferenceDTO ref = ml.getMatches().get(0);
+            MatchTimelineDTO timeline = me.getMatchTimelinesById(ref.getGameId());
+            ChampionDTO champ = ChampionDTO.getById(ref.getChampion());
+
+            System.out.println(champ);
+        }
 
         System.exit(0);
     }

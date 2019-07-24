@@ -4,6 +4,8 @@ package API.DTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -18,27 +20,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "xp",
     "jungleMinionsKilled"
 })
+@Getter
+@ToString
 public class MatchParticipantFrameDTO {
 
     @JsonProperty("totalGold")
-    public Long totalGold;
+    private Long totalGold;
     @JsonProperty("teamScore")
-    public Long teamScore;
+    private Long teamScore;
     @JsonProperty("participantId")
-    public Long participantId;
+    private Long participantId;
     @JsonProperty("level")
-    public Long level;
+    private Long level;
     @JsonProperty("currentGold")
-    public Long currentGold;
+    private Long currentGold;
     @JsonProperty("minionsKilled")
-    public Long minionsKilled;
+    private Long minionsKilled;
     @JsonProperty("dominionScore")
-    public Long dominionScore;
+    private Long dominionScore;
     @JsonProperty("position")
-    public MatchPositionDTO position;
+    private MatchPositionDTO position;
     @JsonProperty("xp")
-    public Long xp;
+    private Long xp;
     @JsonProperty("jungleMinionsKilled")
-    public Long jungleMinionsKilled;
+    private Long jungleMinionsKilled;
 
 }

@@ -7,6 +7,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -14,13 +16,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "participantFrames",
     "events"
 })
+@Getter
+@ToString
 public class MatchFrameDTO {
 
     @JsonProperty("timestamp")
-    public Long timestamp;
+    private Long timestamp;
     @JsonProperty("participantFrames")
-    public Map<String, MatchParticipantFrameDTO> participantFrames;
+    private Map<String, MatchParticipantFrameDTO> participantFrames;
     @JsonProperty("events")
-    public List<MatchEventDTO> events = null;
+    private List<MatchEventDTO> events = null;
 
 }

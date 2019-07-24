@@ -9,16 +9,22 @@ import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "pickTurn",
-    "championId"
+    "attack",
+    "defense",
+    "magic",
+    "difficulty"
 })
 @Getter
 @ToString
-public class BanDTO {
+public class ChampionInfoDTO {
 
-    @JsonProperty("pickTurn")
-    private Long pickTurn;
-    @JsonProperty("championId")
-    private Long championId;
+    @JsonProperty("attack")
+    private Long attack;
+    @JsonProperty("defense")
+    private Long defense;
+    @JsonProperty("magic")
+    private Long magic;
+    @JsonProperty("difficulty")
+    private Long difficulty;
 
 }
