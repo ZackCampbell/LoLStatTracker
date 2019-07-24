@@ -4,6 +4,8 @@ package API.DTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -18,27 +20,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "damageTakenDiffPerMinDeltas",
     "damageTakenPerMinDeltas"
 })
+@Getter
+@ToString
 public class TimelineDTO {
 
     @JsonProperty("lane")
-    public String lane;
+    private String lane;
     @JsonProperty("participantId")
-    public Long participantId;
+    private Long participantId;
     @JsonProperty("csDiffPerMinDeltas")
-    public StatDeltasDTO csDiffPerMinDeltas;
+    private StatDeltasDTO csDiffPerMinDeltas;
     @JsonProperty("goldPerMinDeltas")
-    public StatDeltasDTO goldPerMinDeltas;
+    private StatDeltasDTO goldPerMinDeltas;
     @JsonProperty("xpDiffPerMinDeltas")
-    public StatDeltasDTO xpDiffPerMinDeltas;
+    private StatDeltasDTO xpDiffPerMinDeltas;
     @JsonProperty("creepsPerMinDeltas")
-    public StatDeltasDTO creepsPerMinDeltas;
+    private StatDeltasDTO creepsPerMinDeltas;
     @JsonProperty("xpPerMinDeltas")
-    public StatDeltasDTO xpPerMinDeltas;
+    private StatDeltasDTO xpPerMinDeltas;
     @JsonProperty("role")
-    public String role;
+    private String role;
     @JsonProperty("damageTakenDiffPerMinDeltas")
-    public StatDeltasDTO damageTakenDiffPerMinDeltas;
+    private StatDeltasDTO damageTakenDiffPerMinDeltas;
     @JsonProperty("damageTakenPerMinDeltas")
-    public StatDeltasDTO damageTakenPerMinDeltas;
+    private StatDeltasDTO damageTakenPerMinDeltas;
 
 }

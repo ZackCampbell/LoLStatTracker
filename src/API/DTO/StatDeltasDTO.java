@@ -4,6 +4,8 @@ package API.DTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -12,15 +14,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "20-30",
     "30-end"
 })
+@Getter
+@ToString
 public class StatDeltasDTO {
 
     @JsonProperty("0-10")
-    public Double _010;
+    private Double _010;
     @JsonProperty("10-20")
-    public Double _1020;
+    private Double _1020;
     @JsonProperty("20-30")
-    public Double _2030;
+    private Double _2030;
     @JsonProperty("30-end")
-    public Double _30end;
+    private Double _30end;
 
 }

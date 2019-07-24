@@ -4,6 +4,8 @@ package API.DTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -16,23 +18,25 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "championId",
     "highestAchievedSeasonTier"
 })
+@Getter
+@ToString
 public class ParticipantDTO {
 
     @JsonProperty("spell1Id")
-    public Long spell1Id;
+    private Long spell1Id;
     @JsonProperty("participantId")
-    public Long participantId;
+    private Long participantId;
     @JsonProperty("timeline")
-    public TimelineDTO timeline;
+    private TimelineDTO timeline;
     @JsonProperty("spell2Id")
-    public Long spell2Id;
+    private Long spell2Id;
     @JsonProperty("teamId")
-    public Long teamId;
+    private Long teamId;
     @JsonProperty("stats")
-    public StatsDTO stats;
+    private StatsDTO stats;
     @JsonProperty("championId")
-    public Long championId;
+    private Long championId;
     @JsonProperty("highestAchievedSeasonTier")
-    public String highestAchievedSeasonTier;
+    private String highestAchievedSeasonTier;
 
 }
