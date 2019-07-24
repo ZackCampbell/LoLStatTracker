@@ -9,6 +9,7 @@ import Utils.Cache;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -44,7 +45,7 @@ public class MasterController {
 
     public MasterController(Stage initialStage, Parent root, Summoner summoner) {
         initializeMasterController(initialStage, root);
-        getInitSummoner(summoner);
+        //getInitSummoner(summoner);
         currentPage = "summoner";
     }
 
@@ -79,7 +80,7 @@ public class MasterController {
             if (testSummonerDTO(summoner, region)) return false;
         }
         currentSummoner = summoner;
-        System.out.println(currentSummoner);
+//        System.out.println(currentSummoner);
         return true;
     }
 
@@ -99,18 +100,18 @@ public class MasterController {
 
     }
 
-    void initializeStage(AnchorPane parent) {
+    void initializeStage(AnchorPane parent, HBox top) {
         parent.setPrefHeight(getWindowY());
         parent.setPrefWidth(getWindowX());
-        makeStageDraggable(parent);
+        makeStageDraggable(top);
     }
 
-    private void makeStageDraggable(AnchorPane parent) {
-        parent.setOnMousePressed(event -> {
+    private void makeStageDraggable(HBox top) {
+        top.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });
-        parent.setOnMouseDragged(event -> {
+        top.setOnMouseDragged(event -> {
             getStage().setX(event.getScreenX() - xOffset);
             getStage().setY(event.getScreenY() - yOffset);
         });

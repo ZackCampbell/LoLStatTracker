@@ -44,7 +44,7 @@ public class LoginController extends MasterController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeStage(parent);
+        initializeStage(parent, top);
         addRegionChoiceBox();
 
         errorLabel.setTextFill(Paint.valueOf("red"));
