@@ -19,6 +19,7 @@ jackson-core-2.9.9
 com.apache.commons:commons-collections4:4.0
 de.jensd:fontawesomefx:8.9
 org.projectlombok:lombok:1.18.62
+org.mongodb:mongodb-driver-sync:3.10.22
 ```
 
 For Lombok to work, enable `Annotation Preprocessors` in your Build preferences. Also, install the Lombok plugin (otherwise IntelliJ will complain about some code).
