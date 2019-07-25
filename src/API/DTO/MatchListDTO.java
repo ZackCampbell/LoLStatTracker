@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -13,15 +15,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "startIndex",
     "totalGames"
 })
+@Getter
+@ToString
 public class MatchListDTO {
 
     @JsonProperty("matches")
-    public List<MatchReferenceDTO> matches = null;
+    private List<MatchReferenceDTO> matches = null;
     @JsonProperty("endIndex")
-    public Long endIndex;
+    private Long endIndex;
     @JsonProperty("startIndex")
-    public Long startIndex;
+    private Long startIndex;
     @JsonProperty("totalGames")
-    public Long totalGames;
+    private Long totalGames;
 
 }

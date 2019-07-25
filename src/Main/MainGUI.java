@@ -6,6 +6,7 @@ import API.RiotAPIHandler;
 import API.SummonerEndpoint;
 import GameElements.Summoner;
 import Main.Controllers.MasterController;
+import Utils.Utils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,10 +22,13 @@ public class MainGUI extends Application {
 
     public static void main(String[] args) {
         String guiEnabled = "true";
-        Utils.Utils.initRegionCodes();
         if (args.length > 0) {
             guiEnabled = args[0];
         }
+
+        Utils.initRegionCodes();
+        ChampionDTO.init();
+
         if (guiEnabled.equals("false")) {
             startWithoutGUI();
         } else {
@@ -43,11 +47,12 @@ public class MainGUI extends Application {
         SummonerDTO s = se.getSummonerByName("Seer");
 
         if (s != null) {
-            MatchListDTO ml = me.getMatchListByAccountId(s.accountId);
-            MatchReferenceDTO ref = ml.matches.get(0);
-            MatchTimelineDTO timeline = me.getMatchTimelinesById(ref.gameId);
+            MatchListDTO ml = me.getMatchListByAccountId(s.getAccountId());
+            MatchReferenceDTO ref = ml.getMatches().get(0);
+            MatchTimelineDTO timeline = me.getMatchTimelinesById(ref.getGameId());
+            ChampionDTO champ = ChampionDTO.getById(ref.getChampion());
 
-            System.out.println(ref.champion);
+            System.out.println(champ);
         }
 
         System.exit(0);

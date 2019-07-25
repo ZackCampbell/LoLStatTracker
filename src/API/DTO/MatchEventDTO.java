@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -32,53 +34,55 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "position",
     "beforeId"
 })
+@Getter
+@ToString
 public class MatchEventDTO {
 
     @JsonProperty("eventType")
-    public String eventType;
+    private String eventType;
     @JsonProperty("towerType")
-    public String towerType;
+    private String towerType;
     @JsonProperty("teamId")
-    public Long teamId;
+    private Long teamId;
     @JsonProperty("ascendedType")
-    public String ascendedType;
+    private String ascendedType;
     @JsonProperty("killerId")
-    public Long killerId;
+    private Long killerId;
     @JsonProperty("levelUpType")
-    public String levelUpType;
+    private String levelUpType;
     @JsonProperty("pointCaptured")
-    public String pointCaptured;
+    private String pointCaptured;
     @JsonProperty("assistingParticipantIds")
-    public List<Long> assistingParticipantIds = null;
+    private List<Long> assistingParticipantIds = null;
     @JsonProperty("wardType")
-    public String wardType;
+    private String wardType;
     @JsonProperty("monsterType")
-    public String monsterType;
+    private String monsterType;
     @JsonProperty("type")
-    public String type;
+    private String type;
     @JsonProperty("skillSlot")
-    public Integer skillSlot;
+    private Integer skillSlot;
     @JsonProperty("victimId")
-    public Long victimId;
+    private Long victimId;
     @JsonProperty("timestamp")
-    public Long timestamp;
+    private Long timestamp;
     @JsonProperty("afterId")
-    public Long afterId;
+    private Long afterId;
     @JsonProperty("monsterSubType")
-    public String monsterSubType;
+    private String monsterSubType;
     @JsonProperty("laneType")
-    public String laneType;
+    private String laneType;
     @JsonProperty("itemId")
-    public Long itemId;
+    private Long itemId;
     @JsonProperty("participantId")
-    public Long participantId;
+    private Long participantId;
     @JsonProperty("buildingType")
-    public String buildingType;
+    private String buildingType;
     @JsonProperty("creatorId")
-    public Long creatorId;
+    private Long creatorId;
     @JsonProperty("position")
-    public MatchPositionDTO position;
+    private MatchPositionDTO position;
     @JsonProperty("beforeId")
-    public Long beforeId;
+    private Long beforeId;
 
 }

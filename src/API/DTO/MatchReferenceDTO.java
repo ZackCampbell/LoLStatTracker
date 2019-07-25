@@ -4,6 +4,8 @@ package API.DTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -16,23 +18,25 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "role",
     "season"
 })
+@Getter
+@ToString
 public class MatchReferenceDTO {
 
     @JsonProperty("lane")
-    public String lane;
+    private String lane;
     @JsonProperty("gameId")
-    public Long gameId;
+    private Long gameId;
     @JsonProperty("champion")
-    public Long champion;
+    private Long champion;
     @JsonProperty("platformId")
-    public String platformId;
+    private String platformId;
     @JsonProperty("timestamp")
-    public Long timestamp;
+    private Long timestamp;
     @JsonProperty("queue")
-    public Long queue;
+    private Long queue;
     @JsonProperty("role")
-    public String role;
+    private String role;
     @JsonProperty("season")
-    public Long season;
+    private Long season;
 
 }

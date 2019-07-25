@@ -3,6 +3,8 @@ package API.DTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -14,21 +16,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "id",
         "revisionDate"
 })
+@Getter
+@ToString
 public class SummonerDTO {
 
     @JsonProperty("profileIconId")
-    public Long profileIconId;
+    private Long profileIconId;
     @JsonProperty("name")
-    public String name;
+    private String name;
     @JsonProperty("puuid")
-    public String puuid;
+    private String puuid;
     @JsonProperty("summonerLevel")
-    public Long summonerLevel;
+    private Long summonerLevel;
     @JsonProperty("accountId")
-    public String accountId;
+    private String accountId;
     @JsonProperty("id")
-    public String id;
+    private String id;
     @JsonProperty("revisionDate")
-    public Long revisionDate;
+    private Long revisionDate;
 
 }

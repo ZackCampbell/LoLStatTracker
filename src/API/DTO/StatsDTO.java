@@ -4,6 +4,8 @@ package API.DTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -112,215 +114,217 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "timeCCingOthers",
     "statPerk2"
 })
+@Getter
+@ToString
 public class StatsDTO {
 
     @JsonProperty("neutralMinionsKilledTeamJungle")
-    public Long neutralMinionsKilledTeamJungle;
+    private Long neutralMinionsKilledTeamJungle;
     @JsonProperty("visionScore")
-    public Long visionScore;
+    private Long visionScore;
     @JsonProperty("magicDamageDealtToChampions")
-    public Long magicDamageDealtToChampions;
+    private Long magicDamageDealtToChampions;
     @JsonProperty("largestMultiKill")
-    public Long largestMultiKill;
+    private Long largestMultiKill;
     @JsonProperty("totalTimeCrowdControlDealt")
-    public Long totalTimeCrowdControlDealt;
+    private Long totalTimeCrowdControlDealt;
     @JsonProperty("longestTimeSpentLiving")
-    public Long longestTimeSpentLiving;
+    private Long longestTimeSpentLiving;
     @JsonProperty("perk1Var1")
-    public Long perk1Var1;
+    private Long perk1Var1;
     @JsonProperty("perk1Var3")
-    public Long perk1Var3;
+    private Long perk1Var3;
     @JsonProperty("perk1Var2")
-    public Long perk1Var2;
+    private Long perk1Var2;
     @JsonProperty("tripleKills")
-    public Long tripleKills;
+    private Long tripleKills;
     @JsonProperty("perk5")
-    public Long perk5;
+    private Long perk5;
     @JsonProperty("perk4")
-    public Long perk4;
+    private Long perk4;
     @JsonProperty("playerScore9")
-    public Long playerScore9;
+    private Long playerScore9;
     @JsonProperty("playerScore8")
-    public Long playerScore8;
+    private Long playerScore8;
     @JsonProperty("kills")
-    public Long kills;
+    private Long kills;
     @JsonProperty("playerScore1")
-    public Long playerScore1;
+    private Long playerScore1;
     @JsonProperty("playerScore0")
-    public Long playerScore0;
+    private Long playerScore0;
     @JsonProperty("playerScore3")
-    public Long playerScore3;
+    private Long playerScore3;
     @JsonProperty("playerScore2")
-    public Long playerScore2;
+    private Long playerScore2;
     @JsonProperty("playerScore5")
-    public Long playerScore5;
+    private Long playerScore5;
     @JsonProperty("playerScore4")
-    public Long playerScore4;
+    private Long playerScore4;
     @JsonProperty("playerScore7")
-    public Long playerScore7;
+    private Long playerScore7;
     @JsonProperty("playerScore6")
-    public Long playerScore6;
+    private Long playerScore6;
     @JsonProperty("perk5Var1")
-    public Long perk5Var1;
+    private Long perk5Var1;
     @JsonProperty("perk5Var3")
-    public Long perk5Var3;
+    private Long perk5Var3;
     @JsonProperty("perk5Var2")
-    public Long perk5Var2;
+    private Long perk5Var2;
     @JsonProperty("totalScoreRank")
-    public Long totalScoreRank;
+    private Long totalScoreRank;
     @JsonProperty("neutralMinionsKilled")
-    public Long neutralMinionsKilled;
+    private Long neutralMinionsKilled;
     @JsonProperty("statPerk1")
-    public Long statPerk1;
+    private Long statPerk1;
     @JsonProperty("statPerk0")
-    public Long statPerk0;
+    private Long statPerk0;
     @JsonProperty("damageDealtToTurrets")
-    public Long damageDealtToTurrets;
+    private Long damageDealtToTurrets;
     @JsonProperty("physicalDamageDealtToChampions")
-    public Long physicalDamageDealtToChampions;
+    private Long physicalDamageDealtToChampions;
     @JsonProperty("damageDealtToObjectives")
-    public Long damageDealtToObjectives;
+    private Long damageDealtToObjectives;
     @JsonProperty("perk2Var2")
-    public Long perk2Var2;
+    private Long perk2Var2;
     @JsonProperty("perk2Var3")
-    public Long perk2Var3;
+    private Long perk2Var3;
     @JsonProperty("totalUnitsHealed")
-    public Long totalUnitsHealed;
+    private Long totalUnitsHealed;
     @JsonProperty("perk2Var1")
-    public Long perk2Var1;
+    private Long perk2Var1;
     @JsonProperty("perk4Var1")
-    public Long perk4Var1;
+    private Long perk4Var1;
     @JsonProperty("totalDamageTaken")
-    public Long totalDamageTaken;
+    private Long totalDamageTaken;
     @JsonProperty("perk4Var3")
-    public Long perk4Var3;
+    private Long perk4Var3;
     @JsonProperty("wardsKilled")
-    public Long wardsKilled;
+    private Long wardsKilled;
     @JsonProperty("largestCriticalStrike")
-    public Long largestCriticalStrike;
+    private Long largestCriticalStrike;
     @JsonProperty("largestKillingSpree")
-    public Long largestKillingSpree;
+    private Long largestKillingSpree;
     @JsonProperty("quadraKills")
-    public Long quadraKills;
+    private Long quadraKills;
     @JsonProperty("magicDamageDealt")
-    public Long magicDamageDealt;
+    private Long magicDamageDealt;
     @JsonProperty("firstBloodAssist")
-    public Boolean firstBloodAssist;
+    private Boolean firstBloodAssist;
     @JsonProperty("item2")
-    public Long item2;
+    private Long item2;
     @JsonProperty("item3")
-    public Long item3;
+    private Long item3;
     @JsonProperty("item0")
-    public Long item0;
+    private Long item0;
     @JsonProperty("item1")
-    public Long item1;
+    private Long item1;
     @JsonProperty("item6")
-    public Long item6;
+    private Long item6;
     @JsonProperty("item4")
-    public Long item4;
+    private Long item4;
     @JsonProperty("item5")
-    public Long item5;
+    private Long item5;
     @JsonProperty("perk1")
-    public Long perk1;
+    private Long perk1;
     @JsonProperty("perk0")
-    public Long perk0;
+    private Long perk0;
     @JsonProperty("perk3")
-    public Long perk3;
+    private Long perk3;
     @JsonProperty("perk2")
-    public Long perk2;
+    private Long perk2;
     @JsonProperty("perk3Var3")
-    public Long perk3Var3;
+    private Long perk3Var3;
     @JsonProperty("perk3Var2")
-    public Long perk3Var2;
+    private Long perk3Var2;
     @JsonProperty("perk3Var1")
-    public Long perk3Var1;
+    private Long perk3Var1;
     @JsonProperty("damageSelfMitigated")
-    public Long damageSelfMitigated;
+    private Long damageSelfMitigated;
     @JsonProperty("magicalDamageTaken")
-    public Long magicalDamageTaken;
+    private Long magicalDamageTaken;
     @JsonProperty("perk0Var2")
-    public Long perk0Var2;
+    private Long perk0Var2;
     @JsonProperty("firstInhibitorKill")
-    public Boolean firstInhibitorKill;
+    private Boolean firstInhibitorKill;
     @JsonProperty("trueDamageTaken")
-    public Long trueDamageTaken;
+    private Long trueDamageTaken;
     @JsonProperty("assists")
-    public Long assists;
+    private Long assists;
     @JsonProperty("perk4Var2")
-    public Long perk4Var2;
+    private Long perk4Var2;
     @JsonProperty("goldSpent")
-    public Long goldSpent;
+    private Long goldSpent;
     @JsonProperty("trueDamageDealt")
-    public Long trueDamageDealt;
+    private Long trueDamageDealt;
     @JsonProperty("participantId")
-    public Long participantId;
+    private Long participantId;
     @JsonProperty("physicalDamageDealt")
-    public Long physicalDamageDealt;
+    private Long physicalDamageDealt;
     @JsonProperty("sightWardsBoughtInGame")
-    public Long sightWardsBoughtInGame;
+    private Long sightWardsBoughtInGame;
     @JsonProperty("totalDamageDealtToChampions")
-    public Long totalDamageDealtToChampions;
+    private Long totalDamageDealtToChampions;
     @JsonProperty("physicalDamageTaken")
-    public Long physicalDamageTaken;
+    private Long physicalDamageTaken;
     @JsonProperty("totalPlayerScore")
-    public Long totalPlayerScore;
+    private Long totalPlayerScore;
     @JsonProperty("win")
-    public Boolean win;
+    private Boolean win;
     @JsonProperty("objectivePlayerScore")
-    public Long objectivePlayerScore;
+    private Long objectivePlayerScore;
     @JsonProperty("totalDamageDealt")
-    public Long totalDamageDealt;
+    private Long totalDamageDealt;
     @JsonProperty("neutralMinionsKilledEnemyJungle")
-    public Long neutralMinionsKilledEnemyJungle;
+    private Long neutralMinionsKilledEnemyJungle;
     @JsonProperty("deaths")
-    public Long deaths;
+    private Long deaths;
     @JsonProperty("wardsPlaced")
-    public Long wardsPlaced;
+    private Long wardsPlaced;
     @JsonProperty("perkPrimaryStyle")
-    public Long perkPrimaryStyle;
+    private Long perkPrimaryStyle;
     @JsonProperty("perkSubStyle")
-    public Long perkSubStyle;
+    private Long perkSubStyle;
     @JsonProperty("turretKills")
-    public Long turretKills;
+    private Long turretKills;
     @JsonProperty("firstBloodKill")
-    public Boolean firstBloodKill;
+    private Boolean firstBloodKill;
     @JsonProperty("trueDamageDealtToChampions")
-    public Long trueDamageDealtToChampions;
+    private Long trueDamageDealtToChampions;
     @JsonProperty("goldEarned")
-    public Long goldEarned;
+    private Long goldEarned;
     @JsonProperty("killingSprees")
-    public Long killingSprees;
+    private Long killingSprees;
     @JsonProperty("unrealKills")
-    public Long unrealKills;
+    private Long unrealKills;
     @JsonProperty("firstTowerAssist")
-    public Boolean firstTowerAssist;
+    private Boolean firstTowerAssist;
     @JsonProperty("firstTowerKill")
-    public Boolean firstTowerKill;
+    private Boolean firstTowerKill;
     @JsonProperty("champLevel")
-    public Long champLevel;
+    private Long champLevel;
     @JsonProperty("doubleKills")
-    public Long doubleKills;
+    private Long doubleKills;
     @JsonProperty("inhibitorKills")
-    public Long inhibitorKills;
+    private Long inhibitorKills;
     @JsonProperty("firstInhibitorAssist")
-    public Boolean firstInhibitorAssist;
+    private Boolean firstInhibitorAssist;
     @JsonProperty("perk0Var1")
-    public Long perk0Var1;
+    private Long perk0Var1;
     @JsonProperty("combatPlayerScore")
-    public Long combatPlayerScore;
+    private Long combatPlayerScore;
     @JsonProperty("perk0Var3")
-    public Long perk0Var3;
+    private Long perk0Var3;
     @JsonProperty("visionWardsBoughtInGame")
-    public Long visionWardsBoughtInGame;
+    private Long visionWardsBoughtInGame;
     @JsonProperty("pentaKills")
-    public Long pentaKills;
+    private Long pentaKills;
     @JsonProperty("totalHeal")
-    public Long totalHeal;
+    private Long totalHeal;
     @JsonProperty("totalMinionsKilled")
-    public Long totalMinionsKilled;
+    private Long totalMinionsKilled;
     @JsonProperty("timeCCingOthers")
-    public Long timeCCingOthers;
+    private Long timeCCingOthers;
     @JsonProperty("statPerk2")
-    public Long statPerk2;
+    private Long statPerk2;
 
 }

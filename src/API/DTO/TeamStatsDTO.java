@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -25,39 +27,41 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "dominionVictoryScore",
     "dragonKills"
 })
+@Getter
+@ToString
 public class TeamStatsDTO {
 
     @JsonProperty("firstDragon")
-    public Boolean firstDragon;
+    private Boolean firstDragon;
     @JsonProperty("bans")
-    public List<BanDTO> bans = null;
+    private List<BanDTO> bans = null;
     @JsonProperty("firstInhibitor")
-    public Boolean firstInhibitor;
+    private Boolean firstInhibitor;
     @JsonProperty("win")
-    public String win;
+    private String win;
     @JsonProperty("firstRiftHerald")
-    public Boolean firstRiftHerald;
+    private Boolean firstRiftHerald;
     @JsonProperty("firstBaron")
-    public Boolean firstBaron;
+    private Boolean firstBaron;
     @JsonProperty("baronKills")
-    public Long baronKills;
+    private Long baronKills;
     @JsonProperty("riftHeraldKills")
-    public Long riftHeraldKills;
+    private Long riftHeraldKills;
     @JsonProperty("firstBlood")
-    public Boolean firstBlood;
+    private Boolean firstBlood;
     @JsonProperty("teamId")
-    public Long teamId;
+    private Long teamId;
     @JsonProperty("firstTower")
-    public Boolean firstTower;
+    private Boolean firstTower;
     @JsonProperty("vilemawKills")
-    public Long vilemawKills;
+    private Long vilemawKills;
     @JsonProperty("inhibitorKills")
-    public Long inhibitorKills;
+    private Long inhibitorKills;
     @JsonProperty("towerKills")
-    public Long towerKills;
+    private Long towerKills;
     @JsonProperty("dominionVictoryScore")
-    public Long dominionVictoryScore;
+    private Long dominionVictoryScore;
     @JsonProperty("dragonKills")
-    public Long dragonKills;
+    private Long dragonKills;
 
 }
