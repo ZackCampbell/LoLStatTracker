@@ -1,5 +1,10 @@
 .parent {
     -fx-background-color: #303138;
+    background-color: #303138;
+}
+
+.popup {
+    -fx-background-color: #464853;
 }
 
 .close-btn {
@@ -18,3 +23,6 @@
     -fx-background-color: #171717;
 }
 
+.submit-btn {
+    -fx-background-color: #0099FF;
+}

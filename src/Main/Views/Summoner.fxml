@@ -102,6 +102,30 @@
                   </Tab>
                </tabs>
             </JFXTabPane>
+            <Label fx:id="reportBugBtn" alignment="CENTER" contentDisplay="CENTER" layoutY="690.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getBug" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#ddb905" glyphName="BUG" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </FontAwesomeIconView>
+               </graphic>
+            </Label>
+            <Label fx:id="feedbackBtn" alignment="CENTER" contentDisplay="CENTER" layoutY="730.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getFeedback" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView fill="#ddb905" glyphName="ENVELOPE" styleClass=".icon-color" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </FontAwesomeIconView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children></Pane>
    </children>
 </AnchorPane>

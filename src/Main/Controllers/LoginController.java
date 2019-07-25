@@ -2,7 +2,6 @@ package Main.Controllers;
 
 import Main.Session;
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -91,7 +90,7 @@ public class LoginController extends MasterController implements Initializable {
             return;
         }
         loginActive = false;
-        Parent summonerFXML = FXMLLoader.load(getClass().getResource("../Views/Summoner.fxml"));
+        Parent summonerFXML = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
         parent.getChildren().removeAll();
         parent.getChildren().setAll(summonerFXML);
     }

@@ -133,7 +133,7 @@ public class MasterController {
         return currentPage;
     }
 
-    Stage getStage() {
+    static Stage getStage() {
         return stage;
     }
 
