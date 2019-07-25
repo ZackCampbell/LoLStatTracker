@@ -1,5 +1,6 @@
 package Main.Controllers;
 
+import Main.NetworkClient;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -37,7 +38,8 @@ public class BugReportController implements Initializable {
         String description = bugDescription.getText();
         String howEncountered = bugEncounterInfo.getText();
 
-
+        NetworkClient client = NetworkClient.getInstance();
+        client.sendBugReport("bugReport", description, howEncountered);
         // TODO: Send the bug report to the server for processing and forwarding
 
         popup.hide();
