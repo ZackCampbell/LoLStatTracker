@@ -19,8 +19,8 @@ public class Summoner {
     @JsonProperty("accountId") private String encryptedId;
     @JsonProperty("id") private String summonerId;
     @JsonProperty("puuid") private String puuidId;
-    @JsonProperty("summonerLevel") private int level;
-    @JsonProperty("profileIconId") private int iconId;
+    @JsonProperty("summonerLevel") private long level;
+    @JsonProperty("profileIconId") private long iconId;
 
     private String region = "NA";
     private ArrayList<RankedData>       rankedData;
@@ -91,15 +91,15 @@ public class Summoner {
         return encryptedId;
     }
 
-    public int getLevel() {
+    public long getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(long level) {
         this.level = level;
     }
 
-    public int getIconId() {
+    public long getIconId() {
         return iconId;
     }
 
@@ -111,8 +111,12 @@ public class Summoner {
         this.region = region;
     }
 
-    public void setIconId(int iconId) {
+    public void setIconId(long iconId) {
         this.iconId = iconId;
+    }
+
+    public void setEncryptedId(String id) {
+        this.encryptedId = id;
     }
 
     public ArrayList<RankedData> getRankedData() {
