@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -58,15 +58,8 @@
             <JFXTabPane prefHeight="770.0" prefWidth="200.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE">
                <tabs>
                   <Tab>
-                    <content>
-                      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="0.0" prefHeight="770.0" prefWidth="160.0">
-                           <children>
-                              <Accordion fx:id="menuAccordion" prefHeight="770.0" prefWidth="160.0" />
-                           </children>
-                        </AnchorPane>
-                    </content>
                      <graphic>
-                        <Label fx:id="menuToggle" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="40.0" rotate="90.0" textAlignment="CENTER">
+                        <Label fx:id="menuToggle" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#menuButtonClicked" prefHeight="40.0" prefWidth="40.0" rotate="90.0" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -79,10 +72,13 @@
                            </graphic>
                         </Label>
                      </graphic>
+                     <content>
+                        <JFXDrawer fx:id="menuDrawer" />
+                     </content>
                   </Tab>
                   <Tab>
                      <graphic>
-                        <Label fx:id="editToggle" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" rotate="90.0" textAlignment="CENTER" textFill="WHITE">
+                        <Label fx:id="editToggle" alignment="CENTER" onMouseClicked="#editLayout" prefHeight="40.0" prefWidth="40.0" rotate="90.0" textAlignment="CENTER" textFill="WHITE">
                            <graphic>
                               <FontAwesomeIconView fill="#ddb905" glyphName="COG" textAlignment="CENTER">
                                  <font>
@@ -93,11 +89,7 @@
                         </Label>
                      </graphic>
                      <content>
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="0.0" prefHeight="770.0" prefWidth="160.0">
-                           <children>
-                              <Accordion fx:id="editAccordion" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="160.0" />
-                           </children>
-                        </AnchorPane>
+                        <JFXDrawer fx:id="editDrawer" />
                      </content>
                   </Tab>
                </tabs>
