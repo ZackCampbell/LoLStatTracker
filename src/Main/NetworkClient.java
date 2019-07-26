@@ -7,7 +7,7 @@ public class NetworkClient {
 
     private static NetworkClient instance = null;
 
-    private final static String hostAddress = "localhost";
+    private final static String hostAddress = "localhost";      // TODO: Update with IP of server
     private final static int tcpPort = 7000;        // Hardcoded - must match server's port
     private Socket serverTCPSocket;
     private PrintStream tcpOutput;

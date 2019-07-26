@@ -25,7 +25,6 @@ com.fasterxml.jackson.core:jackson-databind:2.0.4
 com.jfoenix:jfoenix:9.0.9
 de.jensd:fontawesome-commons:9.1.2
 de.jensd:fontawesome-fontawesome:4.7.0-9.1.2
-javax.mail:javax.mail-api:1.6.2
 com.apache.commons:commons-collections4:4.0
 org.projectlombok:lombok:1.18.6
 org.mongodb:mongodb-driver-sync:3.10.2
