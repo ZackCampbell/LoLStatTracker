@@ -114,7 +114,6 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     }
 
-    // TODO: Fix the drawer (or tabpane?) to show 0px when closed
     private void initMenuDrawer() {
         try {
             Accordion menuAccordion = FXMLLoader.load(getClass().getResource("../Views/MenuAccordion.fxml"));
@@ -124,7 +123,6 @@ public class SummonerGUIController extends MasterController implements Initializ
         }
     }
 
-    // TODO: Fix the drawer (or tabpane?) to show 0px when closed
     private void initEditDrawer() {
         try {
             Accordion editAccordion = FXMLLoader.load(getClass().getResource("../Views/EditAccordion.fxml"));
@@ -134,13 +132,14 @@ public class SummonerGUIController extends MasterController implements Initializ
         }
     }
 
-    // TODO: Fix menu toggling when switching between tabs
     @FXML
     private void menuButtonClicked(MouseEvent event) {
-        menuDrawer.toggle();
+        if (menuDrawer.isOpened() || menuDrawer.isOpening())
+            menuDrawer.close();
+        else if (menuDrawer.isClosed() || menuDrawer.isClosing())
+            menuDrawer.open();
     }
 
-    // TODO: Fix menu toggling when switching between tabs
     /**
      * User hit the edit cog so that they can manipulate their tiles
      *
@@ -148,7 +147,10 @@ public class SummonerGUIController extends MasterController implements Initializ
      */
     @FXML
     private void editLayout(MouseEvent event) {
-        editDrawer.toggle();
+        if (editDrawer.isOpening() || editDrawer.isOpened())
+            editDrawer.close();
+        else if (editDrawer.isClosed() || editDrawer.isClosing())
+            editDrawer.open();
     }
 
     private void buildDefaultLayout() {

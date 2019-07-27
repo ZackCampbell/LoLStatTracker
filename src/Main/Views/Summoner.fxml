@@ -73,7 +73,7 @@
                         </Label>
                      </graphic>
                      <content>
-                        <JFXDrawer fx:id="menuDrawer" />
+                        <JFXDrawer fx:id="menuDrawer" defaultDrawerSize="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="160.0" />
                      </content>
                   </Tab>
                   <Tab>
@@ -89,7 +89,7 @@
                         </Label>
                      </graphic>
                      <content>
-                        <JFXDrawer fx:id="editDrawer" />
+                        <JFXDrawer fx:id="editDrawer" defaultDrawerSize="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="160.0" />
                      </content>
                   </Tab>
                </tabs>

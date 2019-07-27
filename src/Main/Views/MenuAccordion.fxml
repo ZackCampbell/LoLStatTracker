@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="160.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <panes>
-    <TitledPane animated="false" text="untitled 1">
+    <TitledPane animated="false" styleClass="popup" stylesheets="@../Stylesheets/MasterStylesheet.css" text="Summoner">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
       </content>
     </TitledPane>
-    <TitledPane animated="false" text="untitled 2">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </TitledPane>
-    <TitledPane animated="false" text="untitled 3">
+    <TitledPane animated="false" text="Champion">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
       </content>
     </TitledPane>
   </panes>
+   <stylesheets>
+      <URL value="@../Stylesheets/MasterStylesheet.css" />
+      <URL value="@../Stylesheets/AccordionStylesheet.css" />
+   </stylesheets>
+   <styleClass>
+      <String fx:value="popup" />
+      <String fx:value="titled-pane" />
+   </styleClass>
 </Accordion>
