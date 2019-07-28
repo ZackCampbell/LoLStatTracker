@@ -1,6 +1,9 @@
-package Main.Controllers;
+package Main.Controllers.SubControllers;
 
+import Main.Controllers.MasterController;
+import Main.Controllers.SummonerGUIController;
 import Main.NetworkClient;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -11,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -25,22 +29,11 @@ public class BugReportController extends MasterController implements Initializab
     @FXML private TextArea bugEncounterInfo;
 
     private Popup popup;
+    private static Pane contentPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         popup = SummonerGUIController.getPopup();
-//        EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                if (popup.isShowing()) {
-//                    popup.hide();
-//                }
-//                MasterController.getStage().setOpacity(1);
-//                MasterController.getStage().removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
-//            }
-//        };
-//        MasterController.getStage().addEventHandler(MouseEvent.MOUSE_CLICKED, handler);
-
     }
 
     @FXML
@@ -50,10 +43,15 @@ public class BugReportController extends MasterController implements Initializab
 
         NetworkClient client = NetworkClient.getInstance();
         client.sendBugReport("bugReport", description, howEncountered);
-        // TODO: Send the bug report to the server for processing and forwarding
 
-        popup.hide();
+        popup.getContent().removeAll();
 
+        // TODO: Add new "check mark" icon and text saying "Thank you!" to the popup
+
+    }
+
+    public static void setContent(Pane content) {
+        contentPane = content;
     }
 
 }

@@ -2,6 +2,7 @@ package Main.Controllers;
 
 import com.jfoenix.controls.JFXDrawer;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -55,7 +56,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         content.getChildren().setAll(loginFXML);
     }
 
-    static Popup getPopup() {
+    public static Popup getPopup() {
         return popup;
     }
 
@@ -96,22 +97,26 @@ public class SummonerGUIController extends MasterController implements Initializ
             popup.hide();
             popup.getContent().removeAll();
         }
+        EventHandler<MouseEvent> closeHandler = new EventHandler<>() {
+            @Override
+            public void handle(MouseEvent event) {
+                popup.hide();
+                content.removeEventHandler(MouseEvent.MOUSE_PRESSED, this);
+            }
+        };
+        try {
+            content.removeEventHandler(MouseEvent.MOUSE_PRESSED, closeHandler);
+        } catch (Exception e) {}
 
         popup.getContent().add(pane);
         Window parent = getStage().getScene().getWindow();
         popup.setHideOnEscape(true);
+        content.addEventHandler(MouseEvent.MOUSE_PRESSED, closeHandler);
         popup.show(getStage());
         double initX = parent.getX() + (parent.getWidth() / 2) - (popup.getWidth() / 2);
         double initY = parent.getY() + (parent.getHeight() / 2) - (popup.getHeight() / 2);
         popup.setX(initX);
         popup.setY(initY);
-    }
-
-    @FXML
-    private void sendFeedback(MouseEvent event) {
-
-        // TODO: Send "feedback" to the server using the local client socket
-
     }
 
     private void initMenuDrawer() {
@@ -140,11 +145,6 @@ public class SummonerGUIController extends MasterController implements Initializ
             menuDrawer.open();
     }
 
-    /**
-     * User hit the edit cog so that they can manipulate their tiles
-     *
-     * @param event
-     */
     @FXML
     private void editLayout(MouseEvent event) {
         if (editDrawer.isOpening() || editDrawer.isOpened())

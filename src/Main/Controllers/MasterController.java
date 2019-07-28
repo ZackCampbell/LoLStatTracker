@@ -37,7 +37,7 @@ public class MasterController {
 
     private static Logger LOGGER = initializeLogger(MasterController.class.getName());
 
-    MasterController() {}
+    public MasterController() {}
 
     public MasterController(Stage initialStage, Parent root) {
         initializeMasterController(initialStage, root);
