@@ -33,10 +33,11 @@ public class MasterController {
     private Summoner currentSummoner;
     private RiotAPIHandler apiHandler = new RiotAPIHandler();
     private SummonerEndpoint summonerEndpoint;
+    static HBox top;
 
     private static Logger LOGGER = initializeLogger(MasterController.class.getName());
 
-    MasterController() {}
+    public MasterController() {}
 
     public MasterController(Stage initialStage, Parent root) {
         initializeMasterController(initialStage, root);
@@ -86,9 +87,9 @@ public class MasterController {
 
     private void setSummonerInfo(Summoner summoner, String region, SummonerDTO summDTO) {
         summoner.setRegion(region);
-        summoner.setLevel(summDTO.summonerLevel);
-        summoner.setEncryptedId(summDTO.accountId);
-        summoner.setIconId(summDTO.profileIconId);
+        summoner.setLevel(summDTO.getSummonerLevel());
+        summoner.setEncryptedId(summDTO.getAccountId());
+        summoner.setIconId(summDTO.getProfileIconId());
     }
 
     private void initializeMasterController(Stage initialStage, Parent root) {
