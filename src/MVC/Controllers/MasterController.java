@@ -1,4 +1,4 @@
-package Main.Controllers;
+package MVC.Controllers;
 
 import API.DTO.SummonerDTO;
 import API.RiotAPIHandler;

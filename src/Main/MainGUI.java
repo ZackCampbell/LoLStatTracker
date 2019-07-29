@@ -5,7 +5,7 @@ import API.MatchEndpoint;
 import API.RiotAPIHandler;
 import API.SummonerEndpoint;
 import GameElements.Summoner;
-import Main.Controllers.MasterController;
+import MVC.Controllers.MasterController;
 import Utils.Utils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -65,7 +65,7 @@ public class MainGUI extends Application {
         Summoner cachedSummoner = (Summoner)session.getCache().getLast();
         MasterController masterController;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
+        root = FXMLLoader.load(getClass().getResource("../MVC/Views/Summoner.fxml"));
         masterController = new MasterController(primaryStage, root, cachedSummoner);
 //        if (cachedSummoner != null) {
 //            root = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));

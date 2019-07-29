@@ -1,4 +1,4 @@
-package Main.Controllers;
+package MVC.Controllers;
 
 import com.jfoenix.controls.JFXDrawer;
 import javafx.event.ActionEvent;
@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;

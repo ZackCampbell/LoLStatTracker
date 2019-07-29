@@ -1,4 +1,4 @@
-package Main.Controllers;
+package MVC.Controllers;
 
 import Main.Session;
 import javafx.collections.FXCollections;
