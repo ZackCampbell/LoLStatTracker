@@ -94,6 +94,18 @@
                   </Tab>
                </tabs>
             </JFXTabPane>
+            <Label fx:id="logoutBtn" alignment="CENTER" contentDisplay="CENTER" layoutY="650.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleLogout" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView fill="#ddb905" glyphName="USER" styleClass=".icon-color" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </FontAwesomeIconView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
             <Label fx:id="reportBugBtn" alignment="CENTER" contentDisplay="CENTER" layoutY="690.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getBug" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
