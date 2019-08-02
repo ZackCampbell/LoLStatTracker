@@ -82,7 +82,6 @@ public class LoginController extends MasterController implements Initializable {
     private void handleLogin(ActionEvent event) throws IOException {
         errorLabel.setText("");
         Session session = Session.getInstance();
-        System.out.println(regions.getValue());
         boolean success = getInputSummoner(session.getSummoner(summNameInput.getText()), regions.getValue());
         if (!success) {
             // TODO: Success is always false - check initializeSummoner to fix
@@ -90,7 +89,7 @@ public class LoginController extends MasterController implements Initializable {
             return;
         }
         loginActive = false;
-        Parent summonerFXML = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
+        Parent summonerFXML = FXMLLoader.load(getClass().getResource("../Views/Summoner.fxml"));
         parent.getChildren().removeAll();
         parent.getChildren().setAll(summonerFXML);
     }

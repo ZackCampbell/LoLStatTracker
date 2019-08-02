@@ -65,15 +65,15 @@ public class MainGUI extends Application {
         Summoner cachedSummoner = (Summoner)session.getCache().getLast();
         MasterController masterController;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("../MVC/Views/Summoner.fxml"));
-        masterController = new MasterController(primaryStage, root, cachedSummoner);
-//        if (cachedSummoner != null) {
-//            root = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
-//            masterController = new MasterController(primaryStage, root, cachedSummoner);
-//        } else {
-//            root = FXMLLoader.load(getClass().getResource("./Views/Login.fxml"));
-//            masterController = new MasterController(primaryStage, root);
-//        }
+//        root = FXMLLoader.load(getClass().getResource("../MVC/Views/Summoner.fxml"));
+//        masterController = new MasterController(primaryStage, root, cachedSummoner);
+        if (cachedSummoner != null) {
+            root = FXMLLoader.load(getClass().getResource("../MVC/Views/Summoner.fxml"));
+            masterController = new MasterController(primaryStage, root, cachedSummoner);
+        } else {
+            root = FXMLLoader.load(getClass().getResource("../MVC/Views/Login.fxml"));
+            masterController = new MasterController(primaryStage, root);
+        }
         masterController.showStage();
         System.out.println("success");
     }

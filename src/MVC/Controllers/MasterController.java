@@ -65,13 +65,13 @@ public class MasterController {
         SummonerDTO summDTO = summonerEndpoint.getSummonerByName(summoner.getName());
         if (summDTO == null) {
             LOGGER.log(Level.WARNING, "Summoner: " + summoner.getName() + " does not exist");
-            return true;
+            return false;
         }
         setSummonerInfo(summoner, region, summDTO);
         Session session = Session.getInstance();
         Cache cache = session.getCache();
         cache.put(summoner.getName(), summoner);
-        return false;
+        return true;
     }
 
     // TODO: Come back and update once summoner updates himself
