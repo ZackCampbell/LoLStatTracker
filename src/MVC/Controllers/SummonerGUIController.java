@@ -1,5 +1,6 @@
-package Main.Controllers;
+package MVC.Controllers;
 
+import MVC.Widgets.Widget;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -34,12 +34,13 @@ public class SummonerGUIController extends MasterController implements Initializ
     @FXML private GridPane summonerGrid;
     @FXML private Label reportBugBtn;
     @FXML private Label feedbackBtn;
+    @FXML private Label logoutBtn;
     @FXML private JFXDrawer menuDrawer;
     @FXML private JFXDrawer editDrawer;
 
 
-    private ArrayList<String> tiles = new ArrayList<>();        // TODO: Convert to arraylist of objects that represent tiles
-    private ArrayList<String> tileTypes = new ArrayList<>();
+    private ArrayList<Widget> widgets = new ArrayList<>();        // TODO: Convert to arraylist of objects that represent tiles
+    private ArrayList<String> widgetTypes = new ArrayList<>();
     private static Popup popup = new Popup();
 
     @Override
@@ -50,10 +51,10 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     @FXML
-    private void handleLogout(ActionEvent event) throws IOException {
+    private void handleLogout(MouseEvent event) throws IOException {
         Parent loginFXML = FXMLLoader.load(getClass().getResource("../Views/Login.fxml"));
-        content.getChildren().removeAll();
-        content.getChildren().setAll(loginFXML);
+        parent.getChildren().removeAll();
+        parent.getChildren().setAll(loginFXML);
     }
 
     public static Popup getPopup() {

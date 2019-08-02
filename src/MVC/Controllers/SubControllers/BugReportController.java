@@ -1,25 +1,15 @@
-package Main.Controllers.SubControllers;
+package MVC.Controllers.SubControllers;
 
-import Main.Controllers.MasterController;
-import Main.Controllers.SummonerGUIController;
+import MVC.Controllers.MasterController;
+import MVC.Controllers.SummonerGUIController;
 import Main.NetworkClient;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 

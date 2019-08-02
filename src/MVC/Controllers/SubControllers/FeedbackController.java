@@ -1,13 +1,12 @@
-package Main.Controllers.SubControllers;
+package MVC.Controllers.SubControllers;
 
-import Main.Controllers.MasterController;
-import Main.Controllers.SummonerGUIController;
+import MVC.Controllers.MasterController;
+import MVC.Controllers.SummonerGUIController;
 import Main.NetworkClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 
 import java.net.URL;
