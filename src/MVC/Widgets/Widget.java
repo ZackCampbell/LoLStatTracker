@@ -1,5 +1,6 @@
 package MVC.Widgets;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 public abstract class Widget {
@@ -13,8 +14,18 @@ public abstract class Widget {
     private boolean editEnabled;
     private boolean visible;
     private AnchorPane root = new AnchorPane();
+    private WIDGET_TYPE type;        // Standard or Custom
+
+    public enum WIDGET_TYPE {
+        STANDARD, CUSTOM
+    }
 
     public abstract String setName();
+    public abstract WIDGET_TYPE setType();
+
+    public WIDGET_TYPE getType() {
+        return this.type;
+    }
 
     public String getName() {
         return this.name;

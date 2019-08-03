@@ -1,7 +1,12 @@
 package MVC.Controllers;
 
-import MVC.Widgets.Widget;
+import MVC.Widgets.*;
+import MVC.Widgets.NameIconComboWidget;
+import MVC.Widgets.NameWidget;
+import MVC.Widgets.SummIconWidget;
 import com.jfoenix.controls.JFXDrawer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,11 +15,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 
@@ -39,13 +43,15 @@ public class SummonerGUIController extends MasterController implements Initializ
     @FXML private JFXDrawer editDrawer;
 
 
-    private ArrayList<Widget> widgets = new ArrayList<>();        // TODO: Convert to arraylist of objects that represent tiles
+    private ArrayList<Widget> widgets = new ArrayList<>();
     private ArrayList<String> widgetTypes = new ArrayList<>();
     private static Popup popup = new Popup();
+    private Accordion menuAccordion;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeStage(parent, top);
+        createStandardWidgets();
         initEditDrawer();
         initMenuDrawer();
     }
@@ -122,7 +128,8 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     private void initMenuDrawer() {
         try {
-            Accordion menuAccordion = FXMLLoader.load(getClass().getResource("../Views/MenuAccordion.fxml"));
+            menuAccordion = FXMLLoader.load(getClass().getResource("../Views/MenuAccordion.fxml"));
+            updateMenuAccordion();
             menuDrawer.setSidePane(menuAccordion);
         } catch (IOException e) {
             e.printStackTrace();
@@ -147,7 +154,7 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     @FXML
-    private void editLayout(MouseEvent event) {
+    private void editLayout(MouseEvent event) {                 // TODO: Convert from a drawer to just a button
         if (editDrawer.isOpening() || editDrawer.isOpened())
             editDrawer.close();
         else if (editDrawer.isClosed() || editDrawer.isClosing())
@@ -166,7 +173,41 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     }
 
+    @SuppressWarnings("unchecked")
+    private void updateMenuAccordion() {
+        TitledPane standardPane = menuAccordion.getPanes().get(0);
+        ListView<Widget> standardContent = (ListView)standardPane.getContent();
+        standardContent.setEditable(false);
+        for (Widget widget : widgets) {
+            widgetTypes.add(widget.getName());
+        }
+        standardContent.getItems().addAll(widgets);
+        standardContent.setCellFactory(new WidgetCellFactory());
+        standardContent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Widget>() {
+            @Override
+            public void changed(ObservableValue<? extends Widget> observableValue, Widget oldValue, Widget newValue) {
+                widgetChanged(observableValue, oldValue, newValue);
+            }
+        });
 
+        // TODO: Add functionality to search for and add custom widgets to the custom menu (menuAccordion.getPanes().get(1))
+    }
+
+    private void widgetChanged(ObservableValue<? extends Widget> observableValue, Widget oldWidget, Widget newWidget) {
+        if (oldWidget.isVisible()) {
+            newWidget.setVisible(false);
+            // TODO: Maybe need to actually remove from the gridpane here? Not sure what to do...
+        } else {
+            newWidget.setVisible(true);
+            // TODO: Show the new widget on the gridpane in the next available space or if there aren't available spaces first try to move other widgets to make space(?) or just fail and return
+        }
+    }
+
+    private void createStandardWidgets() {
+        widgets.add(new NameWidget());
+        widgets.add(new SummIconWidget());
+        widgets.add(new NameIconComboWidget());
+    }
 
     @FXML
     void minimizeStage(MouseEvent event) {
