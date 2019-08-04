@@ -5,8 +5,8 @@ import javafx.scene.layout.AnchorPane;
 
 public abstract class Widget {
 
-    int rowIndex;      // The x coordinate of the widget
-    int colIndex;      // The y coordinate of the widget
+    private int rowIndex;      // The x coordinate of the widget
+    private int colIndex;      // The y coordinate of the widget
     int rowSpan;       // The number of rows taken up by this widget
     int colSpan;       // The number of columns taken up by this widget
     String name;
@@ -59,6 +59,22 @@ public abstract class Widget {
 
     public AnchorPane getPane() {
         return this.root;
+    }
+
+    public int getRowIndex() {
+        return this.rowIndex;
+    }
+
+    public int getColIndex() {
+        return this.colIndex;
+    }
+
+    public void setRowIndex(int i) {
+        this.rowIndex = i;
+    }
+
+    public void setColIndex(int i) {
+        this.colIndex = i;
     }
 
     public int getRowSpan() {

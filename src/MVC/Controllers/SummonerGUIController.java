@@ -16,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -164,7 +165,6 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     }
 
-    @SuppressWarnings("unchecked")
     private void updateMenuAccordion() {
         menuAccordion = new Accordion();
         menuAccordion.getStyleClass().add("popup");
@@ -173,26 +173,29 @@ public class SummonerGUIController extends MasterController implements Initializ
         standardPane.setText("Standard");
         JFXListView<Widget> standardContent = new JFXListView<>();
         standardContent.setEditable(false);
-        standardContent.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);   // TODO: Fix this
+        standardContent.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         standardContent.setItems(FXCollections.observableArrayList(widgets));
         standardContent.setCellFactory(new WidgetCellFactory());
-        standardContent.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                ObservableList<Widget> selected = standardContent.getSelectionModel().getSelectedItems();
-
-                System.out.println("Selected: ");
-                for (Widget widget : selected) {
-                    System.out.println(widget.getName());
-                    if (selectedWidgets.contains(widget)) {
-                        removeWidget(widget);
-
+        standardContent.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            Node node = event.getPickResult().getIntersectedNode();
+            while (node != null && node != standardContent && !(node instanceof WidgetCell)) {
+                node = node.getParent();
+            }
+            if (node instanceof WidgetCell) {
+                event.consume();
+                WidgetCell cell = (WidgetCell)node;
+                JFXListView lv = (JFXListView)cell.getListView();
+                lv.requestFocus();
+                if (!cell.isEmpty()) {
+                    int index = cell.getIndex();
+                    if (cell.isSelected()) {
+                        lv.getSelectionModel().clearSelection(index);
+                        removeWidget(cell.getItem());
                     } else {
-                        addWidget(widget);
-
+                        lv.getSelectionModel().select(index);
+                        addWidget(cell.getItem());
                     }
                 }
-
             }
         });
 
@@ -206,14 +209,24 @@ public class SummonerGUIController extends MasterController implements Initializ
     private void addWidget(Widget widget) {
         widget.setVisible(true);
         selectedWidgets.add(widget);
+        widget.setRowIndex(0);
+        widget.setColIndex(0);
         // TODO: Change row and column coordinates with calculated values based on what else is in the grid and the span
-        summonerGrid.add(widget.getPane(), 0, 0, widget.getRowSpan(), widget.getColSpan());
+        summonerGrid.add(widget.getPane(), 0, 0, widget.getRowSpan(), widget.getColSpan());         // TODO: Fix this
     }
 
+    @SuppressWarnings("all")
     private void removeWidget(Widget widget) {
         widget.setVisible(false);
         selectedWidgets.remove(widget);
-
+        ObservableList<Node> children = summonerGrid.getChildren();
+        for (Node node : children) {
+            if (node instanceof AnchorPane && summonerGrid.getRowIndex(node) == widget.getRowIndex() &&
+                    summonerGrid.getColumnIndex(node) == widget.getColIndex()) {
+                summonerGrid.getChildren().remove(node);
+                break;
+            }
+        }
     }
 
     private void createStandardWidgets() {
