@@ -7,6 +7,7 @@ import MVC.Widgets.SummIconWidget;
 import Utils.Utils;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,11 +17,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 
@@ -38,24 +43,29 @@ public class SummonerGUIController extends MasterController implements Initializ
     @FXML private HBox top;
     @FXML private Pane content;
     @FXML private GridPane summonerGrid;
+    @FXML private JFXDrawer menuDrawer;
     @FXML private Label reportBugBtn;
     @FXML private Label feedbackBtn;
     @FXML private Label logoutBtn;
-    @FXML private JFXDrawer menuDrawer;
-    @FXML private JFXDrawer editDrawer;
+    @FXML private Label editLayoutToggle;
 
 
-    private ArrayList<Widget> widgets = new ArrayList<>();
+    private ArrayList<Widget> standardWidgets = new ArrayList<>();
+    private ArrayList<Widget> customWidgets = new ArrayList<>();
     private ArrayList<Widget> selectedWidgets = new ArrayList<>();
     private static Popup popup = new Popup();
     private Accordion menuAccordion;
+    private boolean editEnabled = false;
+    private Label saveButton = new Label();
+    private static final Color FILL_COLOR = Color.web("#DDB905");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeStage(parent, top);
         createStandardWidgets();
-        initEditDrawer();
-        updateMenuAccordion();
+        createCustomWidgets();
+        updateMenuAccordion();      // TODO: Extract methods from this
+        initSaveButton();
     }
 
     @FXML
@@ -75,7 +85,19 @@ public class SummonerGUIController extends MasterController implements Initializ
      * @param event occurs when the save button is pressed
      */
     @FXML
-    private void save(ActionEvent event) {
+    private void save(MouseEvent event) {
+        // TODO: Save the current layout in an XML file(?)
+        editEnabled = false;
+        content.getChildren().remove(saveButton);
+        for (Widget widget : standardWidgets) {
+            widget.setEditEnabled(false);
+        }
+        for (Widget widget : customWidgets) {
+            widget.setEditEnabled(false);
+        }
+        for (Widget widget : selectedWidgets) {
+            widget.setEditEnabled(false);
+        }
 
     }
 
@@ -128,15 +150,6 @@ public class SummonerGUIController extends MasterController implements Initializ
         popup.setY(initY);
     }
 
-    private void initEditDrawer() {
-        try {
-            Accordion editAccordion = FXMLLoader.load(getClass().getResource("../Views/EditAccordion.fxml"));
-            editDrawer.setSidePane(editAccordion);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @FXML
     private void menuButtonClicked(MouseEvent event) {
         if (menuDrawer.isOpened() || menuDrawer.isOpening())
@@ -146,11 +159,32 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     @FXML
-    private void editLayout(MouseEvent event) {                 // TODO: Convert from a drawer to just a button
-        if (editDrawer.isOpening() || editDrawer.isOpened())
-            editDrawer.close();
-        else if (editDrawer.isClosed() || editDrawer.isClosing())
-            editDrawer.open();
+    private void editLayout(MouseEvent event) {
+        if (!editEnabled) {
+            content.getChildren().add(saveButton);
+            editEnabled = true;
+        } else {
+            content.getChildren().remove(saveButton);
+            editEnabled = false;
+        }
+        for (Widget widget : selectedWidgets) {
+            widget.setEditEnabled(true);
+        }
+        // TODO: Save the current layout and set the grid + the widgets in the grid to edit mode
+    }
+
+    private void initSaveButton() {
+        FontAwesomeIconView iconView = new FontAwesomeIconView();
+        iconView.setGlyphName("SAVE");
+        iconView.setFill(FILL_COLOR);
+        iconView.setSize("18");
+        saveButton.setTextAlignment(TextAlignment.CENTER);
+        saveButton.setAlignment(Pos.CENTER);
+        saveButton.setLayoutY(80);
+        saveButton.setPrefWidth(40);
+        saveButton.setPrefHeight(40);
+        saveButton.setGraphic(iconView);
+        saveButton.setOnMouseClicked(this::save);
     }
 
     private void buildDefaultLayout() {
@@ -169,12 +203,35 @@ public class SummonerGUIController extends MasterController implements Initializ
         menuAccordion = new Accordion();
         menuAccordion.getStyleClass().add("popup");
         menuAccordion.getStylesheets().add(getClass().getResource("../Stylesheets/AccordionStylesheet.css").toExternalForm());
+        TitledPane standardPane, customPane;
+        if (menuAccordion.getPanes().size() == 0) {
+            standardPane = createTitledPane("Standard");
+            customPane = createTitledPane("Custom");
+        } else {
+            standardPane = menuAccordion.getPanes().get(0);
+            customPane = menuAccordion.getPanes().get(1);
+        }
+        menuAccordion.getPanes().removeAll();
+        menuAccordion.getPanes().add(standardPane);
+        menuAccordion.getPanes().add(customPane);
+        menuDrawer.setSidePane(menuAccordion);
+        // TODO: Add functionality to search for and add custom widgets to the custom menu (menuAccordion.getPanes().get(1))
+    }
+
+    private TitledPane createTitledPane(String title) {
         TitledPane standardPane = new TitledPane();
-        standardPane.setText("Standard");
+        standardPane.setText(title);
         JFXListView<Widget> standardContent = new JFXListView<>();
         standardContent.setEditable(false);
         standardContent.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        standardContent.setItems(FXCollections.observableArrayList(widgets));
+        switch (title) {
+            case ("Standard"):
+                standardContent.setItems(FXCollections.observableArrayList(standardWidgets));
+                break;
+            case ("Custom"):
+                standardContent.setItems(FXCollections.observableArrayList(customWidgets));
+                break;
+        }
         standardContent.setCellFactory(new WidgetCellFactory());
         standardContent.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             Node node = event.getPickResult().getIntersectedNode();
@@ -200,10 +257,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         });
 
         standardPane.setContent(standardContent);
-        menuAccordion.getPanes().removeAll();
-        menuAccordion.getPanes().add(standardPane);
-        menuDrawer.setSidePane(menuAccordion);
-        // TODO: Add functionality to search for and add custom widgets to the custom menu (menuAccordion.getPanes().get(1))
+        return standardPane;
     }
 
     private void addWidget(Widget widget) {
@@ -212,7 +266,9 @@ public class SummonerGUIController extends MasterController implements Initializ
         widget.setRowIndex(0);
         widget.setColIndex(0);
         // TODO: Change row and column coordinates with calculated values based on what else is in the grid and the span
-        summonerGrid.add(widget.getPane(), 0, 0, widget.getRowSpan(), widget.getColSpan());         // TODO: Fix this
+        summonerGrid.getChildren().add(widget.getPane());   // TODO: Test this
+        summonerGrid.add(widget.getPane(), 0, 0, widget.getRowSpan(), widget.getColSpan());
+
     }
 
     @SuppressWarnings("all")
@@ -230,9 +286,13 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     private void createStandardWidgets() {
-        widgets.add(new NameWidget());
-        widgets.add(new SummIconWidget());
-        widgets.add(new NameIconComboWidget());
+        standardWidgets.add(new NameWidget());
+        standardWidgets.add(new SummIconWidget());
+        standardWidgets.add(new NameIconComboWidget());
+    }
+
+    private void createCustomWidgets() {
+
     }
 
     @FXML

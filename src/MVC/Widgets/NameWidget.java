@@ -27,6 +27,6 @@ public class NameWidget extends Widget {
 
     @Override
     void setColSpan() {
-        this.rowSpan = 1;
+        this.colSpan = 1;
     }
 }

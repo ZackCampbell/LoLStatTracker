@@ -76,24 +76,17 @@
                         <JFXDrawer fx:id="menuDrawer" defaultDrawerSize="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="160.0" />
                      </content>
                   </Tab>
-                  <Tab>
-                     <graphic>
-                        <Label fx:id="editToggle" alignment="CENTER" onMouseClicked="#editLayout" prefHeight="40.0" prefWidth="40.0" rotate="90.0" textAlignment="CENTER" textFill="WHITE">
-                           <graphic>
-                              <FontAwesomeIconView fill="#ddb905" glyphName="COG" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </FontAwesomeIconView>
-                           </graphic>
-                        </Label>
-                     </graphic>
-                     <content>
-                        <JFXDrawer fx:id="editDrawer" defaultDrawerSize="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="160.0" />
-                     </content>
-                  </Tab>
                </tabs>
             </JFXTabPane>
+            <Label fx:id="editLayoutToggle" alignment="CENTER" layoutY="40.0" onMouseClicked="#editLayout" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIconView fill="#ddb905" glyphName="COG" size="18" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </FontAwesomeIconView>
+               </graphic>
+            </Label>
             <Label fx:id="logoutBtn" alignment="CENTER" contentDisplay="CENTER" layoutY="650.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleLogout" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER">
                <graphic>
                   <FontAwesomeIconView fill="#ddb905" glyphName="USER" styleClass=".icon-color" textAlignment="CENTER">
