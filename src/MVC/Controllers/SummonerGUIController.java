@@ -4,19 +4,20 @@ import MVC.Widgets.*;
 import MVC.Widgets.NameIconComboWidget;
 import MVC.Widgets.NameWidget;
 import MVC.Widgets.SummIconWidget;
+import Utils.Utils;
 import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXListView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Popup;
@@ -44,7 +45,7 @@ public class SummonerGUIController extends MasterController implements Initializ
 
 
     private ArrayList<Widget> widgets = new ArrayList<>();
-    private ArrayList<String> widgetTypes = new ArrayList<>();
+    private ArrayList<Widget> selectedWidgets = new ArrayList<>();
     private static Popup popup = new Popup();
     private Accordion menuAccordion;
 
@@ -53,7 +54,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         initializeStage(parent, top);
         createStandardWidgets();
         initEditDrawer();
-        initMenuDrawer();
+        updateMenuAccordion();
     }
 
     @FXML
@@ -126,16 +127,6 @@ public class SummonerGUIController extends MasterController implements Initializ
         popup.setY(initY);
     }
 
-    private void initMenuDrawer() {
-        try {
-            menuAccordion = FXMLLoader.load(getClass().getResource("../Views/MenuAccordion.fxml"));
-            updateMenuAccordion();
-            menuDrawer.setSidePane(menuAccordion);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void initEditDrawer() {
         try {
             Accordion editAccordion = FXMLLoader.load(getClass().getResource("../Views/EditAccordion.fxml"));
@@ -175,32 +166,54 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     @SuppressWarnings("unchecked")
     private void updateMenuAccordion() {
-        TitledPane standardPane = menuAccordion.getPanes().get(0);
-        ListView<Widget> standardContent = (ListView)standardPane.getContent();
+        menuAccordion = new Accordion();
+        menuAccordion.getStyleClass().add("popup");
+        menuAccordion.getStylesheets().add(getClass().getResource("../Stylesheets/AccordionStylesheet.css").toExternalForm());
+        TitledPane standardPane = new TitledPane();
+        standardPane.setText("Standard");
+        JFXListView<Widget> standardContent = new JFXListView<>();
         standardContent.setEditable(false);
-        for (Widget widget : widgets) {
-            widgetTypes.add(widget.getName());
-        }
-        standardContent.getItems().addAll(widgets);
+        standardContent.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);   // TODO: Fix this
+        standardContent.setItems(FXCollections.observableArrayList(widgets));
         standardContent.setCellFactory(new WidgetCellFactory());
-        standardContent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Widget>() {
+        standardContent.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void changed(ObservableValue<? extends Widget> observableValue, Widget oldValue, Widget newValue) {
-                widgetChanged(observableValue, oldValue, newValue);
+            public void handle(MouseEvent event) {
+                ObservableList<Widget> selected = standardContent.getSelectionModel().getSelectedItems();
+
+                System.out.println("Selected: ");
+                for (Widget widget : selected) {
+                    System.out.println(widget.getName());
+                    if (selectedWidgets.contains(widget)) {
+                        removeWidget(widget);
+
+                    } else {
+                        addWidget(widget);
+
+                    }
+                }
+
             }
         });
 
+        standardPane.setContent(standardContent);
+        menuAccordion.getPanes().removeAll();
+        menuAccordion.getPanes().add(standardPane);
+        menuDrawer.setSidePane(menuAccordion);
         // TODO: Add functionality to search for and add custom widgets to the custom menu (menuAccordion.getPanes().get(1))
     }
 
-    private void widgetChanged(ObservableValue<? extends Widget> observableValue, Widget oldWidget, Widget newWidget) {
-        if (oldWidget.isVisible()) {
-            newWidget.setVisible(false);
-            // TODO: Maybe need to actually remove from the gridpane here? Not sure what to do...
-        } else {
-            newWidget.setVisible(true);
-            // TODO: Show the new widget on the gridpane in the next available space or if there aren't available spaces first try to move other widgets to make space(?) or just fail and return
-        }
+    private void addWidget(Widget widget) {
+        widget.setVisible(true);
+        selectedWidgets.add(widget);
+        // TODO: Change row and column coordinates with calculated values based on what else is in the grid and the span
+        summonerGrid.add(widget.getPane(), 0, 0, widget.getRowSpan(), widget.getColSpan());
+    }
+
+    private void removeWidget(Widget widget) {
+        widget.setVisible(false);
+        selectedWidgets.remove(widget);
+
     }
 
     private void createStandardWidgets() {

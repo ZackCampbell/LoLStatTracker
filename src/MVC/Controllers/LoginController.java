@@ -84,7 +84,6 @@ public class LoginController extends MasterController implements Initializable {
         Session session = Session.getInstance();
         boolean success = getInputSummoner(session.getSummoner(summNameInput.getText()), regions.getValue());
         if (!success) {
-            // TODO: Success is always false - check initializeSummoner to fix
             errorLabel.setText("Error Retrieving Input Summoner");
             return;
         }

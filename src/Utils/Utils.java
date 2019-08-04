@@ -23,7 +23,8 @@ public class Utils {
     }
 
     public static String getRelativePath() {
-        return new File("").getAbsolutePath();
+        String path = new File("").getAbsolutePath();
+        return path.replace("\\", "/");
     }
 
     public static void initRegionCodes() {

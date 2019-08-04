@@ -5,23 +5,25 @@ import javafx.scene.layout.AnchorPane;
 
 public abstract class Widget {
 
-    private int rowIndex;      // The x coordinate of the widget
-    private int colIndex;      // The y coordinate of the widget
-    private int rowSpan;       // The number of rows taken up by this widget
-    private int colSpan;       // The number of columns taken up by this widget
-    private String name;
+    int rowIndex;      // The x coordinate of the widget
+    int colIndex;      // The y coordinate of the widget
+    int rowSpan;       // The number of rows taken up by this widget
+    int colSpan;       // The number of columns taken up by this widget
+    String name;
     private boolean draggable;
     private boolean editEnabled;
     private boolean visible;
-    private AnchorPane root = new AnchorPane();
-    private WIDGET_TYPE type;        // Standard or Custom
+    AnchorPane root = new AnchorPane();
+    WIDGET_TYPE type;        // Standard or Custom
 
     public enum WIDGET_TYPE {
         STANDARD, CUSTOM
     }
 
-    public abstract String setName();
-    public abstract WIDGET_TYPE setType();
+    abstract void setName();
+    abstract void setType();
+    abstract void setRowSpan();
+    abstract void setColSpan();
 
     public WIDGET_TYPE getType() {
         return this.type;
@@ -53,6 +55,18 @@ public abstract class Widget {
 
     public void setEditEnabled(boolean enabled) {
         this.editEnabled = enabled;
+    }
+
+    public AnchorPane getPane() {
+        return this.root;
+    }
+
+    public int getRowSpan() {
+        return this.rowSpan;
+    }
+
+    public int getColSpan() {
+        return this.colSpan;
     }
 
     public void exit() {

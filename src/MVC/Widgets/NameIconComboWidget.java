@@ -7,15 +7,27 @@ public class NameIconComboWidget extends Widget {
     public NameIconComboWidget() {
         setName();
         setType();
+        setRowSpan();
+        setColSpan();
     }
 
     @Override
-    public String setName() {
-        return null;
+    public void setName() {
+        this.name = "NameIconCombo";
     }
 
     @Override
-    public WIDGET_TYPE setType() {
-        return WIDGET_TYPE.STANDARD;
+    public void setType() {
+        this.type = WIDGET_TYPE.STANDARD;
+    }
+
+    @Override
+    void setRowSpan() {
+        this.rowSpan = 2;
+    }
+
+    @Override
+    void setColSpan() {
+        this.colSpan = 1;
     }
 }
