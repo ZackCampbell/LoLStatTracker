@@ -14,6 +14,7 @@ public class NameWidget extends Widget {
     public void setName() {
         this.name = "Name";
         this.setListName("  Name");
+        this.getPane().setId("NameWidget");
     }
 
     @Override

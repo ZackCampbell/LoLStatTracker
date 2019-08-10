@@ -7,15 +7,17 @@
 }
 
 .titled-pane:focused {
-    -fx-text-fill: #464853;
+    -fx-text-fill: #ddb905;
 }
 
 .titled-pane > .title {
     -fx-background-color: #464853;
+    -fx-text-fill: #ddb905;
 }
 
 .titled-pane:focused > .title {
-    -fx-color: #ddb905;
+    -fx-background-color: #464853;
+    -fx-text-fill: #ddb905;
 }
 
 .titled-pane > .title > .arrow-button {
@@ -39,8 +41,14 @@
     -fx-background-color: #ddb905;
 }
 
+/* --------------- Accordion List View Styling -----------------*/
+
 .list-view {
     -fx-background-color: #464853;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-scale-x: 0;
 }
 
 .list-cell {

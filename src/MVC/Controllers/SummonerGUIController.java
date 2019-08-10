@@ -248,23 +248,21 @@ public class SummonerGUIController extends MasterController implements Initializ
                 if (!cell.isEmpty()) {
                     int index = cell.getIndex();
                     if (cell.isSelected()) {
-                        System.out.println("Remove widget previous text: " + cell.getText());
                         Widget item = cell.getItem();
                         item.setListName("  " + cell.getText().substring(2));
                         cell.updateItem(item, false);
-                        System.out.println("Remove widget set text done: " + cell.getText());
                         lv.getSelectionModel().clearSelection(index);
                         removeWidget(cell.getItem());
                     } else {
-                        System.out.println("Add widget previous text: " + cell.getText());
                         Widget item = cell.getItem();
-                        item.setListName("> " + cell.getText().substring(2));
-                        cell.updateItem(item, false);
-                        System.out.println("Add widget set text done: " + cell.getText());
-                        lv.getSelectionModel().select(index);
                         boolean success = addWidget(cell.getItem());
-                        if (!success) {
-                            cell.setText("  " + cell.getText().substring(2));
+                        if (success) {
+                            item.setListName("> " + cell.getText().substring(2));
+                            cell.updateItem(item, false);
+                            lv.getSelectionModel().select(index);
+                        } else {
+                            item.setListName("  " + cell.getText().substring(2));
+                            cell.updateItem(item, false);
                             lv.getSelectionModel().clearSelection(index);
                         }
                     }
@@ -276,6 +274,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         return titledPane;
     }
 
+    // TODO: Actually update the grid to show the changes
     private boolean addWidget(Widget widget) {
         Point coords;
         try {
@@ -288,29 +287,25 @@ public class SummonerGUIController extends MasterController implements Initializ
         widget.setRowIndex(coords.x);
         widget.setColIndex(coords.y);
         selectedWidgets.add(widget);
-        // TODO: Add specific id's based on the widget name to the anchorpane for easier search and remove
         summonerGrid.add(widget.getPane(), coords.x, coords.y, widget.getRowSpan(), widget.getColSpan());
         return true;
     }
 
-    @SuppressWarnings("all")
-    private void removeWidget(Widget widget) {      // TODO: Find the bug here where it can't find the node to remove(?) then when you add again it throws an exception for duplication of nodes
+    // TODO: Actually update the grid to show the changes
+    private void removeWidget(Widget widget) {
         widget.setVisible(false);
         if (selectedWidgets.contains(widget))
             selectedWidgets.remove(widget);
         ObservableList<Node> children = summonerGrid.getChildren();
-        System.out.println("Removing children");
-        // TODO: Remove based on id of the anchorpane
         for (Node node : children) {
-            if (node instanceof AnchorPane && summonerGrid.getRowIndex(node) == widget.getRowIndex() &&
-                    summonerGrid.getColumnIndex(node) == widget.getColIndex()) {
+            if (node instanceof AnchorPane && widget.getPane().getId().equals(node.getId())) {
                 summonerGrid.getChildren().remove(node);
-                System.out.println("Removing Node: " + node);
                 break;
             }
         }
     }
 
+    // TODO: Test this function
     private Point getNextGridCoords(int rowSpan, int colSpan) throws WidgetException {
         ArrayList<Point> coords = new ArrayList<>();
         ArrayList<Pair<Point, Point>> lines = new ArrayList<>();
@@ -434,8 +429,4 @@ public class SummonerGUIController extends MasterController implements Initializ
     void closeApp(MouseEvent event) {
         super.closeApp();
     }
-
-
-
-
 }

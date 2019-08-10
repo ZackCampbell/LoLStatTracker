@@ -15,6 +15,7 @@ public class NameIconComboWidget extends Widget {
     public void setName() {
         this.name = "NameIconCombo";
         this.setListName("  NameIconCombo");
+        this.getPane().setId("NameIconComboWidget");
     }
 
     @Override

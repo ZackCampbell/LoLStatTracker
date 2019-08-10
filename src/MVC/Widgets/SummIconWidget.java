@@ -16,6 +16,7 @@ public class SummIconWidget extends Widget {
     public void setName() {
         this.name = "SummonerIcon";
         setListName("  SummonerIcon");
+        this.getPane().setId("SummonerIconWidget");
     }
 
     @Override
