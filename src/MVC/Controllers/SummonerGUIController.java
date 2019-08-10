@@ -45,7 +45,7 @@ public class SummonerGUIController extends MasterController implements Initializ
     @FXML private AnchorPane parent;
     @FXML private HBox top;
     @FXML private Pane content;
-    @FXML private GridPane summonerGrid;
+    @FXML private AnchorPane gridAnchorPane;
     @FXML private JFXDrawer menuDrawer;
     @FXML private Label reportBugBtn;
     @FXML private Label feedbackBtn;
@@ -61,6 +61,9 @@ public class SummonerGUIController extends MasterController implements Initializ
     private boolean editEnabled = false;
     private Label saveButton = new Label();
     private static final Color FILL_COLOR = Color.web("#DDB905");
+    private GridPane summonerGrid;
+    private final int numRows = 8;
+    private final int numCols = 11;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,6 +72,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         createCustomWidgets();
         updateMenuAccordion();
         initSaveButton();
+        initGridPane();
     }
 
     @FXML
@@ -274,7 +278,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         return titledPane;
     }
 
-    // TODO: Actually update the grid to show the changes
+    // TODO: Actually update the grid to show the changes - Might have to create new gridpanes...
     private boolean addWidget(Widget widget) {
         Point coords;
         try {
@@ -287,6 +291,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         widget.setRowIndex(coords.x);
         widget.setColIndex(coords.y);
         selectedWidgets.add(widget);
+
         summonerGrid.add(widget.getPane(), coords.x, coords.y, widget.getRowSpan(), widget.getColSpan());
         return true;
     }
@@ -305,7 +310,6 @@ public class SummonerGUIController extends MasterController implements Initializ
         }
     }
 
-    // TODO: Test this function
     private Point getNextGridCoords(int rowSpan, int colSpan) throws WidgetException {
         ArrayList<Point> coords = new ArrayList<>();
         ArrayList<Pair<Point, Point>> lines = new ArrayList<>();
@@ -358,7 +362,6 @@ public class SummonerGUIController extends MasterController implements Initializ
         }
         throw new WidgetException("No space available for new widget with row span: " + rowSpan + " and colspan: " + colSpan);
     }
-
     // Given three colinear points p, q, r, the function checks if
     // point q lies on line segment 'pr'
     private boolean onSegment(Point p, Point q, Point r) {
@@ -366,7 +369,7 @@ public class SummonerGUIController extends MasterController implements Initializ
                 q.y <= Math.max(p.y, r.y) && q.y >= Math.min(p.y, r.y);
     }
 
-    // To find orientation of ordered triplet (p, q, r).
+    // To find orientation of ordered triplet (p, q, r)
     // The function returns following values
     // 0 --> p, q and r are colinear
     // 1 --> Clockwise
@@ -417,6 +420,35 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     private void createCustomWidgets() {
+
+    }
+
+    private void initGridPane() {
+        summonerGrid = new GridPane();
+        summonerGrid.setHgap(5);
+        summonerGrid.setVgap(5);
+//        summonerGrid.setGridLinesVisible(true);       // For debug
+        summonerGrid.setPrefSize(gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
+        for (int i = 0; i < numCols; i++) {
+            ColumnConstraints colConstr = new ColumnConstraints();
+            colConstr.setPercentWidth(100.0 / numCols);
+            summonerGrid.getColumnConstraints().add(colConstr);
+        }
+        for (int i = 0; i < numRows; i++) {
+            RowConstraints rowConstr = new RowConstraints();
+            rowConstr.setPercentHeight(100.0 / numRows);
+            summonerGrid.getRowConstraints().add(rowConstr);
+        }
+        // Maybe for adding borders below for edit mode... not sure yet
+//        for (int i = 0; i < numCols; i++) {
+//            for (int j = 0; j < numRows; j++) {
+//                Pane pane = new Pane();
+//                pane.getStyleClass().add("single-grid-cell");
+//                summonerGrid.add(pane, i, j);
+//            }
+//        }
+
+        gridAnchorPane.getChildren().add(summonerGrid);
 
     }
 
