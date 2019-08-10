@@ -21,6 +21,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -28,7 +29,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Window;
+import javafx.util.Pair;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -64,7 +67,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         initializeStage(parent, top);
         createStandardWidgets();
         createCustomWidgets();
-        updateMenuAccordion();      // TODO: Extract methods from this
+        updateMenuAccordion();
         initSaveButton();
     }
 
@@ -215,12 +218,11 @@ public class SummonerGUIController extends MasterController implements Initializ
         menuAccordion.getPanes().add(standardPane);
         menuAccordion.getPanes().add(customPane);
         menuDrawer.setSidePane(menuAccordion);
-        // TODO: Add functionality to search for and add custom widgets to the custom menu (menuAccordion.getPanes().get(1))
     }
 
     private TitledPane createTitledPane(String title) {
-        TitledPane standardPane = new TitledPane();
-        standardPane.setText(title);
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText(title);
         JFXListView<Widget> standardContent = new JFXListView<>();
         standardContent.setEditable(false);
         standardContent.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -246,43 +248,171 @@ public class SummonerGUIController extends MasterController implements Initializ
                 if (!cell.isEmpty()) {
                     int index = cell.getIndex();
                     if (cell.isSelected()) {
+                        System.out.println("Remove widget previous text: " + cell.getText());
+                        Widget item = cell.getItem();
+                        item.setListName("  " + cell.getText().substring(2));
+                        cell.updateItem(item, false);
+                        System.out.println("Remove widget set text done: " + cell.getText());
                         lv.getSelectionModel().clearSelection(index);
                         removeWidget(cell.getItem());
                     } else {
+                        System.out.println("Add widget previous text: " + cell.getText());
+                        Widget item = cell.getItem();
+                        item.setListName("> " + cell.getText().substring(2));
+                        cell.updateItem(item, false);
+                        System.out.println("Add widget set text done: " + cell.getText());
                         lv.getSelectionModel().select(index);
-                        addWidget(cell.getItem());
+                        boolean success = addWidget(cell.getItem());
+                        if (!success) {
+                            cell.setText("  " + cell.getText().substring(2));
+                            lv.getSelectionModel().clearSelection(index);
+                        }
                     }
                 }
             }
         });
 
-        standardPane.setContent(standardContent);
-        return standardPane;
+        titledPane.setContent(standardContent);
+        return titledPane;
     }
 
-    private void addWidget(Widget widget) {
+    private boolean addWidget(Widget widget) {
+        Point coords;
+        try {
+            coords = getNextGridCoords(widget.getRowSpan(), widget.getColSpan());
+        } catch (WidgetException e) {
+            System.out.println("Cannot add a widget of that size to the grid");
+            return false;
+        }
         widget.setVisible(true);
+        widget.setRowIndex(coords.x);
+        widget.setColIndex(coords.y);
         selectedWidgets.add(widget);
-        widget.setRowIndex(0);
-        widget.setColIndex(0);
-        // TODO: Change row and column coordinates with calculated values based on what else is in the grid and the span
-        summonerGrid.getChildren().add(widget.getPane());   // TODO: Test this
-        summonerGrid.add(widget.getPane(), 0, 0, widget.getRowSpan(), widget.getColSpan());
-
+        // TODO: Add specific id's based on the widget name to the anchorpane for easier search and remove
+        summonerGrid.add(widget.getPane(), coords.x, coords.y, widget.getRowSpan(), widget.getColSpan());
+        return true;
     }
 
     @SuppressWarnings("all")
-    private void removeWidget(Widget widget) {
+    private void removeWidget(Widget widget) {      // TODO: Find the bug here where it can't find the node to remove(?) then when you add again it throws an exception for duplication of nodes
         widget.setVisible(false);
-        selectedWidgets.remove(widget);
+        if (selectedWidgets.contains(widget))
+            selectedWidgets.remove(widget);
         ObservableList<Node> children = summonerGrid.getChildren();
+        System.out.println("Removing children");
+        // TODO: Remove based on id of the anchorpane
         for (Node node : children) {
             if (node instanceof AnchorPane && summonerGrid.getRowIndex(node) == widget.getRowIndex() &&
                     summonerGrid.getColumnIndex(node) == widget.getColIndex()) {
                 summonerGrid.getChildren().remove(node);
+                System.out.println("Removing Node: " + node);
                 break;
             }
         }
+    }
+
+    private Point getNextGridCoords(int rowSpan, int colSpan) throws WidgetException {
+        ArrayList<Point> coords = new ArrayList<>();
+        ArrayList<Pair<Point, Point>> lines = new ArrayList<>();
+        for (Widget widget : selectedWidgets) {
+            coords.add(new Point(widget.getRowIndex(), widget.getColIndex()));
+
+            /* Key for adding the lines below
+             * 0-------------0
+             * |      2      |
+             * | 1         3 |
+             * |      4      |
+             * 0-------------0
+             */
+
+            lines.add(new Pair<>(new Point(widget.getRowIndex(), widget.getColIndex()),
+                                 new Point(widget.getRowIndex() + widget.getRowSpan() - 1, widget.getColIndex())));     // 1
+            lines.add(new Pair<>(new Point(widget.getRowIndex(), widget.getColIndex()),
+                                 new Point(widget.getRowIndex(), widget.getColIndex() + widget.getColSpan() - 1)));     // 2
+            lines.add(new Pair<>(new Point(widget.getRowIndex(), widget.getColIndex() + widget.getColSpan() - 1),
+                                 new Point(widget.getRowIndex() + widget.getRowSpan() - 1, widget.getColIndex() + widget.getColSpan() - 1)));   // 3
+            lines.add(new Pair<>(new Point(widget.getRowIndex() + widget.getRowSpan() - 1, widget.getColIndex()),
+                                 new Point(widget.getRowIndex() + widget.getRowSpan() - 1, widget.getColIndex() + widget.getColSpan() - 1)));   // 4
+
+        }
+        for (int i = 0; i < summonerGrid.getRowCount(); i++) {
+            for (int j = 0; j < summonerGrid.getColumnCount(); j++) {
+                Point homeIndex = new Point(i, j);
+                if (coords.contains(homeIndex))
+                    continue;
+                if (rowSpan == 1 && colSpan == 1)
+                    return homeIndex;
+                Pair<Point, Point> line1 = new Pair<>(homeIndex, new Point(i + rowSpan - 1, j));
+                Pair<Point, Point> line2 = new Pair<>(homeIndex, new Point(i, j + colSpan - 1));
+                Pair<Point, Point> line3 = new Pair<>(new Point(i, j + colSpan - 1), new Point(i + rowSpan - 1, j + colSpan - 1));
+                Pair<Point, Point> line4 = new Pair<>(new Point(i + rowSpan - 1, j), new Point(i + rowSpan - 1, j + colSpan - 1));
+                boolean intersecting = false;
+                for (Pair<Point, Point> line : lines) {
+                    if (doIntersect(line.getKey(), line.getValue(), line1.getKey(), line1.getValue()) ||
+                            doIntersect(line.getKey(), line.getValue(), line2.getKey(), line2.getValue()) ||
+                            doIntersect(line.getKey(), line.getValue(), line3.getKey(), line3.getValue()) ||
+                            doIntersect(line.getKey(), line.getValue(), line4.getKey(), line4.getValue())) {
+                        intersecting = true;
+                        break;
+                    }
+                }
+                if (!intersecting) {
+                    return homeIndex;
+                }
+            }
+        }
+        throw new WidgetException("No space available for new widget with row span: " + rowSpan + " and colspan: " + colSpan);
+    }
+
+    // Given three colinear points p, q, r, the function checks if
+    // point q lies on line segment 'pr'
+    private boolean onSegment(Point p, Point q, Point r) {
+        return q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) &&
+                q.y <= Math.max(p.y, r.y) && q.y >= Math.min(p.y, r.y);
+    }
+
+    // To find orientation of ordered triplet (p, q, r).
+    // The function returns following values
+    // 0 --> p, q and r are colinear
+    // 1 --> Clockwise
+    // 2 --> Counterclockwise
+    private int orientation(Point p, Point q, Point r) {
+        int val = (q.y - p.y) * (r.x - q.x) -
+                (q.x - p.x) * (r.y - q.y);
+
+        if (val == 0) return 0; // colinear
+
+        return (val > 0) ? 1 : 2; // clock or counterclock wise
+    }
+
+    // The main function that returns true if line segment 'p1q1'
+    // and 'p2q2' intersect.
+    private boolean doIntersect(Point p1, Point q1, Point p2, Point q2) {
+        // Find the four orientations needed for general and
+        // special cases
+        int o1 = orientation(p1, q1, p2);
+        int o2 = orientation(p1, q1, q2);
+        int o3 = orientation(p2, q2, p1);
+        int o4 = orientation(p2, q2, q1);
+
+        // General case
+        if (o1 != o2 && o3 != o4)
+            return true;
+
+        // Special Cases
+        // p1, q1 and p2 are colinear and p2 lies on segment p1q1
+        if (o1 == 0 && onSegment(p1, p2, q1)) return true;
+
+        // p1, q1 and q2 are colinear and q2 lies on segment p1q1
+        if (o2 == 0 && onSegment(p1, q2, q1)) return true;
+
+        // p2, q2 and p1 are colinear and p1 lies on segment p2q2
+        if (o3 == 0 && onSegment(p2, p1, q2)) return true;
+
+        // p2, q2 and q1 are colinear and q1 lies on segment p2q2
+        if (o4 == 0 && onSegment(p2, q1, q2)) return true;
+
+        return false; // Doesn't fall in any of the above cases
     }
 
     private void createStandardWidgets() {

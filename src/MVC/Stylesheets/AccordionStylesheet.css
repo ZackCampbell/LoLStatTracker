@@ -38,3 +38,25 @@
 .titled-pane:focused > .title > .arrow-button .arrow {
     -fx-background-color: #ddb905;
 }
+
+.list-view {
+    -fx-background-color: #464853;
+}
+
+.list-cell {
+    -fx-background-color: #464853;
+    -fx-text-fill: #ddb905;
+}
+
+.list-cell:hover {
+    -fx-text-fill: #232429;
+}
+
+.list-cell:selected {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.list-cell:selected:hover {
+    -fx-text-fill: #232429;
+}

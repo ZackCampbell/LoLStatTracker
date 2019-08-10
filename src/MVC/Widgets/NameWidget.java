@@ -13,6 +13,7 @@ public class NameWidget extends Widget {
     @Override
     public void setName() {
         this.name = "Name";
+        this.setListName("  Name");
     }
 
     @Override

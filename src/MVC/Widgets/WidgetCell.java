@@ -11,7 +11,7 @@ public class WidgetCell extends ListCell<Widget> {
         String name = null;
         if (item == null || empty) {}
         else {
-            name = item.getName();
+            name = item.getListName();
         }
         this.setText(name);
         setGraphic(null);

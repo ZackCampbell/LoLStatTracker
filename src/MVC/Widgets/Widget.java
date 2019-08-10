@@ -10,6 +10,7 @@ public abstract class Widget {
     int rowSpan;       // The number of rows taken up by this widget
     int colSpan;       // The number of columns taken up by this widget
     String name;
+    String listName;
     private boolean draggable;
     private boolean editEnabled;
     private boolean visible;
@@ -31,6 +32,14 @@ public abstract class Widget {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getListName() {
+        return this.listName;
+    }
+
+    public void setListName(String listName) {
+        this.listName = listName;
     }
 
     public boolean isVisible() {
