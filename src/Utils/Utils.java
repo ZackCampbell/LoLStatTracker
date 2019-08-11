@@ -2,6 +2,9 @@ package Utils;
 
 import Logging.LoggingHandler;
 import javafx.collections.transformation.SortedList;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
 import java.io.File;
 import java.util.*;
@@ -51,6 +54,19 @@ public class Utils {
 
     public static Set<String> getRegionCodes() {
         return regionCodes.keySet();
+    }
+
+    public static void addGridConstraints(GridPane gridPane, int numCols, int numRows) {
+        for (int i = 0; i < numCols; i++) {
+            ColumnConstraints colConstr = new ColumnConstraints();
+            colConstr.setPercentWidth(100.0 / numCols);
+            gridPane.getColumnConstraints().add(colConstr);
+        }
+        for (int i = 0; i < numRows; i++) {
+            RowConstraints rowConstr = new RowConstraints();
+            rowConstr.setPercentHeight(100.0 / numRows);
+            gridPane.getRowConstraints().add(rowConstr);
+        }
     }
 
 }

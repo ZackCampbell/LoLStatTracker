@@ -1,5 +1,6 @@
 package MVC.Controllers;
 
+import MVC.Layouts.Layout;
 import MVC.Widgets.*;
 import MVC.Widgets.NameIconComboWidget;
 import MVC.Widgets.NameWidget;
@@ -64,6 +65,7 @@ public class SummonerGUIController extends MasterController implements Initializ
     private GridPane summonerGrid;
     private final int numRows = 8;
     private final int numCols = 11;
+    private Layout currentLayout = new Layout(numRows, numCols);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -202,8 +204,10 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     }
 
-    private void getSavedLayout() {
+    private Layout getSavedLayout() {
 
+        // TODO: Look through XML(?) files for marked file - if found, load that xml as a Layout and store in currentLayout else load from one of the default layouts
+        return currentLayout;       // TODO: Placeholder for actual logic
     }
 
     private void updateMenuAccordion() {
@@ -291,12 +295,16 @@ public class SummonerGUIController extends MasterController implements Initializ
         widget.setRowIndex(coords.x);
         widget.setColIndex(coords.y);
         selectedWidgets.add(widget);
-
+        // TODO: Maybe move the adding to the layout and then only go between the layout and the anchorpane?
+        currentLayout.addWidget(widget);
+        gridAnchorPane.getChildren().remove(0);
         summonerGrid.add(widget.getPane(), coords.x, coords.y, widget.getRowSpan(), widget.getColSpan());
+//        currentLayout.loadOntoGridpane(summonerGrid, gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
+        gridAnchorPane.getChildren().add(summonerGrid);
         return true;
     }
 
-    // TODO: Actually update the grid to show the changes
+    // TODO: Actually update the grid to show the changes using the layout
     private void removeWidget(Widget widget) {
         widget.setVisible(false);
         if (selectedWidgets.contains(widget))
@@ -308,6 +316,7 @@ public class SummonerGUIController extends MasterController implements Initializ
                 break;
             }
         }
+        currentLayout.removeWidget(widget);
     }
 
     private Point getNextGridCoords(int rowSpan, int colSpan) throws WidgetException {
@@ -362,6 +371,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         }
         throw new WidgetException("No space available for new widget with row span: " + rowSpan + " and colspan: " + colSpan);
     }
+
     // Given three colinear points p, q, r, the function checks if
     // point q lies on line segment 'pr'
     private boolean onSegment(Point p, Point q, Point r) {
@@ -424,33 +434,19 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     private void initGridPane() {
+        currentLayout = getSavedLayout();
         summonerGrid = new GridPane();
-        summonerGrid.setHgap(5);
-        summonerGrid.setVgap(5);
-//        summonerGrid.setGridLinesVisible(true);       // For debug
-        summonerGrid.setPrefSize(gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
-        for (int i = 0; i < numCols; i++) {
-            ColumnConstraints colConstr = new ColumnConstraints();
-            colConstr.setPercentWidth(100.0 / numCols);
-            summonerGrid.getColumnConstraints().add(colConstr);
-        }
-        for (int i = 0; i < numRows; i++) {
-            RowConstraints rowConstr = new RowConstraints();
-            rowConstr.setPercentHeight(100.0 / numRows);
-            summonerGrid.getRowConstraints().add(rowConstr);
-        }
-        // Maybe for adding borders below for edit mode... not sure yet
-//        for (int i = 0; i < numCols; i++) {
-//            for (int j = 0; j < numRows; j++) {
-//                Pane pane = new Pane();
-//                pane.getStyleClass().add("single-grid-cell");
-//                summonerGrid.add(pane, i, j);
-//            }
-//        }
+        currentLayout.loadOntoGridpane(summonerGrid, gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
+    }
 
-        gridAnchorPane.getChildren().add(summonerGrid);
+    private void addToGridPane(Widget widget) {
 
     }
+
+    private void removeFromGridPane(Widget widget) {
+
+    }
+
 
     @FXML
     void minimizeStage(MouseEvent event) {
