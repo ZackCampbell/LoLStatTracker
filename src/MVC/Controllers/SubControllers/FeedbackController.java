@@ -30,6 +30,7 @@ public class FeedbackController extends MasterController implements Initializabl
         client.sendMessage("feedback", feedbackText);
 
         popup.getContent().removeAll();
+        popup.hide();
 
         // TODO: Add new "check mark" icon and text saying "Thank you!" to the popup
 

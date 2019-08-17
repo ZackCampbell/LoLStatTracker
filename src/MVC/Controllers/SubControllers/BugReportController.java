@@ -19,7 +19,6 @@ public class BugReportController extends MasterController implements Initializab
     @FXML private TextArea bugEncounterInfo;
 
     private Popup popup;
-    private static Pane contentPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,13 +34,9 @@ public class BugReportController extends MasterController implements Initializab
         client.sendBugReport("bugReport", description, howEncountered);
 
         popup.getContent().removeAll();
-
+        popup.hide();
         // TODO: Add new "check mark" icon and text saying "Thank you!" to the popup
 
-    }
-
-    public static void setContent(Pane content) {
-        contentPane = content;
     }
 
 }
