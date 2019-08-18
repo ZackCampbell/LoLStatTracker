@@ -20,6 +20,11 @@
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="MINUS" nodeOrientation="LEFT_TO_RIGHT" selectionStart="1" size="21" strokeType="INSIDE" styleClass="minimize-btn" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="30.0" />
                </graphic></Label>
+            <Label fx:id="maximize" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#maximizeStage" prefHeight="30.0" prefWidth="30.0" styleClass="minimize-btn" stylesheets="@../Stylesheets/MasterStylesheet.css" textAlignment="CENTER" textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="SQUARE_ALT" size="21" styleClass="minimize-btn" textAlignment="CENTER" wrappingWidth="30.0" />
+               </graphic>
+            </Label>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1175.0" layoutY="12.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#closeApp" prefHeight="30.0" prefWidth="30.0" styleClass="close-btn" textFill="WHITE">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="21" styleClass="close-btn" textAlignment="CENTER" wrappingWidth="30.0" />

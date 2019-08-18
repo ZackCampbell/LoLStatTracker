@@ -6,12 +6,12 @@ import API.SummonerEndpoint;
 import GameElements.Summoner;
 import Main.Session;
 import Utils.Cache;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +34,10 @@ public class MasterController {
     private RiotAPIHandler apiHandler = new RiotAPIHandler();
     private SummonerEndpoint summonerEndpoint;
     static HBox top;
+    private double prevMinX;
+    private double prevMinY;
+    private double prevWidth;
+    private double prevHeight;
 
     private static Logger LOGGER = initializeLogger(MasterController.class.getName());
 
@@ -101,13 +105,13 @@ public class MasterController {
 
     }
 
-    void initializeStage(AnchorPane parent, HBox top) {
+    void initializeStage(AnchorPane parent, HBox top, Popup popup) {
         parent.setPrefHeight(getWindowY());
         parent.setPrefWidth(getWindowX());
-        makeStageDraggable(top);
+        makeStageDraggable(top, popup);
     }
 
-    private void makeStageDraggable(HBox top) {
+    private void makeStageDraggable(HBox top, Popup popup) {
         top.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -115,7 +119,34 @@ public class MasterController {
         top.setOnMouseDragged(event -> {
             getStage().setX(event.getScreenX() - xOffset);
             getStage().setY(event.getScreenY() - yOffset);
+            if (popup != null) {
+                Window parent = getStage().getScene().getWindow();
+                double initX = parent.getX() + (parent.getWidth() / 2) - (popup.getWidth() / 2);
+                double initY = parent.getY() + (parent.getHeight() / 2) - (popup.getHeight() / 2);
+                popup.setX(initX + event.getSceneX() - xOffset);
+                popup.setY(initY + event.getSceneY() - yOffset);
+            }
         });
+    }
+
+    void maximizeStage(Stage stage) {
+        Screen screen = Screen.getPrimary();
+        prevMinX = stage.getX();
+        prevMinY = stage.getY();
+        prevWidth = stage.getWidth();
+        prevHeight = stage.getHeight();
+        Rectangle2D bounds = screen.getVisualBounds();
+        stage.setX(bounds.getMinX());
+        stage.setY(bounds.getMinY());
+        stage.setWidth(bounds.getWidth());
+        stage.setHeight(bounds.getHeight());
+    }
+
+    void restoreStage(Stage stage) {
+        stage.setX(prevMinX);
+        stage.setY(prevMinY);
+        stage.setWidth(prevWidth);
+        stage.setHeight(prevHeight);
     }
 
     void minimizeStage(Stage stage) {

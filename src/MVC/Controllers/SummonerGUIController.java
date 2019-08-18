@@ -5,15 +5,11 @@ import MVC.Widgets.*;
 import MVC.Widgets.NameIconComboWidget;
 import MVC.Widgets.NameWidget;
 import MVC.Widgets.SummIconWidget;
-import Utils.Utils;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,14 +22,16 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 import javafx.util.Pair;
+import org.w3c.dom.*;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -66,10 +64,11 @@ public class SummonerGUIController extends MasterController implements Initializ
     private final int numRows = 8;
     private final int numCols = 11;
     private Layout currentLayout = new Layout(numRows, numCols);
+    private boolean isMaximized = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeStage(parent, top);
+        initializeStage(parent, top, getPopup());
         createStandardWidgets();
         createCustomWidgets();
         updateMenuAccordion();
@@ -84,8 +83,20 @@ public class SummonerGUIController extends MasterController implements Initializ
         parent.getChildren().setAll(loginFXML);
     }
 
-    public static Popup getPopup() {
-        return popup;
+    // ----------------------- Sidebar Buttons -----------------------------
+
+    private void initSaveButton() {
+        FontAwesomeIconView iconView = new FontAwesomeIconView();
+        iconView.setGlyphName("SAVE");
+        iconView.setFill(FILL_COLOR);
+        iconView.setSize("18");
+        saveButton.setTextAlignment(TextAlignment.CENTER);
+        saveButton.setAlignment(Pos.CENTER);
+        saveButton.setLayoutY(80);
+        saveButton.setPrefWidth(40);
+        saveButton.setPrefHeight(40);
+        saveButton.setGraphic(iconView);
+        saveButton.setOnMouseClicked(this::save);
     }
 
     /**
@@ -95,7 +106,6 @@ public class SummonerGUIController extends MasterController implements Initializ
      */
     @FXML
     private void save(MouseEvent event) {
-        // TODO: Save the current layout in an XML file(?)
         editEnabled = false;
         content.getChildren().remove(saveButton);
         for (Widget widget : standardWidgets) {
@@ -108,6 +118,29 @@ public class SummonerGUIController extends MasterController implements Initializ
             widget.setEditEnabled(false);
         }
 
+        // TODO: Write the displayed layout to the currentLayout object
+        String layoutName = "<placeholder>";        // TODO: Fill with the real layout name that the user inputs
+
+        File test = new File("../Layouts/" + layoutName + ".txt");
+        if (test.exists()) {
+            System.out.println("Layout file for " + layoutName + " already exists. Overwrite?");
+        }
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(new File("../Layouts/" + layoutName + ".txt"));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(currentLayout);
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (Exception e) {
+            System.out.println("File IO exception on saving the layout");
+        }
+    }
+
+    // ----------------------- Popup Functions -----------------------------
+
+    public static Popup getPopup() {
+        return popup;
     }
 
     /**
@@ -160,14 +193,6 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     @FXML
-    private void menuButtonClicked(MouseEvent event) {
-        if (menuDrawer.isOpened() || menuDrawer.isOpening())
-            menuDrawer.close();
-        else if (menuDrawer.isClosed() || menuDrawer.isClosing())
-            menuDrawer.open();
-    }
-
-    @FXML
     private void editLayout(MouseEvent event) {
         if (!editEnabled) {
             content.getChildren().add(saveButton);
@@ -182,32 +207,52 @@ public class SummonerGUIController extends MasterController implements Initializ
         // TODO: Save the current layout and set the grid + the widgets in the grid to edit mode
     }
 
-    private void initSaveButton() {
-        FontAwesomeIconView iconView = new FontAwesomeIconView();
-        iconView.setGlyphName("SAVE");
-        iconView.setFill(FILL_COLOR);
-        iconView.setSize("18");
-        saveButton.setTextAlignment(TextAlignment.CENTER);
-        saveButton.setAlignment(Pos.CENTER);
-        saveButton.setLayoutY(80);
-        saveButton.setPrefWidth(40);
-        saveButton.setPrefHeight(40);
-        saveButton.setGraphic(iconView);
-        saveButton.setOnMouseClicked(this::save);
-    }
-
-    private void buildDefaultLayout() {
-
-    }
-
-    private void buildCustomLayout() {
-
-    }
+    // ----------------------- Layout Functions ---------------------------
 
     private Layout getSavedLayout() {
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document document = docBuilder.parse(new File("../Layouts/layoutconfig.xml"));
 
-        // TODO: Look through XML(?) files for marked file - if found, load that xml as a Layout and store in currentLayout else load from one of the default layouts
-        return currentLayout;       // TODO: Placeholder for actual logic
+            String fileName = getLayoutFileName(document);
+
+            FileInputStream fileInputStream = new FileInputStream(new File("../Layouts/" + fileName + ".txt"));
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            currentLayout = (Layout)objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return currentLayout;
+    }
+
+    private String getLayoutFileName(Document document) {
+
+        NodeList nodeList = document.getElementsByTagName("file");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            org.w3c.dom.Node currentNode = nodeList.item(i);
+            if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                NodeList attributes = currentNode.getChildNodes();
+                System.out.println(attributes.item(0).getNodeValue());
+                if (attributes.item(1).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE &&
+                        attributes.item(1).getNodeValue().equals("true")) {
+                    return attributes.item(0).getNodeValue();
+                }
+            }
+        }
+        return nodeList.item(0).getChildNodes().item(0).getNodeValue();         // Return the first default layout if it doesn't find a "true" value
+    }
+
+    // ------------------ Menu Functions -----------------------------
+
+    @FXML
+    private void menuButtonClicked(MouseEvent event) {
+        if (menuDrawer.isOpened() || menuDrawer.isOpening())
+            menuDrawer.close();
+        else if (menuDrawer.isClosed() || menuDrawer.isClosing())
+            menuDrawer.open();
     }
 
     private void updateMenuAccordion() {
@@ -282,6 +327,8 @@ public class SummonerGUIController extends MasterController implements Initializ
         return titledPane;
     }
 
+    // ------------------ Widget Functions ---------------------------
+
     // TODO: Actually update the grid to show the changes - Might have to create new gridpanes...
     private boolean addWidget(Widget widget) {
         Point coords;
@@ -318,6 +365,18 @@ public class SummonerGUIController extends MasterController implements Initializ
         }
         currentLayout.removeWidget(widget);
     }
+
+    private void createStandardWidgets() {
+        standardWidgets.add(new NameWidget());
+        standardWidgets.add(new SummIconWidget());
+        standardWidgets.add(new NameIconComboWidget());
+    }
+
+    private void createCustomWidgets() {
+
+    }
+
+    // ------------------ Grid Functions -----------------------------
 
     private Point getNextGridCoords(int rowSpan, int colSpan) throws WidgetException {
         ArrayList<Point> coords = new ArrayList<>();
@@ -423,16 +482,6 @@ public class SummonerGUIController extends MasterController implements Initializ
         return false; // Doesn't fall in any of the above cases
     }
 
-    private void createStandardWidgets() {
-        standardWidgets.add(new NameWidget());
-        standardWidgets.add(new SummIconWidget());
-        standardWidgets.add(new NameIconComboWidget());
-    }
-
-    private void createCustomWidgets() {
-
-    }
-
     private void initGridPane() {
         currentLayout = getSavedLayout();
         summonerGrid = new GridPane();
@@ -447,6 +496,20 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     }
 
+    // ------------------- Stage Functions (Superclass) ---------------------------
+
+    @FXML
+    void maximizeStage(MouseEvent event) {
+        // TODO: Change the icon to be maximize or restore respectively
+        if (isMaximized) {
+            super.restoreStage(getStage());
+            isMaximized = false;
+        } else {
+            super.maximizeStage(getStage());
+            isMaximized = true;
+        }
+
+    }
 
     @FXML
     void minimizeStage(MouseEvent event) {

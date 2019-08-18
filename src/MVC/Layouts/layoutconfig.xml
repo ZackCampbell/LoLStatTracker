@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<files>
+    <file>
+        <name>default1</name>
+        <mostrecent>true</mostrecent>
+    </file>
+    <file>
+        <name>default2</name>
+        <mostrecent>false</mostrecent>
+    </file>
+    <file>
+        <name>default3</name>
+        <mostrecent>false</mostrecent>
+    </file>
+</files>
