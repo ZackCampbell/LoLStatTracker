@@ -135,6 +135,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         } catch (Exception e) {
             System.out.println("File IO exception on saving the layout");
         }
+        // TODO: Update the layoutconfig.xml with the most recent layout
     }
 
     // ----------------------- Popup Functions -----------------------------
@@ -208,12 +209,13 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     // ----------------------- Layout Functions ---------------------------
+    // TODO: Create layout txt files for the default layouts
 
     private Layout getSavedLayout() {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document document = docBuilder.parse(new File("../Layouts/layoutconfig.xml"));
+            Document document = docBuilder.parse(new File("src/MVC/Layouts/layoutconfig.xml"));
 
             String fileName = getLayoutFileName(document);
 
@@ -223,26 +225,24 @@ public class SummonerGUIController extends MasterController implements Initializ
             objectInputStream.close();
             fileInputStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Unable to find the layout file");
+//            e.printStackTrace();
         }
         return currentLayout;
     }
 
     private String getLayoutFileName(Document document) {
-
         NodeList nodeList = document.getElementsByTagName("file");
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node currentNode = nodeList.item(i);
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-                NodeList attributes = currentNode.getChildNodes();
-                System.out.println(attributes.item(0).getNodeValue());
-                if (attributes.item(1).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE &&
-                        attributes.item(1).getNodeValue().equals("true")) {
-                    return attributes.item(0).getNodeValue();
+                Element fileElement = (Element)currentNode;
+                if (fileElement.getElementsByTagName("mostrecent").item(0).getTextContent().equals("true")) {
+                    return fileElement.getElementsByTagName("name").item(0).getTextContent();
                 }
             }
         }
-        return nodeList.item(0).getChildNodes().item(0).getNodeValue();         // Return the first default layout if it doesn't find a "true" value
+        return document.getElementsByTagName("file").item(0).getTextContent();         // Return the first default layout if it doesn't find a "true" value
     }
 
     // ------------------ Menu Functions -----------------------------

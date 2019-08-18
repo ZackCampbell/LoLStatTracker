@@ -52,7 +52,7 @@ public class Layout {
         // TODO: Save to an XML File with the input name and mark as the most recently saved
     }
 
-    // Input a new gridpane and the width and height of the parent
+    // @params Input a new gridpane and the width and height of the parent
     public GridPane loadOntoGridpane(GridPane gridPane, double width, double height) {
         gridPane.setHgap(5);
         gridPane.setVgap(5);
@@ -72,10 +72,5 @@ public class Layout {
 
         return gridPane;
     }
-
-    public void loadFromXML(/* TODO: Add parameter for an XML File */) {
-
-    }
-
 
 }
