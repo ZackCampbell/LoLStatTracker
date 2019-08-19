@@ -1,24 +1,22 @@
 package MVC.Widgets;
 
-public class NameWidget extends Widget {
+public class DummyWidget extends Widget {
 
-    public NameWidget() {
-        setType();
-        setName();
+    public DummyWidget(int rowIndex, int colIndex) {
+        this.setRowIndex(rowIndex);
+        this.setColIndex(colIndex);
         setRowSpan();
         setColSpan();
-    }
-
-
-    @Override
-    public void setName() {
-        this.name = "Name";
-        this.setListName("  Name");
-        this.getPane().setId("NameWidget");
+        setName();
     }
 
     @Override
-    public void setType() {
+    void setName() {
+        this.name = "Dummy";
+    }
+
+    @Override
+    void setType() {
         this.type = WIDGET_TYPE.STANDARD;
     }
 
