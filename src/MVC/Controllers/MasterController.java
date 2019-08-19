@@ -45,11 +45,13 @@ public class MasterController {
 
     public MasterController(Stage initialStage, Parent root) {
         initializeMasterController(initialStage, root);
+        getStage().setResizable(true);
         currentPage = "login";
     }
 
     public MasterController(Stage initialStage, Parent root, Summoner summoner) {
         initializeMasterController(initialStage, root);
+        getStage().setResizable(true);
         //getInitSummoner(summoner);
         currentPage = "summoner";
     }
@@ -140,6 +142,7 @@ public class MasterController {
         stage.setY(bounds.getMinY());
         stage.setWidth(bounds.getWidth());
         stage.setHeight(bounds.getHeight());
+//        stage.setMaximized(true);
     }
 
     void restoreStage(Stage stage) {
@@ -147,6 +150,7 @@ public class MasterController {
         stage.setY(prevMinY);
         stage.setWidth(prevWidth);
         stage.setHeight(prevHeight);
+//        stage.setMaximized(false);
     }
 
     void minimizeStage(Stage stage) {
