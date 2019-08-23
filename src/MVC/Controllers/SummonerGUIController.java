@@ -109,7 +109,9 @@ public class SummonerGUIController extends MasterController implements Initializ
     @FXML
     private void save(MouseEvent event) {
         editEnabled = false;
-        content.getChildren().remove(saveButton);
+        // TODO: Show a new menu for save or save as (save will overwrite the current layout)
+        // TODO: Save as will pop up a new window for creating a new layout or overwriting an exiting layout
+
         for (Widget widget : standardWidgets) {
             widget.setEditEnabled(false);
         }
@@ -120,24 +122,13 @@ public class SummonerGUIController extends MasterController implements Initializ
             widget.setEditEnabled(false);
         }
 
-        // TODO: Write the displayed layout to the currentLayout object
+        // TODO: Move the code below to happen on the new save buttons
         String layoutName = "<placeholder>";        // TODO: Fill with the real layout name that the user inputs
+        content.getChildren().remove(saveButton);
 
-        File test = new File("../Layouts/" + layoutName + ".txt");
-        if (test.exists()) {
-            System.out.println("Layout file for " + layoutName + " already exists. Overwrite?");
-        }
-
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(new File("../Layouts/" + layoutName + ".txt"));
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(currentLayout);
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (Exception e) {
-            System.out.println("File IO exception on saving the layout");
-        }
-        // TODO: Update the layoutconfig.xml with the most recent layout
+//        Layout newLayout = Layout.createLayout(gridAnchorPane, numRows, numCols);
+//        newLayout.saveLayout(layoutName);
+//        currentLayout = newLayout;
     }
 
     // ----------------------- Popup Functions -----------------------------
