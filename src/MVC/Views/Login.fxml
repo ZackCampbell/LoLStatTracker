@@ -12,14 +12,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="parent" stylesheets="@../Stylesheets/MasterStylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.LoginController">
+<AnchorPane fx:id="parent" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="parent" stylesheets="@../Stylesheets/MasterStylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVC.Controllers.LoginController">
    <children>
-      <HBox fx:id="top" alignment="CENTER_RIGHT" layoutY="-1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1200.0">
+      <HBox fx:id="top" alignment="CENTER_RIGHT" layoutY="-1.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1200.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#minimizeStage" prefHeight="30.0" prefWidth="30.0" styleClass="minimize-btn" textFill="WHITE">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="MINUS" nodeOrientation="LEFT_TO_RIGHT" selectionStart="1" size="21" strokeType="INSIDE" styleClass="minimize-btn" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="30.0" />
                </graphic></Label>
+            <Label fx:id="maximize" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#maximizeStage" prefHeight="30.0" prefWidth="30.0" styleClass="minimize-btn" stylesheets="@../Stylesheets/MasterStylesheet.css" textAlignment="CENTER" textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="SQUARE_ALT" size="21" styleClass="minimize-btn" textAlignment="CENTER" wrappingWidth="30.0" />
+               </graphic>
+            </Label>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1175.0" layoutY="12.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#closeApp" prefHeight="30.0" prefWidth="30.0" styleClass="close-btn" textFill="WHITE">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="21" styleClass="close-btn" textAlignment="CENTER" wrappingWidth="30.0" />
@@ -27,7 +32,7 @@
             </Label>
          </children>
       </HBox>
-      <Pane fx:id="content" layoutY="29.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1200.0">
+      <Pane fx:id="content" layoutY="29.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1200.0">
          <children>
             <ImageView fx:id="bgImageLogin" fitHeight="770.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true" />
             <Pane fx:id="logoPane" layoutX="329.0" layoutY="37.0" prefHeight="297.0" prefWidth="542.0" />

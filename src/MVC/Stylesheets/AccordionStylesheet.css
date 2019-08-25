@@ -1,0 +1,70 @@
+.background {
+    -fx-background-color: #232429;
+}
+
+.titled-pane {
+    -fx-text-fill: #ddb905;
+}
+
+.titled-pane:focused {
+    -fx-text-fill: #ddb905;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #464853;
+    -fx-text-fill: #ddb905;
+}
+
+.titled-pane:focused > .title {
+    -fx-background-color: #464853;
+    -fx-text-fill: #ddb905;
+}
+
+.titled-pane > .title > .arrow-button {
+    -fx-background-color: null;
+}
+
+.titled-pane > .title > .arrow-button .arrow {
+    -fx-background-color: #ddb905;
+}
+
+.titled-pane:collapsed > .title > .arrow-button .arrow {
+    -fx-rotate: -90;
+}
+
+.titled-pane > *.content {
+    -fx-background-color: #464853;
+    -fx-border-color: #464853;
+}
+
+.titled-pane:focused > .title > .arrow-button .arrow {
+    -fx-background-color: #ddb905;
+}
+
+/* --------------- Accordion List View Styling -----------------*/
+
+.list-view {
+    -fx-background-color: #464853;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-scale-x: 0;
+}
+
+.list-cell {
+    -fx-background-color: #464853;
+    -fx-text-fill: #ddb905;
+}
+
+.list-cell:hover {
+    -fx-text-fill: #232429;
+}
+
+.list-cell:selected {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.list-cell:selected:hover {
+    -fx-text-fill: #232429;
+}

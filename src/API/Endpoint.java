@@ -1,7 +1,5 @@
 package API;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -16,7 +14,6 @@ abstract class Endpoint {
     private final static String RIOT_TOKEN_VAR_NAME = "X-Riot-Token";
     private final String apiKey;
 
-    // TODO: Make this an enum
     private final String regionName;
 
     Endpoint(String regionName, String apiKey) {

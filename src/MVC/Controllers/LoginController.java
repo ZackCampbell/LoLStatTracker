@@ -1,4 +1,4 @@
-package Main.Controllers;
+package MVC.Controllers;
 
 import Main.Session;
 import javafx.collections.FXCollections;
@@ -40,10 +40,11 @@ public class LoginController extends MasterController implements Initializable {
     @FXML private ChoiceBox<String> regions;
 
     private boolean loginActive;
+    private boolean isMaximized = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeStage(parent, top);
+        initializeStage(parent, top, null);
         addRegionChoiceBox();
 
         errorLabel.setTextFill(Paint.valueOf("red"));
@@ -82,17 +83,27 @@ public class LoginController extends MasterController implements Initializable {
     private void handleLogin(ActionEvent event) throws IOException {
         errorLabel.setText("");
         Session session = Session.getInstance();
-        System.out.println(regions.getValue());
         boolean success = getInputSummoner(session.getSummoner(summNameInput.getText()), regions.getValue());
         if (!success) {
-            // TODO: Success is always false - check initializeSummoner to fix
             errorLabel.setText("Error Retrieving Input Summoner");
             return;
         }
         loginActive = false;
-        Parent summonerFXML = FXMLLoader.load(getClass().getResource("./Views/Summoner.fxml"));
+        Parent summonerFXML = FXMLLoader.load(getClass().getResource("../Views/Summoner.fxml"));
         parent.getChildren().removeAll();
         parent.getChildren().setAll(summonerFXML);
+    }
+
+    @FXML
+    void maximizeStage(MouseEvent event) {
+        // TODO: Change the icon to the restore icon instead of maximize and vise versa
+        if (isMaximized) {
+            super.restoreStage(getStage());
+            isMaximized = false;
+        } else {
+            super.maximizeStage(getStage());
+            isMaximized = true;
+        }
     }
 
     @FXML
