@@ -46,28 +46,31 @@ abstract class Endpoint {
         }
     }
 
-    <T> T send(URL requestUrl, RequestMethod method, Class<T> expectedResponseClass) {
-        try {
-            HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
-            this.setRequestHeaders(method, urlConnection);
+    <T> T send(URL requestUrl, RequestMethod method, Class<T> expectedResponseClass) throws RateLimitException, IOException {
+        HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
+        this.setRequestHeaders(method, urlConnection);
 
-            int code = urlConnection.getResponseCode();
+        int code = urlConnection.getResponseCode();
 
-            if (code == HttpURLConnection.HTTP_OK) {
-                InputStream inputStream = urlConnection.getInputStream();
+        if (code == HttpURLConnection.HTTP_OK) {
+            InputStream inputStream = urlConnection.getInputStream();
+            return new ObjectMapper().readValue(inputStream, expectedResponseClass);
+        } else if (code == HttpURLConnection.HTTP_BAD_REQUEST) {
 
-                return new ObjectMapper().readValue(inputStream, expectedResponseClass);
-            } else if (code == HttpURLConnection.HTTP_BAD_REQUEST) {
-
-            } else if (code == 429) {
-                // Rate limit exceed, checkout Retry-After in header
-                String retryAfter = urlConnection.getHeaderField("Retry-After");
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        } else if (code == 429) {
+            // Rate limit exceed, checkout Retry-After in header
+            String retryAfter = urlConnection.getHeaderField("Retry-After");
+            throw new RateLimitException(Integer.parseInt(retryAfter));
         }
 
         return null;
+    }
+
+    <T> EndpointRequest<T> queueRequest(URL requestUrl, RequestMethod method, Class<T> responseClass) throws InterruptedException {
+        EndpointRequest<T> req = new EndpointRequest<>(this, requestUrl, method, responseClass);
+        EndpointThrottler.getInstance().queue(req);
+
+        return req;
     }
 
     private void setRequestHeaders(RequestMethod method, HttpURLConnection urlConnection) throws ProtocolException {

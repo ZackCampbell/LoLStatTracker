@@ -17,8 +17,8 @@ import lombok.ToString;
 public class MatchPositionDTO {
 
     @JsonProperty("y")
-    private Long y;
+    private Integer y;
     @JsonProperty("x")
-    private Long x;
+    private Integer x;
 
 }

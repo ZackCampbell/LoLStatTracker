@@ -19,6 +19,6 @@ public class ParticipantIdentityDTO {
     @JsonProperty("player")
     private PlayerDTO player;
     @JsonProperty("participantId")
-    private Long participantId;
+    private Integer participantId;
 
 }

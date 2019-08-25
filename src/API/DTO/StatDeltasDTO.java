@@ -19,12 +19,12 @@ import lombok.ToString;
 public class StatDeltasDTO {
 
     @JsonProperty("0-10")
-    private Double _010;
+    private double _010;
     @JsonProperty("10-20")
-    private Double _1020;
+    private double _1020;
     @JsonProperty("20-30")
-    private Double _2030;
+    private double _2030;
     @JsonProperty("30-end")
-    private Double _30end;
+    private double _30end;
 
 }

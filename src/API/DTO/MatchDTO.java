@@ -29,13 +29,16 @@ import lombok.ToString;
 public class MatchDTO {
 
     @JsonProperty("seasonId")
-    private Long seasonId;
+    private Integer seasonId;
     @JsonProperty("queueId")
-    private Long queueId;
+    private Integer queueId;
     @JsonProperty("gameId")
     private Long gameId;
+
     @JsonProperty("participantIdentities")
+    @ToString.Exclude
     private List<ParticipantIdentityDTO> participantIdentities = null;
+
     @JsonProperty("gameVersion")
     private String gameVersion;
     @JsonProperty("platformId")
@@ -43,13 +46,18 @@ public class MatchDTO {
     @JsonProperty("gameMode")
     private String gameMode;
     @JsonProperty("mapId")
-    private Long mapId;
+    private int mapId;
     @JsonProperty("gameType")
     private String gameType;
+
     @JsonProperty("teams")
+    @ToString.Exclude
     private List<TeamStatsDTO> teams = null;
+
     @JsonProperty("participants")
+    @ToString.Exclude
     private List<ParticipantDTO> participants = null;
+
     @JsonProperty("gameDuration")
     private Long gameDuration;
     @JsonProperty("gameCreation")

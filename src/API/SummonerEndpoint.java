@@ -2,8 +2,10 @@ package API;
 
 import API.DTO.SummonerDTO;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class SummonerEndpoint extends Endpoint {
 
@@ -28,17 +30,34 @@ public class SummonerEndpoint extends Endpoint {
             return null;
         }
 
-        return this.send(requestUrl, RequestMethod.GET, SummonerDTO.class);
+        try {
+            EndpointRequest<SummonerDTO> req = this.queueRequest(requestUrl, RequestMethod.GET, SummonerDTO.class);
+            return req.getResponse();
+        } catch (InterruptedException e) {
+            return null;
+        }
     }
 
     public SummonerDTO getSummonerByName(String name) {
+        try {
+            name = URLEncoder.encode(name, StandardCharsets.UTF_8.toString()).replace("+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Log
+            return null;
+        }
+
         URL requestUrl = this.buildUrl(this.getBaseUrl("summoners/by-name") + name);
 
         if (requestUrl == null) {
             return null;
         }
 
-        return this.send(requestUrl, RequestMethod.GET, SummonerDTO.class);
+        try {
+            EndpointRequest<SummonerDTO> req = this.queueRequest(requestUrl, RequestMethod.GET, SummonerDTO.class);
+            return req.getResponse();
+        } catch (InterruptedException e) {
+            return null;
+        }
     }
 
     public SummonerDTO getSummonerByPuuid(String puuid) {
@@ -48,7 +67,12 @@ public class SummonerEndpoint extends Endpoint {
             return null;
         }
 
-        return this.send(requestUrl, RequestMethod.GET, SummonerDTO.class);
+        try {
+            EndpointRequest<SummonerDTO> req = this.queueRequest(requestUrl, RequestMethod.GET, SummonerDTO.class);
+            return req.getResponse();
+        } catch (InterruptedException e) {
+            return null;
+        }
     }
 
     public SummonerDTO getSummonerBySummonerId(String summonerId) {
@@ -58,6 +82,11 @@ public class SummonerEndpoint extends Endpoint {
             return null;
         }
 
-        return this.send(requestUrl, RequestMethod.GET, SummonerDTO.class);
+        try {
+            EndpointRequest<SummonerDTO> req = this.queueRequest(requestUrl, RequestMethod.GET, SummonerDTO.class);
+            return req.getResponse();
+        } catch (InterruptedException e) {
+            return null;
+        }
     }
 }
