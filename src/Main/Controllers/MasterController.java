@@ -86,9 +86,9 @@ public class MasterController {
 
     private void setSummonerInfo(Summoner summoner, String region, SummonerDTO summDTO) {
         summoner.setRegion(region);
-        summoner.setLevel(summDTO.summonerLevel);
-        summoner.setEncryptedId(summDTO.accountId);
-        summoner.setIconId(summDTO.profileIconId);
+        summoner.setLevel(summDTO.getSummonerLevel());
+        summoner.setEncryptedId(summDTO.getAccountId());
+        summoner.setIconId(summDTO.getProfileIconId());
     }
 
     private void initializeMasterController(Stage initialStage, Parent root) {

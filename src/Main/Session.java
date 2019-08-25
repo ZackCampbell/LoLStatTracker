@@ -18,6 +18,10 @@ public class Session {
     private final long TIMER_INTERVAL = 120;
     private final int MAX_ITEMS = 5;
 
+    // TODO: Hook this up
+    private String currentSummoner = "Seer";
+    private String currentRegion = "na1";
+
     private Session() {
          cache = new Cache<String, Summoner>(TIME_TO_LIVE, TIMER_INTERVAL, MAX_ITEMS);
     }
@@ -50,5 +54,13 @@ public class Session {
         }
 
         return cached;
+    }
+
+    public String getCurrentSummoner() {
+        return currentSummoner;
+    }
+
+    public String getCurrentRegion() {
+        return currentRegion;
     }
 }
