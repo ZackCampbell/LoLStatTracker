@@ -44,24 +44,24 @@ public class TeamStatsDTO {
     @JsonProperty("firstBaron")
     private Boolean firstBaron;
     @JsonProperty("baronKills")
-    private Long baronKills;
+    private Integer baronKills;
     @JsonProperty("riftHeraldKills")
-    private Long riftHeraldKills;
+    private Integer riftHeraldKills;
     @JsonProperty("firstBlood")
     private Boolean firstBlood;
     @JsonProperty("teamId")
-    private Long teamId;
+    private Integer teamId;
     @JsonProperty("firstTower")
     private Boolean firstTower;
     @JsonProperty("vilemawKills")
-    private Long vilemawKills;
+    private Integer vilemawKills;
     @JsonProperty("inhibitorKills")
-    private Long inhibitorKills;
+    private Integer inhibitorKills;
     @JsonProperty("towerKills")
-    private Long towerKills;
+    private Integer towerKills;
     @JsonProperty("dominionVictoryScore")
-    private Long dominionVictoryScore;
+    private Integer dominionVictoryScore;
     @JsonProperty("dragonKills")
-    private Long dragonKills;
+    private Integer dragonKills;
 
 }

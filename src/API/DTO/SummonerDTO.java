@@ -13,7 +13,7 @@ import lombok.ToString;
         "puuid",
         "summonerLevel",
         "accountId",
-        "id",
+        "id", // Summoner id
         "revisionDate"
 })
 @Getter

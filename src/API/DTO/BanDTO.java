@@ -17,8 +17,8 @@ import lombok.ToString;
 public class BanDTO {
 
     @JsonProperty("pickTurn")
-    private Long pickTurn;
+    private Integer pickTurn;
     @JsonProperty("championId")
-    private Long championId;
+    private Integer championId;
 
 }
