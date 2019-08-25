@@ -23,19 +23,19 @@ import lombok.ToString;
 public class ParticipantDTO {
 
     @JsonProperty("spell1Id")
-    private Long spell1Id;
+    private Integer spell1Id;
     @JsonProperty("participantId")
-    private Long participantId;
+    private Integer participantId;
     @JsonProperty("timeline")
     private TimelineDTO timeline;
     @JsonProperty("spell2Id")
-    private Long spell2Id;
+    private Integer spell2Id;
     @JsonProperty("teamId")
-    private Long teamId;
+    private Integer teamId;
     @JsonProperty("stats")
     private StatsDTO stats;
     @JsonProperty("championId")
-    private Long championId;
+    private Integer championId;
     @JsonProperty("highestAchievedSeasonTier")
     private String highestAchievedSeasonTier;
 

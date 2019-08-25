@@ -32,7 +32,8 @@ import lombok.ToString;
 @ToString
 public class ChampionDTO {
 
-    private static HashMap<Long, ChampionDTO> championData;
+    private static HashMap<Long, ChampionDTO> championDataById;
+    private static HashMap<String, ChampionDTO> championDataByName;
 
     @JsonProperty("version")
     private String version;
@@ -58,7 +59,8 @@ public class ChampionDTO {
     private ChampionStatsDTO stats;
 
     public static void init() {
-        championData = new HashMap<>();
+        championDataById = new HashMap<>();
+        championDataByName = new HashMap<>();
 
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -70,7 +72,8 @@ public class ChampionDTO {
                 JsonNode champ = it.next();
                 ChampionDTO champDto = mapper.readValue(champ.toString(), ChampionDTO.class);
 
-                championData.put(Long.parseLong(champDto.key), champDto);
+                championDataById.put(Long.parseLong(champDto.key), champDto);
+                championDataByName.put(champDto.name.toLowerCase(), champDto);
             }
         } catch (
                 IOException e) {
@@ -79,6 +82,10 @@ public class ChampionDTO {
     }
 
     public static ChampionDTO getById(long id) {
-        return championData.get(id);
+        return championDataById.get(id);
+    }
+
+    public static ChampionDTO getByName(String name) {
+        return championDataByName.get(name.toLowerCase());
     }
 }

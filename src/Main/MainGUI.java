@@ -1,12 +1,10 @@
 package Main;
 
 import API.DTO.*;
-import API.MatchEndpoint;
-import API.RiotAPIHandler;
-import API.SummonerEndpoint;
 import GameElements.Summoner;
 import MVC.Controllers.MasterController;
 import Utils.Utils;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,6 +26,8 @@ public class MainGUI extends Application {
 
         Utils.initRegionCodes();
         ChampionDTO.init();
+        RuneTreeDTO.init();
+        ItemDTO.init();
 
         if (guiEnabled.equals("false")) {
             startWithoutGUI();
@@ -39,21 +39,8 @@ public class MainGUI extends Application {
     public static void startWithoutGUI() {
         System.out.println("Started without GUI");
 
-        RiotAPIHandler apiHandler = new RiotAPIHandler();
-        SummonerEndpoint se = new SummonerEndpoint("na1", apiHandler.getApi_key());
-        MatchEndpoint me = new MatchEndpoint("na1", apiHandler.getApi_key());
-
-        // Simple endpoint test
-        SummonerDTO s = se.getSummonerByName("Seer");
-
-        if (s != null) {
-            MatchListDTO ml = me.getMatchListByAccountId(s.getAccountId());
-            MatchReferenceDTO ref = ml.getMatches().get(0);
-            MatchTimelineDTO timeline = me.getMatchTimelinesById(ref.getGameId());
-            ChampionDTO champ = ChampionDTO.getById(ref.getChampion());
-
-            System.out.println(champ);
-        }
+//        Set<Long> matches = MatchScraper.getMatchesFromTopOfLadderForPatch("na1", new String[]{"9.16"}, Match.PatchMatchMode.MINOR_VERSION);
+//        System.out.println("Found: " + matches.size() + " matches.");
 
         System.exit(0);
     }
