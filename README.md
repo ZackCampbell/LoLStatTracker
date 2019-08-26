@@ -27,7 +27,7 @@ de.jensd:fontawesomefx-commons:9.1.2
 de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2
 org.apache.commons:commons-collections4:4.0
 org.projectlombok:lombok:1.18.6
-org.mongodb:mongodb-driver-sync:3.10.2
+dev.morphia.morphia:core:1.5.3
 ```
 
 For Lombok to work, enable `Annotation Preprocessors` in your Build preferences. Also, install the Lombok plugin (otherwise IntelliJ will complain about some code).
