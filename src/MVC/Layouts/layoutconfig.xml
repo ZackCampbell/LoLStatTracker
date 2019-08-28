@@ -3,7 +3,7 @@
 <files>
     <file>
         <name>default1</name>
-        <mostrecent>true</mostrecent>
+        <mostrecent>false</mostrecent>
     </file>
     <file>
         <name>default2</name>

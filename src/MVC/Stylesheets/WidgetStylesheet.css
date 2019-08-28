@@ -1,0 +1,11 @@
+.widget {
+    -fx-background-color: #303138;
+    -fx-border-color: lightblue;
+    -fx-border-width: 2px;
+}
+
+.dummy-widget {
+    -fx-background-color: #303138;
+    -fx-border-color: lightgreen;
+    -fx-border-width: 2px;
+}

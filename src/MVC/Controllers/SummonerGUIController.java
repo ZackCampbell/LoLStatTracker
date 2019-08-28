@@ -14,10 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -59,14 +63,14 @@ public class SummonerGUIController extends MasterController implements Initializ
     private static Popup popup = new Popup();
     private Accordion menuAccordion;
     private boolean editEnabled = false;
-    private Label saveButton = new Label();
     private static final Color FILL_COLOR = Color.web("#DDB905");
     private GridPane summonerGrid;
     private final int numRows = 8;
     private final int numCols = 11;
-    private Layout currentLayout = new Layout(numRows, numCols);
+    private Layout currentLayout;
     private Layout prevLayout;
     private boolean isMaximized = false;
+    private MenuButton saveMenu = new MenuButton();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -92,26 +96,25 @@ public class SummonerGUIController extends MasterController implements Initializ
         iconView.setGlyphName("SAVE");
         iconView.setFill(FILL_COLOR);
         iconView.setSize("18");
-        saveButton.setTextAlignment(TextAlignment.CENTER);
-        saveButton.setAlignment(Pos.CENTER);
-        saveButton.setLayoutY(80);
-        saveButton.setPrefWidth(40);
-        saveButton.setPrefHeight(40);
-        saveButton.setGraphic(iconView);
-        saveButton.setOnMouseClicked(this::save);
+        saveMenu.setPopupSide(Side.RIGHT);
+        saveMenu.setTextAlignment(TextAlignment.CENTER);
+        saveMenu.setAlignment(Pos.CENTER);
+        saveMenu.setLayoutY(80);
+        saveMenu.setPrefHeight(40);
+        saveMenu.setPrefWidth(40);
+        saveMenu.setGraphic(iconView);
+        saveMenu.setText("");
+
+        MenuItem overwriteSave = new MenuItem("Save");
+        overwriteSave.setOnAction(event -> overwriteSave());
+
+        MenuItem saveAs = new MenuItem("Save As");
+        saveAs.setOnAction(event -> saveAs());
+        saveMenu.getItems().addAll(overwriteSave, saveAs);
     }
 
-    /**
-     * User hit the save button to save their tile layout
-     *
-     * @param event occurs when the save button is pressed
-     */
-    @FXML
-    private void save(MouseEvent event) {
+    private void save() {
         editEnabled = false;
-        // TODO: Show a new menu for save or save as (save will overwrite the current layout)
-        // TODO: Save as will pop up a new window for creating a new layout or overwriting an exiting layout
-
         for (Widget widget : standardWidgets) {
             widget.setEditEnabled(false);
         }
@@ -122,13 +125,30 @@ public class SummonerGUIController extends MasterController implements Initializ
             widget.setEditEnabled(false);
         }
 
-        // TODO: Move the code below to happen on the new save buttons
-        String layoutName = "<placeholder>";        // TODO: Fill with the real layout name that the user inputs
-        content.getChildren().remove(saveButton);
+    }
 
-//        Layout newLayout = Layout.createLayout(gridAnchorPane, numRows, numCols);
-//        newLayout.saveLayout(layoutName);
-//        currentLayout = newLayout;
+    private void overwriteSave() {
+        saveMenu.hide();
+        save();
+        content.getChildren().remove(saveMenu);
+        Layout newLayout = Layout.createLayout(currentLayout.getLayoutName(), selectedWidgets, numRows, numCols);
+        newLayout.saveLayout(currentLayout.getLayoutName());
+        currentLayout = newLayout;
+    }
+
+    private void saveAs() {
+        // TODO: Load the save as popup with menu for selecting which to overwrite or the option to create an entirely new layout
+        saveMenu.hide();
+
+    }
+
+    private void saveAsNewLayout(MouseEvent event) {
+        String layoutName = "<placeholder>";        // TODO: Fill with the real layout name that the user inputs
+        save();
+        content.getChildren().remove(saveMenu);
+        Layout newLayout = Layout.createLayout(layoutName, selectedWidgets, numRows, numCols);
+        newLayout.saveLayout(layoutName);
+        currentLayout = newLayout;
     }
 
     // ----------------------- Popup Functions -----------------------------
@@ -137,22 +157,12 @@ public class SummonerGUIController extends MasterController implements Initializ
         return popup;
     }
 
-    /**
-     * Displays bug report popup
-     *
-     * @param event
-     */
     @FXML
     private void getBug(MouseEvent event) throws IOException {
         AnchorPane bugPane = FXMLLoader.load(getClass().getResource("../Views/BugReportPopUp.fxml"));
         initPopup(bugPane);
     }
 
-    /**
-     * Displays the feedback popup
-     *
-     * @param event
-     */
     @FXML
     private void getFeedback(MouseEvent event) throws IOException {
         AnchorPane feedbackPane = FXMLLoader.load(getClass().getResource("../Views/FeedbackPopUp.fxml"));
@@ -189,55 +199,27 @@ public class SummonerGUIController extends MasterController implements Initializ
     @FXML
     private void editLayout(MouseEvent event) {
         if (!editEnabled) {
-            content.getChildren().add(saveButton);
+            content.getChildren().add(saveMenu);
             editEnabled = true;
+            prevLayout = currentLayout;
         } else {
-            content.getChildren().remove(saveButton);
+            content.getChildren().remove(saveMenu);
             editEnabled = false;
+            currentLayout = prevLayout;
+            updateGridPane();
         }
         for (Widget widget : selectedWidgets) {
             widget.setEditEnabled(true);
         }
 
-        prevLayout = currentLayout;
-        // TODO: Save the current layout and set the grid + the widgets in the grid to edit mode
+        // TODO: Set the grid + the widgets in the grid to edit mode
     }
 
-    // ----------------------- Layout Functions ---------------------------
-    // TODO: Create layout txt files for the default layouts
-
-    private Layout getSavedLayout() {
-        try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document document = docBuilder.parse(new File("src/MVC/Layouts/layoutconfig.xml"));
-
-            String fileName = getLayoutFileName(document);
-
-            FileInputStream fileInputStream = new FileInputStream(new File("../Layouts/" + fileName + ".txt"));
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            currentLayout = (Layout)objectInputStream.readObject();
-            objectInputStream.close();
-            fileInputStream.close();
-        } catch (Exception e) {
-            System.out.println("Unable to find the layout file");
-//            e.printStackTrace();
-        }
-        return currentLayout;
-    }
-
-    private String getLayoutFileName(Document document) {
-        NodeList nodeList = document.getElementsByTagName("file");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            org.w3c.dom.Node currentNode = nodeList.item(i);
-            if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-                Element fileElement = (Element)currentNode;
-                if (fileElement.getElementsByTagName("mostrecent").item(0).getTextContent().equals("true")) {
-                    return fileElement.getElementsByTagName("name").item(0).getTextContent();
-                }
-            }
-        }
-        return document.getElementsByTagName("file").item(0).getTextContent();         // Return the first default layout if it doesn't find a "true" value
+    private void updateGridPane() {
+        if (!gridAnchorPane.getChildren().isEmpty())
+            gridAnchorPane.getChildren().remove(0);
+        summonerGrid = currentLayout.loadOntoGridpane(new GridPane(), gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
+        gridAnchorPane.getChildren().add(summonerGrid);
     }
 
     // ------------------ Menu Functions -----------------------------
@@ -324,7 +306,6 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     // ------------------ Widget Functions ---------------------------
 
-    // TODO: Actually update the grid to show the changes - Might have to create new gridpanes...
     private boolean addWidget(Widget widget) {
         Point coords;
         try {
@@ -338,14 +319,10 @@ public class SummonerGUIController extends MasterController implements Initializ
         widget.setColIndex(coords.y);
         selectedWidgets.add(widget);
         currentLayout.addWidget(widget);
-        if (!gridAnchorPane.getChildren().isEmpty())
-            gridAnchorPane.getChildren().remove(0);
-        summonerGrid = currentLayout.loadOntoGridpane(new GridPane(), gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
-        gridAnchorPane.getChildren().add(summonerGrid);
+        updateGridPane();
         return true;
     }
 
-    // TODO: Actually update the grid to show the changes using the layout
     private void removeWidget(Widget widget) {
         widget.setVisible(false);
         if (selectedWidgets.contains(widget))
@@ -369,17 +346,12 @@ public class SummonerGUIController extends MasterController implements Initializ
     // ------------------ Grid Functions -----------------------------
 
     private void initGridPane() {
-        currentLayout = getSavedLayout();
+        currentLayout = Layout.getSavedLayout();
         summonerGrid = new GridPane();
+        if (!gridAnchorPane.getChildren().isEmpty())
+            gridAnchorPane.getChildren().remove(0);
         currentLayout.loadOntoGridpane(summonerGrid, gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
-    }
-
-    private void addToGridPane(Widget widget) {
-
-    }
-
-    private void removeFromGridPane(Widget widget) {
-
+        gridAnchorPane.getChildren().add(summonerGrid);
     }
 
     // ------------------- Stage Functions (Superclass) ---------------------------

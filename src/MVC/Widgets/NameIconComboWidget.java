@@ -9,6 +9,8 @@ public class NameIconComboWidget extends Widget {
         setType();
         setRowSpan();
         setColSpan();
+        this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
+        this.getPane().getStyleClass().add("widget");
     }
 
     @Override

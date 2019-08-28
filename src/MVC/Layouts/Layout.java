@@ -21,25 +21,23 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Layout {
 
     private int numWidgets = 0;
+    private String layoutName;
     private LinkedList<Widget> widgets = new LinkedList<>();
     private int numCols;
     private int numRows;
 
-    public Layout(int numRows, int numCols) {
+    public Layout(String name, int numRows, int numCols) {
         this.numRows = numRows;
         this.numCols = numCols;
+        this.layoutName = name;
     }
-
 
     public void addWidget(Widget widget) {
         if (!widgets.contains(widget)) {
@@ -57,9 +55,13 @@ public class Layout {
         return false;               // Unsuccessful
     }
 
-    public static Layout createLayout(AnchorPane gridAnchorPane, int numRows, int numCols) {
-        Layout layout = new Layout(numRows, numCols);
-        // TODO: Create a new layout and add all the widgets to it correctly from the grid in the gridAnchorPane
+    public static Layout createLayout(String name, ArrayList<Widget> selectedWidgets, int numRows, int numCols) {
+        Layout layout = new Layout(name, numRows, numCols);
+
+        for (Widget widget : selectedWidgets) {
+            layout.addWidget(widget);
+        }
+
         return layout;
     }
 
@@ -176,7 +178,8 @@ public class Layout {
                     }
                     if (coords != null && coords.x == i && coords.y == j) {
                         Pane pane = new Pane();
-                        pane.getStyleClass().add("empty-grid-cell");
+                        pane.getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
+                        pane.getStyleClass().add("dummy-widget");
                         gridPane.add(pane, i, j);
                         addedWidgets.add(new DummyWidget(coords.x, coords.y));
                     }
@@ -202,4 +205,47 @@ public class Layout {
         return result;
     }
 
+    public static Layout getSavedLayout() {
+        String fileName = null;
+        Layout layout = null;
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse("src/MVC/Layouts/layoutconfig.xml");
+
+            // Find the most recent layout to get from the xml
+            NodeList nodeList = doc.getElementsByTagName("file");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                org.w3c.dom.Node currentNode = nodeList.item(i);
+                if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                    Element fileElement = (Element)currentNode;
+
+                    if (fileElement.getElementsByTagName("mostrecent").item(0).getTextContent().equals("true")) {
+                        fileName = fileElement.getElementsByTagName("name").item(0).getTextContent();
+                    }
+                }
+            }
+            if (fileName == null) {                 // Couldn't find the most recent layout
+                System.out.println("Could not find most recent file.");
+                return new Layout("UnknownLayout", 8, 11);
+            }
+
+            // Load the most recent layout into an object
+            FileInputStream fileInputStream = new FileInputStream(new File(fileName + ".txt"));
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            layout = (Layout)objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+
+        } catch (Exception e) {}
+        return layout;
+    }
+
+    public String getLayoutName() {
+        return this.layoutName;
+    }
+
+    public void setLayoutName(String layoutName) {
+        this.layoutName = layoutName;
+    }
 }
