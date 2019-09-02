@@ -100,14 +100,4 @@ public abstract class Widget {
     public int getColSpan() {
         return this.colSpan;
     }
-
-    public void exit() {
-
-        // TODO: Destroy the current widget and remove it from the layout
-
-    }
-
-
-
-
 }

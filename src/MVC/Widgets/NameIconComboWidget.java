@@ -1,7 +1,5 @@
 package MVC.Widgets;
 
-import MVC.Widgets.Widget;
-
 public class NameIconComboWidget extends Widget {
 
     public NameIconComboWidget() {

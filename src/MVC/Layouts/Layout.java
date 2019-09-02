@@ -23,7 +23,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Layout {
+public class Layout implements Serializable {
 
     private int numWidgets = 0;
     private String layoutName;
@@ -77,7 +77,7 @@ public class Layout {
             System.out.println("Cannot delete a default layout");
             return false;
         }
-        File file = new File(fileName + ".txt");
+        File file = new File("src/MVC/Layouts/" + fileName + ".txt");
         if (file.delete())  {
             System.out.println("Layout " + fileName + " deleted successfully");
             return true;
@@ -88,7 +88,7 @@ public class Layout {
     }
 
     public void saveLayout(String fileName) {
-        File file = new File(fileName + ".txt");
+        File file = new File("src/MVC/Layouts/" + fileName + ".txt");
 
         boolean overwritten = false;
         if (file.exists()) {        // Overwrite it
@@ -149,7 +149,7 @@ public class Layout {
             } catch (Exception e) {
                 System.out.println("Failed to update the xml file with layout data");
             }
-
+            System.out.println("Saved layout \"" + fileName + "\" successfully");
         }
     }
 

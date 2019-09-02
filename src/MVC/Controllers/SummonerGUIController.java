@@ -89,6 +89,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         iconView.setGlyphName("SAVE");
         iconView.setFill(FILL_COLOR);
         iconView.setSize("18");
+
         saveMenu.setPopupSide(Side.RIGHT);
         saveMenu.setTextAlignment(TextAlignment.CENTER);
         saveMenu.setAlignment(Pos.CENTER);
@@ -127,6 +128,8 @@ public class SummonerGUIController extends MasterController implements Initializ
         Layout newLayout = Layout.createLayout(currentLayout.getLayoutName(), selectedWidgets, numRows, numCols);
         newLayout.saveLayout(currentLayout.getLayoutName());
         currentLayout = newLayout;
+        editEnabled = false;
+        updateGridPane(false);
     }
 
     private void saveAs() {
@@ -142,6 +145,8 @@ public class SummonerGUIController extends MasterController implements Initializ
         Layout newLayout = Layout.createLayout(layoutName, selectedWidgets, numRows, numCols);
         newLayout.saveLayout(layoutName);
         currentLayout = newLayout;
+        editEnabled = false;
+        updateGridPane(false);
     }
 
     // ----------------------- Popup Functions -----------------------------
