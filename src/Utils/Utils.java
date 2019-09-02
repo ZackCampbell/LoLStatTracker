@@ -74,11 +74,9 @@ public class Utils {
         }
     }
 
-    public static Point getNextGridCoords(GridPane gridPane, ArrayList<Widget> widgetList, int rowSpan, int colSpan) throws WidgetException {
-        ArrayList<Point> coords = new ArrayList<>();
+    public static Point getNextGridCoords(GridPane gridPane, ArrayList<Widget> widgetList, int rowSpan, int colSpan) {
         ArrayList<Pair<Point, Point>> lines = new ArrayList<>();
         for (Widget widget : widgetList) {
-            coords.add(new Point(widget.getRowIndex(), widget.getColIndex()));
 
             /* Key for adding the lines below
              * 0-------------0
@@ -98,13 +96,9 @@ public class Utils {
                     new Point(widget.getRowIndex() + widget.getRowSpan() - 1, widget.getColIndex() + widget.getColSpan() - 1)));   // 4
 
         }
-        for (int i = 0; i < gridPane.getRowCount(); i++) {
-            for (int j = 0; j < gridPane.getColumnCount(); j++) {
+        for (int i = 0; i < gridPane.getColumnCount(); i++) {
+            for (int j = 0; j < gridPane.getRowCount(); j++) {
                 Point homeIndex = new Point(i, j);
-                if (coords.contains(homeIndex))
-                    continue;
-                if (rowSpan == 1 && colSpan == 1)
-                    return homeIndex;
                 Pair<Point, Point> line1 = new Pair<>(homeIndex, new Point(i + rowSpan - 1, j));
                 Pair<Point, Point> line2 = new Pair<>(homeIndex, new Point(i, j + colSpan - 1));
                 Pair<Point, Point> line3 = new Pair<>(new Point(i, j + colSpan - 1), new Point(i + rowSpan - 1, j + colSpan - 1));
@@ -124,7 +118,8 @@ public class Utils {
                 }
             }
         }
-        throw new WidgetException("No space available for new widget with row span: " + rowSpan + " and colspan: " + colSpan);
+        System.out.println("No space available for new widget with row span: " + rowSpan + " and colspan: " + colSpan);
+        return null;
     }
 
     // Given three colinear points p, q, r, the function checks if

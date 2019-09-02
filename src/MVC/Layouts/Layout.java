@@ -6,12 +6,10 @@ import MVC.Widgets.WidgetException;
 import Utils.Utils;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -30,6 +28,7 @@ public class Layout {
     private int numWidgets = 0;
     private String layoutName;
     private LinkedList<Widget> widgets = new LinkedList<>();
+    private ArrayList<Widget> dummyWidgets = new ArrayList<>();
     private int numCols;
     private int numRows;
 
@@ -155,7 +154,7 @@ public class Layout {
     }
 
     // @params Input a new gridpane and the width and height of the parent
-    public GridPane loadOntoGridpane(GridPane gridPane, double width, double height) {
+    public GridPane loadOntoGridpane(GridPane gridPane, double width, double height, boolean editEnabled) {
         ArrayList<Widget> addedWidgets = new ArrayList<>();
         gridPane.setHgap(5);
         gridPane.setVgap(5);
@@ -163,41 +162,47 @@ public class Layout {
         Utils.addGridConstraints(gridPane, numRows, numCols);
 
         for (Widget widget : widgets) {
+            if (editEnabled) {
+                widget.setEditEnabled(true);
+            } else {
+                widget.setEditEnabled(false);
+            }
             gridPane.add(widget.getPane(), widget.getRowIndex(), widget.getColIndex(), widget.getRowSpan(), widget.getColSpan());
             addedWidgets.add(widget);
         }
 
-        for (int i = 0; i < numCols; i++) {
-            for (int j = 0; j < numRows; j++) {
-                if (getNodeByRowColumnIndex(i, j, gridPane) == null) {
-                    Point coords = null;
-                    try {
-                        coords = Utils.getNextGridCoords(gridPane, addedWidgets, 1, 1);
-                    } catch (WidgetException e) {
-                        System.out.println("Cannot add a widget of that size to the grid");
-                    }
-                    if (coords != null && coords.x == i && coords.y == j) {
-                        Pane pane = new Pane();
-                        pane.getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
-                        pane.getStyleClass().add("dummy-widget");
-                        gridPane.add(pane, i, j);
-                        addedWidgets.add(new DummyWidget(coords.x, coords.y));
+        dummyWidgets.clear();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (getWidgetByRowColumnIndex(i, j, addedWidgets) == null) {
+                    Point coords = Utils.getNextGridCoords(gridPane, addedWidgets, 1, 1);
+                    if (coords != null) {
+                        DummyWidget dummyWidget = new DummyWidget(coords.x, coords.y);
+                        if (editEnabled) {
+                            dummyWidget.setEditEnabled(true);
+                        } else {
+                            dummyWidget.setEditEnabled(false);
+                        }
+                        addedWidgets.add(dummyWidget);
+                        dummyWidgets.add(dummyWidget);
+                        gridPane.add(dummyWidget.getPane(), coords.x, coords.y, dummyWidget.getRowSpan(), dummyWidget.getColSpan());
                     }
                 }
 
             }
         }
-
+        addedWidgets.clear();
         return gridPane;
     }
 
-    private Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
+    private Widget getWidgetByRowColumnIndex (int row, int column, ArrayList<Widget> widgetList) {
+        Widget result = null;
+        if (widgetList.isEmpty())
+            return null;
 
-        for (Node node : childrens) {
-            if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                result = node;
+        for (Widget widget : widgetList) {
+            if(widget.getRowIndex() == row && widget.getColIndex() == column) {
+                result = widget;
                 break;
             }
         }
@@ -227,7 +232,7 @@ public class Layout {
             }
             if (fileName == null) {                 // Couldn't find the most recent layout
                 System.out.println("Could not find most recent file.");
-                return new Layout("UnknownLayout", 8, 11);
+                return new Layout("UnknownLayout", 11, 8);
             }
 
             // Load the most recent layout into an object
@@ -239,6 +244,10 @@ public class Layout {
 
         } catch (Exception e) {}
         return layout;
+    }
+
+    public ArrayList<Widget> getDummyWidgets() {
+        return this.dummyWidgets;
     }
 
     public String getLayoutName() {

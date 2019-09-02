@@ -10,7 +10,7 @@ public class NameIconComboWidget extends Widget {
         setRowSpan();
         setColSpan();
         this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
-        this.getPane().getStyleClass().add("widget");
+        this.getPane().getStyleClass().addAll("widget", "widget-edit-disabled");
     }
 
     @Override
@@ -27,11 +27,11 @@ public class NameIconComboWidget extends Widget {
 
     @Override
     void setRowSpan() {
-        this.rowSpan = 2;
+        this.rowSpan = 1;
     }
 
     @Override
     void setColSpan() {
-        this.colSpan = 1;
+        this.colSpan = 2;
     }
 }

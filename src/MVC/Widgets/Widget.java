@@ -14,7 +14,7 @@ public abstract class Widget {
     private boolean draggable;
     private boolean editEnabled;
     private boolean visible;
-    AnchorPane root = new AnchorPane();
+    private AnchorPane root = new AnchorPane();
     WIDGET_TYPE type;        // Standard or Custom
 
     public enum WIDGET_TYPE {
@@ -64,6 +64,13 @@ public abstract class Widget {
 
     public void setEditEnabled(boolean enabled) {
         this.editEnabled = enabled;
+        if (enabled) {
+            this.getPane().getStyleClass().removeAll("widget-edit-disabled");
+            this.getPane().getStyleClass().addAll("widget-edit-enabled");
+        } else {
+            this.getPane().getStyleClass().removeAll("widget-edit-enabled");
+            this.getPane().getStyleClass().addAll("widget-edit-disabled");
+        }
     }
 
     public AnchorPane getPane() {

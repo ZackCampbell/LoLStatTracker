@@ -19,8 +19,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -28,11 +26,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Window;
-import javafx.util.Pair;
-import org.w3c.dom.*;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
@@ -65,8 +58,8 @@ public class SummonerGUIController extends MasterController implements Initializ
     private boolean editEnabled = false;
     private static final Color FILL_COLOR = Color.web("#DDB905");
     private GridPane summonerGrid;
-    private final int numRows = 8;
-    private final int numCols = 11;
+    private final int numRows = 11;
+    private final int numCols = 8;
     private Layout currentLayout;
     private Layout prevLayout;
     private boolean isMaximized = false;
@@ -198,27 +191,26 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     @FXML
     private void editLayout(MouseEvent event) {
-        if (!editEnabled) {
+        if (!editEnabled) {                         // Set everything to edit mode
             content.getChildren().add(saveMenu);
             editEnabled = true;
             prevLayout = currentLayout;
-        } else {
+            updateGridPane(true);
+        } else {                                    // Set everything to static mode
             content.getChildren().remove(saveMenu);
             editEnabled = false;
             currentLayout = prevLayout;
-            updateGridPane();
+            updateGridPane(false);
         }
-        for (Widget widget : selectedWidgets) {
-            widget.setEditEnabled(true);
-        }
+
 
         // TODO: Set the grid + the widgets in the grid to edit mode
     }
 
-    private void updateGridPane() {
+    private void updateGridPane(boolean edit) {
         if (!gridAnchorPane.getChildren().isEmpty())
             gridAnchorPane.getChildren().remove(0);
-        summonerGrid = currentLayout.loadOntoGridpane(new GridPane(), gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
+        summonerGrid = currentLayout.loadOntoGridpane(new GridPane(), gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight(), edit);
         gridAnchorPane.getChildren().add(summonerGrid);
     }
 
@@ -307,10 +299,8 @@ public class SummonerGUIController extends MasterController implements Initializ
     // ------------------ Widget Functions ---------------------------
 
     private boolean addWidget(Widget widget) {
-        Point coords;
-        try {
-            coords = getNextGridCoords(summonerGrid, selectedWidgets, widget.getRowSpan(), widget.getColSpan());
-        } catch (WidgetException e) {
+        Point coords = getNextGridCoords(summonerGrid, selectedWidgets, widget.getRowSpan(), widget.getColSpan());
+        if (coords == null) {
             System.out.println("Cannot add a widget of that size to the grid");
             return false;
         }
@@ -319,7 +309,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         widget.setColIndex(coords.y);
         selectedWidgets.add(widget);
         currentLayout.addWidget(widget);
-        updateGridPane();
+        updateGridPane(false);
         return true;
     }
 
@@ -328,9 +318,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         if (selectedWidgets.contains(widget))
             selectedWidgets.remove(widget);
         currentLayout.removeWidget(widget);
-        gridAnchorPane.getChildren().remove(0);
-        summonerGrid = currentLayout.loadOntoGridpane(new GridPane(), gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
-        gridAnchorPane.getChildren().add(summonerGrid);
+        updateGridPane(false);
     }
 
     private void createStandardWidgets() {
@@ -348,10 +336,7 @@ public class SummonerGUIController extends MasterController implements Initializ
     private void initGridPane() {
         currentLayout = Layout.getSavedLayout();
         summonerGrid = new GridPane();
-        if (!gridAnchorPane.getChildren().isEmpty())
-            gridAnchorPane.getChildren().remove(0);
-        currentLayout.loadOntoGridpane(summonerGrid, gridAnchorPane.getPrefWidth(), gridAnchorPane.getPrefHeight());
-        gridAnchorPane.getChildren().add(summonerGrid);
+        updateGridPane(false);
     }
 
     // ------------------- Stage Functions (Superclass) ---------------------------
