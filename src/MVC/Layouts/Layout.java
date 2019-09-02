@@ -11,10 +11,13 @@ import javafx.scene.layout.Pane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -32,7 +35,7 @@ public class Layout implements Serializable {
     private int numCols;
     private int numRows;
 
-    public Layout(String name, int numRows, int numCols) {
+    private Layout(String name, int numRows, int numCols) {
         this.numRows = numRows;
         this.numCols = numCols;
         this.layoutName = name;
@@ -45,13 +48,13 @@ public class Layout implements Serializable {
         }
     }
 
-    public boolean removeWidget(Widget widget) {
+    public void removeWidget(Widget widget) {
         if (widgets.contains(widget)) {
             numWidgets--;
             widgets.remove(widget);
-            return true;
+        } else {
+            System.out.println("Unable to remove widget: " + widget.getName());
         }
-        return false;               // Unsuccessful
     }
 
     public static Layout createLayout(String name, ArrayList<Widget> selectedWidgets, int numRows, int numCols) {
@@ -72,28 +75,58 @@ public class Layout implements Serializable {
         throw new WidgetException("Widget with name: " + widgetName + " not found in current layout");
     }
 
-    public static boolean deleteLayout(String fileName) {
+    public static void deleteLayout(String fileName) {
         if (fileName.equals("Default1") || fileName.equals("Default2") || fileName.equals("Default3")) {
             System.out.println("Cannot delete a default layout");
-            return false;
+            return;
         }
         File file = new File("src/MVC/Layouts/" + fileName + ".txt");
         if (file.delete())  {
+            try {
+                // Update the xml config file
+                Document doc = getXMLDocument();
+                NodeList nodeList = doc.getElementsByTagName("file");
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    org.w3c.dom.Node currentNode = nodeList.item(i);
+                    if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                        Element fileElement = (Element)currentNode;
+                        if (fileElement.getElementsByTagName("name").item(0).getTextContent().equals(fileName)) {
+                            doc.removeChild(fileElement);
+                            break;
+                        }
+                    }
+                }
+                toXML(doc);
+            } catch (Exception e) {
+                System.out.println("Layout Config file corrupted after successful file deletion");
+                return;
+            }
+
             System.out.println("Layout " + fileName + " deleted successfully");
-            return true;
         } else {
             System.out.println("Failed to delete layout: " + fileName);
-            return false;
         }
+    }
+
+    private static Document getXMLDocument() throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        return docBuilder.parse("src/MVC/Layouts/layoutconfig.xml");
+    }
+
+    private static void toXML(Document doc) throws TransformerException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File("src/MVC/Layouts/layoutconfig.xml"));
+        transformer.transform(source, result);
     }
 
     public void saveLayout(String fileName) {
         File file = new File("src/MVC/Layouts/" + fileName + ".txt");
 
-        boolean overwritten = false;
         if (file.exists()) {        // Overwrite it
-            overwritten = deleteLayout(fileName);
-
+            deleteLayout(fileName);
         }
 
         boolean success = true;
@@ -111,21 +144,8 @@ public class Layout implements Serializable {
         // Update the xml file to mark which layout is the most recently used
         if (success) {
             try {
-                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-                Document doc = docBuilder.parse("src/MVC/Layouts/layoutconfig.xml");
-
-                if (!overwritten) {
-                    Element newFile = doc.createElement("file");
-                    Element name = doc.createElement("name");
-                    name.appendChild(doc.createTextNode(fileName));
-                    Element mostRecent = doc.createElement("mostrecent");
-                    mostRecent.appendChild(doc.createTextNode("true"));
-                    newFile.appendChild(name);
-                    newFile.appendChild(mostRecent);
-                    org.w3c.dom.Node files = doc.getElementsByTagName("files").item(0);
-                    files.appendChild(newFile);
-                }
+                Document doc = getXMLDocument();
+                addFileToDocument(fileName, doc);
 
                 NodeList nodeList = doc.getElementsByTagName("file");
                 for (int i = 0; i < nodeList.getLength(); i++) {
@@ -140,17 +160,24 @@ public class Layout implements Serializable {
                         }
                     }
                 }
-
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File("src/MVC/Layouts/layoutconfig.xml"));
-                transformer.transform(source, result);
+                toXML(doc);
             } catch (Exception e) {
                 System.out.println("Failed to update the xml file with layout data");
             }
             System.out.println("Saved layout \"" + fileName + "\" successfully");
         }
+    }
+
+    private void addFileToDocument(String fileName, Document doc) {
+        Element newFile = doc.createElement("file");
+        Element name = doc.createElement("name");
+        name.appendChild(doc.createTextNode(fileName));
+        Element mostRecent = doc.createElement("mostrecent");
+        mostRecent.appendChild(doc.createTextNode("true"));
+        newFile.appendChild(name);
+        newFile.appendChild(mostRecent);
+        org.w3c.dom.Node files = doc.getElementsByTagName("files").item(0);
+        files.appendChild(newFile);
     }
 
     // @params Input a new gridpane and the width and height of the parent
@@ -214,9 +241,7 @@ public class Layout implements Serializable {
         String fileName = null;
         Layout layout = null;
         try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse("src/MVC/Layouts/layoutconfig.xml");
+            Document doc = getXMLDocument();
 
             // Find the most recent layout to get from the xml
             NodeList nodeList = doc.getElementsByTagName("file");

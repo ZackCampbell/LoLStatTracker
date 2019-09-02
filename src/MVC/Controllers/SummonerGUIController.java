@@ -138,7 +138,7 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     }
 
-    private void saveAsNewLayout(MouseEvent event) {
+    private void saveAsNewLayout() {
         String layoutName = "<placeholder>";        // TODO: Fill with the real layout name that the user inputs
         save();
         content.getChildren().remove(saveMenu);
@@ -147,6 +147,11 @@ public class SummonerGUIController extends MasterController implements Initializ
         currentLayout = newLayout;
         editEnabled = false;
         updateGridPane(false);
+    }
+
+    private void deleteExistingLayout() {
+        String layoutName = "<placeholder>";        // TODO: Fill with the real layout name associated with the selected layout
+        Layout.deleteLayout(layoutName);
     }
 
     // ----------------------- Popup Functions -----------------------------
@@ -314,7 +319,12 @@ public class SummonerGUIController extends MasterController implements Initializ
         widget.setColIndex(coords.y);
         selectedWidgets.add(widget);
         currentLayout.addWidget(widget);
-        updateGridPane(false);
+        if (editEnabled) {
+            widget.setEditEnabled(true);
+            updateGridPane(true);
+        } else {
+            updateGridPane(false);
+        }
         return true;
     }
 
@@ -323,7 +333,12 @@ public class SummonerGUIController extends MasterController implements Initializ
         if (selectedWidgets.contains(widget))
             selectedWidgets.remove(widget);
         currentLayout.removeWidget(widget);
-        updateGridPane(false);
+        if (editEnabled) {
+            updateGridPane(true);
+        } else {
+            updateGridPane(false);
+        }
+
     }
 
     private void createStandardWidgets() {
