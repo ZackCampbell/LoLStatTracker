@@ -11,6 +11,8 @@ import javafx.scene.text.TextAlignment;
 
 import java.util.List;
 
+import Utils.Utils;
+
 public class ItemBuildsWidget extends Widget {
 
     private FlowPane flowPane = new FlowPane();
@@ -33,7 +35,7 @@ public class ItemBuildsWidget extends Widget {
             Pane itemPane = new Pane();
             Label itemLabel = new Label();
             itemLabel.setText("");
-            itemLabel.setGraphic(new ImageView("../../../../lib/DataDragon/" + DatabaseManager.latestDDVersion + "/img/item/" + item.getImage().getFull()));
+            itemLabel.setGraphic(new ImageView(Utils.getRelativePath() + "/lib/DataDragon/" + DatabaseManager.latestDDVersion + "/img/item/" + item.getImage().getFull()));
             itemLabel.setTextAlignment(TextAlignment.CENTER);
             itemLabel.setAlignment(Pos.CENTER);
             itemPane.getChildren().add(itemLabel);
