@@ -1,5 +1,6 @@
 package MVC.Controllers;
 
+import API.DTO.ItemDTO;
 import MVC.Layouts.Layout;
 import MVC.Widgets.*;
 import MVC.Widgets.NameIconComboWidget;
@@ -345,6 +346,7 @@ public class SummonerGUIController extends MasterController implements Initializ
         standardWidgets.add(new NameWidget());
         standardWidgets.add(new SummIconWidget());
         standardWidgets.add(new NameIconComboWidget());
+        standardWidgets.add(new ItemBuildsWidget(null));            // TODO: Update with actual list of items from the backend
     }
 
     private void createCustomWidgets() {
@@ -355,6 +357,9 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     private void initGridPane() {
         currentLayout = Layout.getSavedLayout();
+        selectedWidgets.clear();
+        selectedWidgets.addAll(currentLayout.getWidgets());
+        // TODO: Update the menu listview to show new widgets that have been added or removed from the selected widgets
         summonerGrid = new GridPane();
         updateGridPane(false);
     }

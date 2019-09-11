@@ -13,6 +13,7 @@ public abstract class Widget {
     String listName;
     private boolean draggable;
     private boolean editEnabled;
+    private boolean isSelected = false;
     private boolean visible;
     private AnchorPane root = new AnchorPane();
     WIDGET_TYPE type;        // Standard or Custom
@@ -99,5 +100,13 @@ public abstract class Widget {
 
     public int getColSpan() {
         return this.colSpan;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean b) {
+        this.isSelected = b;
     }
 }

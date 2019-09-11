@@ -282,4 +282,8 @@ public class Layout implements Serializable {
     public void setLayoutName(String layoutName) {
         this.layoutName = layoutName;
     }
+
+    public LinkedList<Widget> getWidgets() {
+        return this.widgets;
+    }
 }

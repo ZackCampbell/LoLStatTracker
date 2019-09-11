@@ -1,6 +1,7 @@
 package Main;
 
 import API.DTO.*;
+import Database.DatabaseManager;
 import GameElements.Summoner;
 import MVC.Controllers.MasterController;
 import Utils.Utils;
@@ -28,6 +29,7 @@ public class MainGUI extends Application {
         ChampionDTO.init();
         RuneTreeDTO.init();
         ItemDTO.init();
+        DatabaseManager.updateDataDragonResources();
 
         if (guiEnabled.equals("false")) {
             startWithoutGUI();
