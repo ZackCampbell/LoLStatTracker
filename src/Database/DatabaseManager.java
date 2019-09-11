@@ -1,6 +1,8 @@
 package Database;
 
 import GameElements.Match;
+import com.mifmif.common.regex.Generex;
+import com.mifmif.common.regex.util.Iterator;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -9,14 +11,20 @@ import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import dev.morphia.query.FindOptions;
 import dev.morphia.query.Query;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.utils.IOUtils;
 import org.bson.Document;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.io.*;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
+import Utils.Utils;
 public class DatabaseManager {
+    public static String latestDDVersion;
     private static final String DATASTORE_NAME = "test";
     private static DatabaseManager instance;
     private Morphia morphia;
@@ -62,4 +70,93 @@ public class DatabaseManager {
 
         return instance;
     }
+
+    @SuppressWarnings("all")
+    public static void updateDataDragonResources() {
+        try {
+            int majorVersion = 0;
+            int minorVersion = 0;
+            int patches = 0;
+            String latestVersion = null;
+            Generex generex = new Generex("([0-9]\\.[0-9]{2}\\.[0-9])");
+            List<String> matchingStrings = generex.getAllMatchedStrings();
+            for (String version : matchingStrings) {
+                File testtgzFile = new File(Utils.getRelativePath() + "/lib/DataDragon/dragontail-" + version + ".tgz");
+                if (testtgzFile.exists()) {
+                    int currMajorVersion = Integer.parseInt(version.split("\\.")[0]);
+                    int currMinorVersion = Integer.parseInt(version.split("\\.")[1]);
+                    int currPatches = Integer.parseInt(version.split("\\.")[2]);
+                    if (currMajorVersion >= majorVersion && currMinorVersion >= minorVersion && currPatches >= patches) {
+                        latestVersion = version;
+                        majorVersion = currMajorVersion;
+                        minorVersion = currMinorVersion;
+                        patches = currPatches;
+                    }
+
+                }
+
+            }
+            boolean containsFiles = false;
+            File ddDirectory = new File(Utils.getRelativePath() + "/lib/DataDragon");
+            if (ddDirectory.isDirectory() && ddDirectory.list().length > 0) {
+                containsFiles = true;
+            }
+            if (latestVersion == null && !containsFiles) {
+                throw new FileNotFoundException();
+            } else if (latestVersion == null) {
+                return;
+            }
+            latestDDVersion = latestVersion;
+            File newDDtgzFile = new File(Utils.getRelativePath() + "/lib/DataDragon/dragontail-" + latestVersion + ".tgz");
+            unTar(unGzip(newDDtgzFile, new File(Utils.getRelativePath() + "/lib/DataDragon/tars")), new File(Utils.getRelativePath() + "/lib/DataDragon/data"));
+            newDDtgzFile.delete() ;
+
+        } catch (IOException | ArchiveException e) {
+            System.out.println("Exception caught on updating DataDragon resources: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private static File unGzip(final File inputFile, final File outputDir) throws FileNotFoundException, IOException {
+        final File outputFile = new File(outputDir, inputFile.getName().substring(0, inputFile.getName().length() - 3));
+
+        final GZIPInputStream in = new GZIPInputStream(new FileInputStream(inputFile));
+        final FileOutputStream out = new FileOutputStream(outputFile);
+
+        IOUtils.copy(in, out);
+
+        in.close();
+        out.close();
+
+        return outputFile;
+    }
+
+    private static List<File> unTar(final File inputFile, final File outputDir) throws FileNotFoundException, IOException, ArchiveException {
+
+        final List<File> untaredFiles = new LinkedList<>();
+        final InputStream is = new FileInputStream(inputFile);
+        final TarArchiveInputStream debInputStream = (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream("tar", is);
+        TarArchiveEntry entry;
+        while ((entry = (TarArchiveEntry)debInputStream.getNextEntry()) != null) {
+            final File outputFile = new File(outputDir, entry.getName());
+            if (entry.isDirectory()) {
+                if (!outputFile.exists()) {
+                    if (!outputFile.mkdirs()) {
+                        throw new IllegalStateException(String.format("Couldn't create directory %s.", outputFile.getAbsolutePath()));
+                    }
+                }
+            } else {
+                final OutputStream outputFileStream = new FileOutputStream(outputFile);
+                IOUtils.copy(debInputStream, outputFileStream);
+                outputFileStream.close();
+            }
+            untaredFiles.add(outputFile);
+        }
+        debInputStream.close();
+
+        return untaredFiles;
+    }
+
 }

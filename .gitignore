@@ -12,6 +12,9 @@ LoLJavaStatProject.iml
 /captures
 .externalNativeBuild
 
+
+DataDragon/
+
 # JSON files
 ApiKey.json
 

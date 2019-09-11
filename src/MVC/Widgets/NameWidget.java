@@ -7,6 +7,8 @@ public class NameWidget extends Widget {
         setName();
         setRowSpan();
         setColSpan();
+        this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
+        this.getPane().getStyleClass().addAll("widget", "widget-edit-disabled");
     }
 
 

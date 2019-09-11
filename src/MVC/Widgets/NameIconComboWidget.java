@@ -1,7 +1,5 @@
 package MVC.Widgets;
 
-import MVC.Widgets.Widget;
-
 public class NameIconComboWidget extends Widget {
 
     public NameIconComboWidget() {
@@ -9,6 +7,8 @@ public class NameIconComboWidget extends Widget {
         setType();
         setRowSpan();
         setColSpan();
+        this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
+        this.getPane().getStyleClass().addAll("widget", "widget-edit-disabled");
     }
 
     @Override
@@ -25,11 +25,11 @@ public class NameIconComboWidget extends Widget {
 
     @Override
     void setRowSpan() {
-        this.rowSpan = 2;
+        this.rowSpan = 1;
     }
 
     @Override
     void setColSpan() {
-        this.colSpan = 1;
+        this.colSpan = 2;
     }
 }
