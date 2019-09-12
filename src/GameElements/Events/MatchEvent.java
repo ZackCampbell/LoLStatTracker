@@ -1,5 +1,6 @@
 package GameElements.Events;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public abstract class MatchEvent {
 
     private Long timestamp;

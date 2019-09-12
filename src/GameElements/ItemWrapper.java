@@ -1,44 +1,50 @@
 package GameElements;
 
 import API.DTO.ItemDTO;
+import GameElements.Events.ItemEvent;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-public class ItemWrapper {
+@Getter
+@ToString
+public class ItemWrapper implements Comparable<ItemWrapper> {
 
     private ItemDTO item;
-    private ItemState state;
+    private Integer id;
+    private Integer beforeId;
+    private Integer afterId;
+    private ItemEvent.ItemEventType state;
+    private Long timestamp;
 
-    public ItemWrapper(ItemDTO item, ItemState state) {
-        this.item = item;
-        this.state = state;
+    public ItemWrapper(Integer id, Integer beforeId, Integer afterId, ItemEvent.ItemEventType itemState, Long timestamp) {
+        this.item = ItemDTO.getById(id);
+        this.id = id;
+        this.beforeId = beforeId;
+        this.afterId = afterId;
+        this.state = itemState;
+        this.timestamp = timestamp;
     }
 
-    @Getter
-    public enum ItemState {
-        PURCHASED("PURCHASED"),
-        SOLD("SOLD"),
-        UNDONE("UNDONE"),
-        DESTROYED("DESTROYED"), // Consumed..?,
-        UNKNOWN("UNKNOWN");
+    @Override
+    public int compareTo(ItemWrapper o) {
+        return Long.compare(this.timestamp, o.timestamp);
+    }
 
-        private static Map<String, ItemState> reverseLookup = new HashMap<>();
-        private String id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemWrapper that = (ItemWrapper) o;
+        return id.equals(that.id) &&
+                state == that.state;
+    }
 
-        ItemState(String id) {
-            this.id = id;
-        }
-
-        static {
-            for (ItemState itemState : ItemState.values()) {
-                reverseLookup.put(itemState.id, itemState);
-            }
-        }
-
-        public static ItemState fromId(final String id) {
-            return reverseLookup.getOrDefault(id, UNKNOWN);
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, state);
     }
 }

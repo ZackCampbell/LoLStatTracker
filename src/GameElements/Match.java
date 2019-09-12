@@ -5,6 +5,7 @@ import API.MatchEndpoint;
 import API.RiotAPIHandler;
 import Main.Session;
 import dev.morphia.annotations.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -13,6 +14,7 @@ import java.util.*;
 @Getter
 @ToString
 @Entity("matches")
+@EqualsAndHashCode
 @Indexes({
     @Index(
             fields = @Field("timestamp"),
@@ -29,7 +31,6 @@ import java.util.*;
 })
 public class Match {
     private static RiotAPIHandler handler = new RiotAPIHandler();
-    private static MatchEndpoint endpoint = new MatchEndpoint(Session.getInstance().getCurrentRegion(), handler.getApi_key());
 
     @Id
     private long id;
@@ -53,8 +54,9 @@ public class Match {
     private List<String> participantIds;
     private List<Integer> participatingChampionIds;
 
-    public Match(long id) {
+    public Match(String region, long id) {
         /// Do we hit the endpoint right away or make this cheap to construct? Probably the latter..
+        MatchEndpoint endpoint = new MatchEndpoint(region, handler.getApi_key());
         MatchDTO dto = endpoint.getMatchById(id);
 
         if (dto == null) {
@@ -122,6 +124,52 @@ public class Match {
         return -1;
     }
 
+    public MatchTeam getTeamOfChampion(Long championId) {
+        for (MatchTeam team : this.teams) {
+            for (MatchParticipant participant : team.getParticipants()) {
+                if (participant.getChampionId() == championId) {
+                    return team;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Integer getParticipantIdOfChampion(Long championId) {
+        for (MatchTeam team : this.teams) {
+            for (MatchParticipant participant : team.getParticipants()) {
+                if (participant.getChampionId() == championId) {
+                    return participant.getId();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public MatchParticipant getParticipantOfChampion(Long championId) {
+        for (MatchTeam team : this.teams) {
+            for (MatchParticipant participant : team.getParticipants()) {
+                if (participant.getChampionId() == championId) {
+                    return participant;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public MatchParticipantTimeline getChampionTimeline(Long championId) {
+        Integer particpantId = this.getParticipantIdOfChampion(championId);
+
+        if (particpantId != null) {
+            return this.timeline.getParticipantTimelines().getOrDefault(particpantId, null);
+        } else {
+            return null;
+        }
+    }
+
     public Match() {
         this.id = -1;
     }
@@ -147,8 +195,48 @@ public class Match {
         return false;
     }
 
+    public WinCondition getWinConditionForChampion(long championId) throws IllegalArgumentException {
+        MatchTeam champTeam = this.getTeamOfChampion(championId);
+
+        if (champTeam == null) {
+            // Not in this game
+            throw new IllegalArgumentException("Champion: " + championId + " was not in the match: " + this.getId());
+        }
+
+        MatchTeam otherTeam = this.getOtherTeam(champTeam);
+
+        if (champTeam.isWinner() && !otherTeam.isWinner()) {
+            return WinCondition.WIN;
+        } else if (!champTeam.isWinner() && otherTeam.isWinner()) {
+            return WinCondition.LOSS;
+        } else {
+            /// I think...?
+            return WinCondition.REMAKE;
+        }
+    }
+
     public boolean isValid() {
         return this.id > 0;
+    }
+
+    public MatchTeam getOtherTeam(MatchTeam team) {
+        /// I hate this method, but unless I keep a map I'm not sure of a cleaner
+        /// way right now
+        if (team.getTeamId() == MatchTeam.TeamSide.BLUE) {
+            for (MatchTeam t : this.teams) {
+                if (t.getTeamId() == MatchTeam.TeamSide.RED) {
+                    return t;
+                }
+            }
+        } else {
+            for (MatchTeam t : this.teams) {
+                if (t.getTeamId() == MatchTeam.TeamSide.BLUE) {
+                    return t;
+                }
+            }
+        }
+
+        return null;
     }
 
     @Getter
@@ -274,8 +362,8 @@ public class Match {
 
         static {
             for (Lane l : Lane.values()) {
-                reverseLookup.put(String.valueOf(l.value), l);
-                reverseLookup.put(String.valueOf(l.shorthand).toUpperCase() + "_LANE", l);
+                reverseLookup.put(l.value, l);
+                reverseLookup.put(l.shorthand.toUpperCase() + "_LANE", l);
             }
         }
 
@@ -284,8 +372,39 @@ public class Match {
         }
     }
 
+    @Getter
+    public enum Role {
+        SOLO("SOLO"), // mid or top
+        DUO_SUPPORT("DUO_SUPPORT"),
+        DUO_CARRY("DUO_CARRY"),
+        NONE("NONE"); // Jungler
+
+        private static Map<String, Role> reverseLookup = new HashMap<>();
+        String value;
+
+        Role(String value) {
+            this.value = value;
+        }
+
+        static {
+            for (Role r : Role.values()) {
+                reverseLookup.put(r.value, r);
+            }
+        }
+
+        public static Role fromValue(final String value) {
+            return reverseLookup.getOrDefault(value, NONE);
+        }
+    }
+
     public enum PatchMatchMode {
         MAJOR_VERSION,
         MINOR_VERSION
+    }
+
+    public enum WinCondition {
+        WIN,
+        LOSS,
+        REMAKE
     }
 }

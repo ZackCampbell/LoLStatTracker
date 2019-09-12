@@ -1,3 +1,10 @@
+* {
+    -fx-menu-button-color: #303138;
+    -fx-menu-button-font-color: #ddb905;
+    -fx-menu-item-highlighted-color: #232429;
+    -fx-menu-item-highlighted-text-color: lightblue;
+}
+
 .tab {
     -fx-pref-width: 40;
     -fx-pref-height: 40;
@@ -8,3 +15,38 @@
     -fx-background-color: #303138;
 }
 
+/*----------------- Menu Buttons -------------------*/
+
+.menu-button {
+    -fx-background-color: -fx-menu-button-color;
+}
+
+.menu-button > .label {
+    -fx-text-fill: -fx-menu-button-font-color;
+}
+
+.menu-button > .arrow-button, .menu-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+}
+
+/*---------------- Menu Items ---------------------*/
+
+.menu-item {
+    -fx-background-color: -fx-menu-button-color;
+}
+
+.menu-item .label {
+    -fx-text-fill: -fx-menu-button-font-color;
+}
+
+.menu-item:focused, .menu-item:hover {
+    -fx-background-color: -fx-menu-item-highlighted-color;
+}
+
+.menu-item:focused .label, .menu-item:hover .label {
+    -fx-text-fill: -fx-menu-item-highlighted-text-color;
+}
+
+.context-menu {
+    -fx-background-color: -fx-menu-button-color;
+}

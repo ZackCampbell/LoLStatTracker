@@ -1,11 +1,15 @@
 package GameElements;
 
 import API.DTO.StatsDTO;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class MatchRuneSetup {
 
     private int primaryType;

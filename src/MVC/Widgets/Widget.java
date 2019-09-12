@@ -13,8 +13,9 @@ public abstract class Widget {
     String listName;
     private boolean draggable;
     private boolean editEnabled;
+    private boolean isSelected = false;
     private boolean visible;
-    AnchorPane root = new AnchorPane();
+    private AnchorPane root = new AnchorPane();
     WIDGET_TYPE type;        // Standard or Custom
 
     public enum WIDGET_TYPE {
@@ -64,6 +65,13 @@ public abstract class Widget {
 
     public void setEditEnabled(boolean enabled) {
         this.editEnabled = enabled;
+        if (enabled) {
+            this.getPane().getStyleClass().removeAll("widget-edit-disabled");
+            this.getPane().getStyleClass().addAll("widget-edit-enabled");
+        } else {
+            this.getPane().getStyleClass().removeAll("widget-edit-enabled");
+            this.getPane().getStyleClass().addAll("widget-edit-disabled");
+        }
     }
 
     public AnchorPane getPane() {
@@ -94,13 +102,11 @@ public abstract class Widget {
         return this.colSpan;
     }
 
-    public void exit() {
-
-        // TODO: Destroy the current widget and remove it from the layout
-
+    public boolean isSelected() {
+        return isSelected;
     }
 
-
-
-
+    public void setIsSelected(boolean b) {
+        this.isSelected = b;
+    }
 }

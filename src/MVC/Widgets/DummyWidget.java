@@ -8,6 +8,20 @@ public class DummyWidget extends Widget {
         setRowSpan();
         setColSpan();
         setName();
+        this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
+    }
+
+    @Override
+    public void setEditEnabled(boolean enabled) {
+        if (enabled) {
+            if (this.getPane().getStyleClass().contains("dummy-widget-edit-disabled"))
+                this.getPane().getStyleClass().removeAll("dummy-widget-edit-disabled");
+            this.getPane().getStyleClass().addAll("dummy-widget-edit-enabled");
+        } else {
+            if (this.getPane().getStyleClass().contains("dummy-widget-edit-enabled"))
+                this.getPane().getStyleClass().removeAll("dummy-widget-edit-enabled");
+            this.getPane().getStyleClass().addAll("dummy-widget-edit-disabled");
+        }
     }
 
     @Override

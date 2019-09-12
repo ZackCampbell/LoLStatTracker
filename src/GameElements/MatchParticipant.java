@@ -1,15 +1,17 @@
 package GameElements;
 
-import API.DTO.ParticipantDTO;
-import API.DTO.PlayerDTO;
-import API.DTO.StatsDTO;
+import API.DTO.*;
 import dev.morphia.annotations.Embedded;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Embedded
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class MatchParticipant {
 
     private int id;
@@ -86,6 +88,15 @@ public class MatchParticipant {
     private long totalHeal;
     private int totalMinionsKilled;
     private MatchRuneSetup runes;
+    private Match.Lane lane;
+    private Match.Role role;
+    private StatDeltasDTO csDiffPerMinDeltas;
+    private StatDeltasDTO goldPerMinDeltas;
+    private StatDeltasDTO xpDiffPerMinDeltas;
+    private StatDeltasDTO creepsPerMinDeltas;
+    private StatDeltasDTO xpPerMinDeltas;
+    private StatDeltasDTO damageTakenDiffPerMinDeltas;
+    private StatDeltasDTO damageTakenPerMinDeltas;
 
     public MatchParticipant(PlayerDTO player, ParticipantDTO participant) {
         this.id = participant.getParticipantId();
@@ -163,6 +174,22 @@ public class MatchParticipant {
         this.totalHeal = statDto.getTotalHeal();
         this.totalMinionsKilled = statDto.getTotalMinionsKilled();
         this.runes = new MatchRuneSetup(statDto);
+
+        TimelineDTO timelineDTO = participant.getTimeline();
+
+        this.lane = Match.Lane.fromValue(timelineDTO.getLane());
+        this.role = Match.Role.fromValue(timelineDTO.getRole());
+
+        /// I'm not convinced these will actually be intelligible/reliable
+        /// Main reason is each entry is a 10 MINUTE period. That's.. way too coarse..
+        this.csDiffPerMinDeltas = timelineDTO.getCsDiffPerMinDeltas();
+        this.goldPerMinDeltas = timelineDTO.getGoldPerMinDeltas();
+        this.xpDiffPerMinDeltas = timelineDTO.getXpDiffPerMinDeltas();
+        this.creepsPerMinDeltas = timelineDTO.getCreepsPerMinDeltas();
+        this.xpPerMinDeltas = timelineDTO.getXpPerMinDeltas();
+        this.damageTakenDiffPerMinDeltas = timelineDTO.getDamageTakenDiffPerMinDeltas();
+        this.damageTakenPerMinDeltas = timelineDTO.getDamageTakenPerMinDeltas();
+
     }
 
 }

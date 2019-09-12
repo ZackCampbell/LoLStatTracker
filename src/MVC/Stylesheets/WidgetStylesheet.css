@@ -1,0 +1,33 @@
+.widget {
+    -fx-background-color: #303138;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(131,134,149,0.8), 3, 0, 0, 0);
+    -fx-border-radius: 10;
+    -fx-border-width: 2px;
+}
+
+.widget-edit-enabled {
+    -fx-border-color: lightblue;
+
+}
+
+.widget-edit-disabled {
+    -fx-border-color: #303138;
+}
+
+.dummy-widget-edit-enabled {
+    -fx-background-color: #303138;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(173,216,230,0.8), 3, 0, 0, 0);
+    -fx-border-color: lightgreen;
+    -fx-border-width: 2px;
+}
+
+.dummy-widget-edit-disabled {
+    -fx-background-color: #303138;
+    -fx-background-radius: 8;
+    -fx-border-color: #303138;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10;
+}
