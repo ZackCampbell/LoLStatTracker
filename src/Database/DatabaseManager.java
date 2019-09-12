@@ -55,10 +55,65 @@ public class DatabaseManager {
         return q.find().toList();
     }
 
+    public List<Long> getAllMatchIds() {
+        return this.datastore.createQuery(Match.class)
+                .project("_id", true)
+                .find()
+                .toList()
+                .stream()
+                .map(Match::getId)
+                .collect(Collectors.toList());
+    }
+
+    public Map<Date, MatchParticipantTimeline> getMatchTimelinesForChampion(Long champId) {
+        List<Match> matches = this.datastore.createQuery(Match.class)
+                .project("teams", true)
+                .project("timeline", true)
+                .field("participatingChampionIds")
+                .hasThisOne(champId)
+                .order(Sort.descending("timestamp"))
+                .find()
+                .toList();
+
+        Map<Date, MatchParticipantTimeline> timelines = new HashMap<>();
+
+        for (Match m : matches) {
+            if (m.getTimeline() == null) {
+                continue;
+            }
+            timelines.put(m.getTimestamp(), m.getChampionTimeline(champId));
+        }
+
+        return timelines;
+    }
+
     public List<Match> getMatchesWithChampions(List<Long> champIds) {
         return this.datastore.createQuery(Match.class)
                 .field("participatingChampionIds")
                 .hasAllOf(champIds)
+                .find()
+                .toList();
+    }
+
+    public List<Match> getMatchesWithChampions(List<Long> champIds, int limit) {
+        FindOptions options = new FindOptions();
+        options.limit(limit);
+
+        return this.datastore.createQuery(Match.class)
+                .field("participatingChampionIds")
+                .hasAllOf(champIds)
+                .order(Sort.descending("timestamp"))
+                .find(options)
+                .toList();
+    }
+
+    public List<Match> getMatchesWithChampionsFromPatch(List<Long> champIds, String patch) {
+        return this.datastore.createQuery(Match.class)
+                .field("participatingChampionIds")
+                .hasAllOf(champIds)
+                .field("gameVersion")
+                .startsWith(patch)
+                .order(Sort.descending("timestamp"))
                 .find()
                 .toList();
     }

@@ -1,33 +1,30 @@
 package GameElements;
 
-import API.DTO.MatchEventDTO;
-import API.DTO.MatchTimelineDTO;
+import API.DTO.*;
 import GameElements.Events.*;
 import dev.morphia.annotations.Embedded;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Embedded
 @Getter
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode
 public class MatchTimeline {
 
     private HashMap<Integer, MatchParticipantTimeline> participantTimelines;
 
     public MatchTimeline(MatchTimelineDTO matchTimelineDTO) {
         this.participantTimelines = new HashMap<>();
-
-//        List<MatchEventDTO> events = matchTimelineDTO.getFrames().stream()
-//                .sorted(Comparator.comparingLong(MatchFrameDTO::getTimestamp))
-//                .flatMap(frame -> frame.getEvents().stream())
-//                .sorted(Comparator.comparingLong(MatchEventDTO::getTimestamp))
-//                .collect(Collectors.toList());
 
         List<MatchEventDTO> events = matchTimelineDTO.getFrames().stream()
                 .flatMap(frame -> frame.getEvents().stream())
@@ -78,6 +75,24 @@ public class MatchTimeline {
 
                 timeline.addEvent(event);
                 this.participantTimelines.put(event.getCreatorId(), timeline);
+            }
+        }
+
+        for (MatchFrameDTO frameDTO : matchTimelineDTO.getFrames()) {
+            for (Map.Entry<String, MatchParticipantFrameDTO> participantFrame : frameDTO.getParticipantFrames ().entrySet()) {
+                int participantId = Integer.parseInt(participantFrame.getKey());
+                MatchParticipantTimeline timeline = this.participantTimelines.getOrDefault(
+                        participantId, new MatchParticipantTimeline()
+                );
+
+                timeline.addFrame(
+                        new MatchFrame(
+                                frameDTO.getTimestamp(),
+                                participantId,
+                                participantFrame.getValue())
+                );
+
+                this.participantTimelines.put(participantId, timeline);
             }
         }
 

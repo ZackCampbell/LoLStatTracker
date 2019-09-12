@@ -2,10 +2,7 @@ package GameElements;
 
 import API.DTO.TeamStatsDTO;
 import dev.morphia.annotations.Embedded;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +14,7 @@ import java.util.stream.Collectors;
 @ToString
 @Embedded
 @NoArgsConstructor
+@EqualsAndHashCode
 public class MatchTeam {
 
     @Embedded

@@ -63,4 +63,5 @@ public class Session {
     public String getCurrentRegion() {
         return currentRegion;
     }
+    public void setCurrentRegion(String region) { this.currentRegion = region; }
 }

@@ -3,6 +3,7 @@ package GameElements.Events;
 import API.DTO.MatchEventDTO;
 import GameElements.MapPosition;
 import GameElements.Match;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,6 +15,7 @@ import java.util.Map;
 @Getter
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode
 public class SkillLevelUpEvent extends MatchEvent {
 
     SkillSlot skillSlot;

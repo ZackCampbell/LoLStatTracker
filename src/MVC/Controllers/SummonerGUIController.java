@@ -174,30 +174,30 @@ public class SummonerGUIController extends MasterController implements Initializ
     }
 
     private void initPopup(AnchorPane pane) {
-        if (popup.isShowing()) {
-            popup.hide();
-            popup.getContent().removeAll();
-        }
-        EventHandler<MouseEvent> closeHandler = new EventHandler<>() {
-            @Override
-            public void handle(MouseEvent event) {
-                popup.hide();
-                content.removeEventHandler(MouseEvent.MOUSE_PRESSED, this);
-            }
-        };
-        try {
-            content.removeEventHandler(MouseEvent.MOUSE_PRESSED, closeHandler);
-        } catch (Exception e) {}
-
-        popup.getContent().add(pane);
-        Window parent = getStage().getScene().getWindow();
-        popup.setHideOnEscape(true);
-        content.addEventHandler(MouseEvent.MOUSE_PRESSED, closeHandler);
-        popup.show(getStage());
-        double initX = parent.getX() + (parent.getWidth() / 2) - (popup.getWidth() / 2);
-        double initY = parent.getY() + (parent.getHeight() / 2) - (popup.getHeight() / 2);
-        popup.setX(initX);
-        popup.setY(initY);
+//        if (popup.isShowing()) {
+//            popup.hide();
+//            popup.getContent().removeAll();
+//        }
+//        EventHandler<MouseEvent> closeHandler = new EventHandler<>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                popup.hide();
+//                content.removeEventHandler(MouseEvent.MOUSE_PRESSED, this);
+//            }
+//        };
+//        try {
+//            content.removeEventHandler(MouseEvent.MOUSE_PRESSED, closeHandler);
+//        } catch (Exception e) {}
+//
+//        popup.getContent().add(pane);
+//        Window parent = getStage().getScene().getWindow();
+//        popup.setHideOnEscape(true);
+//        content.addEventHandler(MouseEvent.MOUSE_PRESSED, closeHandler);
+//        popup.show(getStage());
+//        double initX = parent.getX() + (parent.getWidth() / 2) - (popup.getWidth() / 2);
+//        double initY = parent.getY() + (parent.getHeight() / 2) - (popup.getHeight() / 2);
+//        popup.setX(initX);
+//        popup.setY(initY);
     }
 
     @FXML
