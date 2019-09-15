@@ -22,6 +22,7 @@ import org.bson.Document;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -162,6 +163,17 @@ public class DatabaseManager {
             if (latestVersion == null && !containsFiles) {
                 throw new FileNotFoundException();
             } else if (latestVersion == null) {
+                File dir = new File(Utils.getRelativePath() + "/lib/DataDragon/data");
+                if (dir.isDirectory()) {
+                    for (File file : dir.listFiles()) {
+                        Pattern pattern = Pattern.compile("^(\\d*).+$");
+                        Matcher matcher = pattern.matcher(file.getName().substring(0, 1));
+                        if (file.isDirectory() && !matcher.group(1).isEmpty()) {
+                            latestDDVersion = file.getName();
+                            break;
+                        }
+                    }
+                }
                 return;
             }
             latestDDVersion = latestVersion;

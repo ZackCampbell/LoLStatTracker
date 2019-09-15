@@ -38,8 +38,7 @@ public class ItemBuildsWidget extends Widget {
             Pane itemPane = new Pane();
             Label itemLabel = new Label();
             itemLabel.setText("");
-            String url =
-                    null;
+            String url = null;
             try {
                 url = new File(Utils.getRelativePath() + "/lib/DataDragon/" + DatabaseManager.latestDDVersion + "/img/item/" + item.getImage().getFull()).toURI().toURL().toString();
             } catch (MalformedURLException e) {
