@@ -52,7 +52,7 @@ public class MasterController {
     public MasterController(Stage initialStage, Parent root, Summoner summoner) {
         initializeMasterController(initialStage, root);
         getStage().setResizable(true);
-        //getInitSummoner(summoner);
+        getInitSummoner(summoner);
         currentPage = "summoner";
     }
 
@@ -60,11 +60,10 @@ public class MasterController {
     boolean getInitSummoner(Summoner summoner) {
         if (!summoner.isValid()) {
             summonerEndpoint = new SummonerEndpoint(summoner.getRegion(), apiHandler.getApi_key());
-            if (testSummonerDTO(summoner, summoner.getRegion())) return false;
+            return testSummonerDTO(summoner, summoner.getRegion());
         }
         currentSummoner = summoner;
-        System.out.println(currentSummoner);
-        return false;
+        return true;
     }
 
     private boolean testSummonerDTO(Summoner summoner, String region) {
@@ -84,10 +83,13 @@ public class MasterController {
     boolean getInputSummoner(Summoner summoner, String region) {
         if (!summoner.isValid()) {
             summonerEndpoint = new SummonerEndpoint(region, apiHandler.getApi_key());
-            if (testSummonerDTO(summoner, region)) return false;
+            if (region.equalsIgnoreCase("na")) {
+                summonerEndpoint = new SummonerEndpoint("na1", apiHandler.getApi_key());
+                return testSummonerDTO(summoner, "na1");
+            }
+            return testSummonerDTO(summoner, region);
         }
         currentSummoner = summoner;
-//        System.out.println(currentSummoner);
         return true;
     }
 

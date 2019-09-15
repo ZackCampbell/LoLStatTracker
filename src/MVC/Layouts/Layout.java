@@ -256,7 +256,7 @@ public class Layout implements Serializable {
                 }
             }
             if (fileName == null) {                 // Couldn't find the most recent layout
-                System.out.println("Could not find most recent file.");
+                System.out.println("Could not find most recent layout file.");
                 return new Layout("UnknownLayout", 11, 8);
             }
 
