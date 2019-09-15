@@ -1,11 +1,13 @@
 package MVC.Controllers;
 
+import API.DTO.ChampionDTO;
 import API.DTO.ItemDTO;
 import MVC.Layouts.Layout;
 import MVC.Widgets.*;
 import MVC.Widgets.NameIconComboWidget;
 import MVC.Widgets.NameWidget;
 import MVC.Widgets.SummIconWidget;
+import Stats.ChampionStats;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -78,7 +80,7 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     @FXML
     private void handleLogout(MouseEvent event) throws IOException {
-        Parent loginFXML = FXMLLoader.load(getClass().getResource("../Views/Login.fxml"));
+        Parent loginFXML = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
         parent.getChildren().removeAll();
         parent.getChildren().setAll(loginFXML);
     }
@@ -163,13 +165,13 @@ public class SummonerGUIController extends MasterController implements Initializ
 
     @FXML
     private void getBug(MouseEvent event) throws IOException {
-        AnchorPane bugPane = FXMLLoader.load(getClass().getResource("../Views/BugReportPopUp.fxml"));
+        AnchorPane bugPane = FXMLLoader.load(getClass().getResource("/fxml/BugReportPopUp.fxml"));
         initPopup(bugPane);
     }
 
     @FXML
     private void getFeedback(MouseEvent event) throws IOException {
-        AnchorPane feedbackPane = FXMLLoader.load(getClass().getResource("../Views/FeedbackPopUp.fxml"));
+        AnchorPane feedbackPane = FXMLLoader.load(getClass().getResource("/fxml/FeedbackPopUp.fxml"));
         initPopup(feedbackPane);
     }
 
@@ -238,7 +240,7 @@ public class SummonerGUIController extends MasterController implements Initializ
     private void updateMenuAccordion() {
         menuAccordion = new Accordion();
         menuAccordion.getStyleClass().add("popup");
-        menuAccordion.getStylesheets().add(getClass().getResource("../Stylesheets/AccordionStylesheet.css").toExternalForm());
+        menuAccordion.getStylesheets().add(getClass().getResource("/stylesheets/AccordionStylesheet.css").toExternalForm());
         TitledPane standardPane, customPane;
         if (menuAccordion.getPanes().size() == 0) {
             standardPane = createTitledPane("Standard");
@@ -346,7 +348,11 @@ public class SummonerGUIController extends MasterController implements Initializ
         standardWidgets.add(new NameWidget());
         standardWidgets.add(new SummIconWidget());
         standardWidgets.add(new NameIconComboWidget());
-        standardWidgets.add(new ItemBuildsWidget(null));            // TODO: Update with actual list of items from the backend
+        ArrayList<ItemDTO> items = new ArrayList<>();
+        items.add(new ItemDTO());
+        items.add(new ItemDTO());
+        items.add(new ItemDTO());
+        //standardWidgets.add(new ItemBuildsWidget(items));            // TODO: Update with actual list of items from the backend
     }
 
     private void createCustomWidgets() {

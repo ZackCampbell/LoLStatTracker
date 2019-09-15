@@ -9,6 +9,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import Utils.Utils;
@@ -22,10 +24,11 @@ public class ItemBuildsWidget extends Widget {
         setName();
         setRowSpan();
         setColSpan();
-        this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
-        this.getPane().getStyleClass().addAll("widget", "widget-edit-disabled");
+        this.getPane().getStylesheets().add(getClass().getResource("/stylesheets/WidgetStylesheet.css").toExternalForm());
+        this.getPane().getStyleClass().addAll("widget", "widget-edit-disabled", "item-builds-widget");
 
         flowPane.setId("ItemBuildFlowPane");
+        flowPane.getStyleClass().add("item-flow-pane");
         flowPane.setVgap(3);
         flowPane.setHgap(3);
         if (items == null) {
@@ -35,7 +38,14 @@ public class ItemBuildsWidget extends Widget {
             Pane itemPane = new Pane();
             Label itemLabel = new Label();
             itemLabel.setText("");
-            itemLabel.setGraphic(new ImageView(Utils.getRelativePath() + "/lib/DataDragon/" + DatabaseManager.latestDDVersion + "/img/item/" + item.getImage().getFull()));
+            String url =
+                    null;
+            try {
+                url = new File(Utils.getRelativePath() + "/lib/DataDragon/" + DatabaseManager.latestDDVersion + "/img/item/" + item.getImage().getFull()).toURI().toURL().toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            itemLabel.setGraphic(new ImageView(url));
             itemLabel.setTextAlignment(TextAlignment.CENTER);
             itemLabel.setAlignment(Pos.CENTER);
             itemPane.getChildren().add(itemLabel);

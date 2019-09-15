@@ -1,6 +1,8 @@
 package Main;
 
 import API.DTO.*;
+import API.RiotAPIHandler;
+import API.SummonerEndpoint;
 import Database.DatabaseManager;
 import GameElements.Summoner;
 import MVC.Controllers.MasterController;
@@ -77,11 +79,13 @@ public class MainGUI extends Application {
 //        MatchScraper.getMatchesFromTopOfLadderForPatch("9", Match.PatchMatchMode.MAJOR_VERSION);
 //        System.out.println("Found: " + matches.size() + " matches.");
 
-        Long vk = Long.valueOf(ChampionDTO.getByName("viktor").getKey());
+        Long vk = Long.valueOf(ChampionDTO.getByName("vel'koz").getKey());
 
 //        db.getMatchTimelinesForChampion(vk);
 
         ChampionStats cs = new ChampionStats(vk, "9.17");
+
+        System.out.println(cs.getLatestCondensedBuild_TEST());
 
 //        String token = "2fFd9zgMi8baywoLT58MVw";
 //        String auth = "riot:" + token;
@@ -97,13 +101,13 @@ public class MainGUI extends Application {
         Summoner cachedSummoner = (Summoner)session.getCache().getLast();
         MasterController masterController;
         Parent root;
-//        root = FXMLLoader.load(getClass().getResource("../MVC/Views/Summoner.fxml"));
+//        root = FXMLLoader.load(getClass().getResource("../MVC/fxml/Summoner.fxml"));
 //        masterController = new MasterController(primaryStage, root, cachedSummoner);
         if (cachedSummoner != null) {
-            root = FXMLLoader.load(getClass().getResource("../MVC/Views/Summoner.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/Summoner.fxml"));
             masterController = new MasterController(primaryStage, root, cachedSummoner);
         } else {
-            root = FXMLLoader.load(getClass().getResource("../MVC/Views/Login.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
             masterController = new MasterController(primaryStage, root);
         }
         masterController.showStage();

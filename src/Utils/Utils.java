@@ -1,5 +1,6 @@
 package Utils;
 
+import GameElements.Match;
 import Logging.LoggingHandler;
 import MVC.Widgets.Widget;
 import MVC.Widgets.WidgetException;
@@ -59,6 +60,33 @@ public class Utils {
 
     public static Set<String> getRegionCodes() {
         return regionCodes.keySet();
+    }
+
+    /// Example: 9.16.284.8446
+    /// TODO: Consider refactoring patch string to be a simple Patch class w/ validation
+    public static boolean doPatchesMatch(String patch1, String patch2, Match.PatchMatchMode mode) {
+        if (mode == Match.PatchMatchMode.NONE) {
+            /// Early exit for trivial case of we don't care about matching
+            return true;
+        }
+
+        String[] partsToMatch = patch1.split("\\.");
+        String[] partsOther = patch2.split("\\.");
+
+        if (partsToMatch.length >= 1 && partsOther.length >= 1) {
+            if (mode == Match.PatchMatchMode.MAJOR_VERSION) {
+                return partsToMatch[0].equals(partsOther[0]);
+            }
+        }
+
+        if (partsToMatch.length >= 2 && partsOther.length >= 2) {
+            if (mode == Match.PatchMatchMode.MINOR_VERSION) {
+                return partsToMatch[0].equals(partsOther[0]) &&
+                        partsToMatch[1].equals(partsOther[1]);
+            }
+        }
+
+        return false;
     }
 
     public static void addGridConstraints(GridPane gridPane, int numCols, int numRows) {

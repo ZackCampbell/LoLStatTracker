@@ -89,7 +89,7 @@ public class LoginController extends MasterController implements Initializable {
             return;
         }
         loginActive = false;
-        Parent summonerFXML = FXMLLoader.load(getClass().getResource("../Views/Summoner.fxml"));
+        Parent summonerFXML = FXMLLoader.load(getClass().getResource("/fxml/Summoner.fxml"));
         parent.getChildren().removeAll();
         parent.getChildren().setAll(summonerFXML);
     }
