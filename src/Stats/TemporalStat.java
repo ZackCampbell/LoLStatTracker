@@ -1,5 +1,7 @@
 package Stats;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,9 +12,10 @@ import java.util.stream.Collectors;
  * multiple games, and keep track of patch version of the game.
  * @param <T>
  */
+@Getter
 public class TemporalStat<T> {
 
-    List<TimeSample<T>> samples;
+    private List<TimeSample<T>> samples;
 
     public TemporalStat() {
         this.samples = new ArrayList<>();

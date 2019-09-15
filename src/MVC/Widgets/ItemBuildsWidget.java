@@ -9,6 +9,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import Utils.Utils;
@@ -36,7 +38,14 @@ public class ItemBuildsWidget extends Widget {
             Pane itemPane = new Pane();
             Label itemLabel = new Label();
             itemLabel.setText("");
-            itemLabel.setGraphic(new ImageView(Utils.getRelativePath() + "/lib/DataDragon/" + DatabaseManager.latestDDVersion + "/img/item/" + item.getImage().getFull()));
+            String url =
+                    null;
+            try {
+                url = new File(Utils.getRelativePath() + "/lib/DataDragon/" + DatabaseManager.latestDDVersion + "/img/item/" + item.getImage().getFull()).toURI().toURL().toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            itemLabel.setGraphic(new ImageView(url));
             itemLabel.setTextAlignment(TextAlignment.CENTER);
             itemLabel.setAlignment(Pos.CENTER);
             itemPane.getChildren().add(itemLabel);

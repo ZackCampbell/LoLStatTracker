@@ -1,11 +1,13 @@
 package MVC.Controllers;
 
+import API.DTO.ChampionDTO;
 import API.DTO.ItemDTO;
 import MVC.Layouts.Layout;
 import MVC.Widgets.*;
 import MVC.Widgets.NameIconComboWidget;
 import MVC.Widgets.NameWidget;
 import MVC.Widgets.SummIconWidget;
+import Stats.ChampionStats;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;

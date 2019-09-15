@@ -64,6 +64,36 @@ public class ItemBuild {
         return coreItems;
     }
 
+    // Collapses all purchases that have been purchased then undone
+    public List<ItemWrapper> getCondensed() {
+        List<ItemWrapper> condensed = new ArrayList<>(this.itemTimings);
+
+        for (ItemWrapper item : this.itemTimings) {
+            if (item.getState() != ItemEvent.ItemEventType.PURCHASED) {
+                continue;
+            }
+
+            for (ItemWrapper item2 : this.itemTimings) {
+                if (item2.getState() != ItemEvent.ItemEventType.UNDO) {
+                    continue;
+                }
+
+                if (!item2.getId().equals(item.getId())) {
+                    continue;
+                }
+
+                if (item2.getTimestamp() < item.getTimestamp()) {
+                    continue;
+                }
+
+                condensed.remove(item);
+                condensed.remove(item2);
+            }
+        }
+
+        return condensed;
+    }
+
     public int checksumCoreItems() {
         List<ItemWrapper> items = this.getCoreItemPurchases();
         items.sort(Comparator.comparingInt(ItemWrapper::getId));

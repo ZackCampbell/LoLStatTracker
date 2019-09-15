@@ -174,25 +174,8 @@ public class Match {
         this.id = -1;
     }
 
-    /// Example: 9.16.284.8446
     public boolean isFromPatch(String patchToMatch, PatchMatchMode mode) {
-        String[] partsToMatch = patchToMatch.split("\\.");
-        String[] partsOther = this.gameVersion.split("\\.");
-
-        if (partsToMatch.length >= 1 && partsOther.length >= 1) {
-            if (mode == PatchMatchMode.MAJOR_VERSION) {
-                return partsToMatch[0].equals(partsOther[0]);
-            }
-        }
-
-        if (partsToMatch.length >= 2 && partsOther.length >= 2) {
-            if (mode == PatchMatchMode.MINOR_VERSION) {
-                return partsToMatch[0].equals(partsOther[0]) &&
-                       partsToMatch[1].equals(partsOther[1]);
-            }
-        }
-
-        return false;
+        return Utils.Utils.doPatchesMatch(patchToMatch, this.gameVersion, mode);
     }
 
     public WinCondition getWinConditionForChampion(long championId) throws IllegalArgumentException {
@@ -399,7 +382,8 @@ public class Match {
 
     public enum PatchMatchMode {
         MAJOR_VERSION,
-        MINOR_VERSION
+        MINOR_VERSION,
+        NONE
     }
 
     public enum WinCondition {

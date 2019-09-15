@@ -1,6 +1,8 @@
 package Main;
 
 import API.DTO.*;
+import API.RiotAPIHandler;
+import API.SummonerEndpoint;
 import Database.DatabaseManager;
 import GameElements.Summoner;
 import MVC.Controllers.MasterController;
@@ -77,11 +79,13 @@ public class MainGUI extends Application {
 //        MatchScraper.getMatchesFromTopOfLadderForPatch("9", Match.PatchMatchMode.MAJOR_VERSION);
 //        System.out.println("Found: " + matches.size() + " matches.");
 
-        Long vk = Long.valueOf(ChampionDTO.getByName("viktor").getKey());
+        Long vk = Long.valueOf(ChampionDTO.getByName("vel'koz").getKey());
 
 //        db.getMatchTimelinesForChampion(vk);
 
         ChampionStats cs = new ChampionStats(vk, "9.17");
+
+        System.out.println(cs.getLatestCondensedBuild_TEST());
 
 //        String token = "2fFd9zgMi8baywoLT58MVw";
 //        String auth = "riot:" + token;
