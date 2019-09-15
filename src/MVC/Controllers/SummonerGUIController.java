@@ -8,6 +8,8 @@ import MVC.Widgets.NameIconComboWidget;
 import MVC.Widgets.NameWidget;
 import MVC.Widgets.SummIconWidget;
 import Stats.ChampionStats;
+import Utils.Utils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -33,6 +35,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import static Utils.Utils.getNextGridCoords;
@@ -348,11 +351,20 @@ public class SummonerGUIController extends MasterController implements Initializ
         standardWidgets.add(new NameWidget());
         standardWidgets.add(new SummIconWidget());
         standardWidgets.add(new NameIconComboWidget());
-        ArrayList<ItemDTO> items = new ArrayList<>();
-        items.add(new ItemDTO());
-        items.add(new ItemDTO());
-        items.add(new ItemDTO());
-        //standardWidgets.add(new ItemBuildsWidget(items));            // TODO: Update with actual list of items from the backend
+
+        ObjectMapper mapper = new ObjectMapper();
+        ItemDTO[] items = null;
+
+        try {
+            items = mapper.readValue(new File(Utils.getRelativePath() + "/src/Tests/sampleBuild_Velkoz1.json"), ItemDTO[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (items != null) {
+            // TODO: Update with actual list of items from the backend
+            standardWidgets.add(new ItemBuildsWidget(Arrays.asList(items)));
+        }
     }
 
     private void createCustomWidgets() {
