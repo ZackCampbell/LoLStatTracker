@@ -1,8 +1,5 @@
 package MVC.Widgets;
 
-import MVC.Widgets.Widget;
-import javafx.scene.control.Label;
-
 public class SummIconWidget extends Widget {
 
     public SummIconWidget() {
@@ -10,7 +7,7 @@ public class SummIconWidget extends Widget {
         setType();
         setRowSpan();
         setColSpan();
-        this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
+        this.getPane().getStylesheets().add(getClass().getResource("/stylesheets/WidgetStylesheet.css").toExternalForm());
         this.getPane().getStyleClass().addAll("widget", "widget-edit-disabled");
     }
 

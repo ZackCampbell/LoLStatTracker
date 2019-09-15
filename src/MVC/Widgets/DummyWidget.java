@@ -8,7 +8,7 @@ public class DummyWidget extends Widget {
         setRowSpan();
         setColSpan();
         setName();
-        this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
+        this.getPane().getStylesheets().add(getClass().getResource("/stylesheets/WidgetStylesheet.css").toExternalForm());
     }
 
     @Override

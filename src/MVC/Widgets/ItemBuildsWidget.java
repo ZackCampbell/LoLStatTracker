@@ -22,10 +22,11 @@ public class ItemBuildsWidget extends Widget {
         setName();
         setRowSpan();
         setColSpan();
-        this.getPane().getStylesheets().add(getClass().getResource("../Stylesheets/WidgetStylesheet.css").toExternalForm());
-        this.getPane().getStyleClass().addAll("widget", "widget-edit-disabled");
+        this.getPane().getStylesheets().add(getClass().getResource("/stylesheets/WidgetStylesheet.css").toExternalForm());
+        this.getPane().getStyleClass().addAll("widget", "widget-edit-disabled", "item-builds-widget");
 
         flowPane.setId("ItemBuildFlowPane");
+        flowPane.getStyleClass().add("item-flow-pane");
         flowPane.setVgap(3);
         flowPane.setHgap(3);
         if (items == null) {

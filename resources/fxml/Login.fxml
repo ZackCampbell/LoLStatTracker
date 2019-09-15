@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="parent" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="parent" stylesheets="@../Stylesheets/MasterStylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVC.Controllers.LoginController">
+<AnchorPane fx:id="parent" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="parent" stylesheets="@../stylesheets/MasterStylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVC.Controllers.LoginController">
    <children>
       <HBox fx:id="top" alignment="CENTER_RIGHT" layoutY="-1.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1200.0">
          <children>
@@ -20,7 +20,7 @@
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="MINUS" nodeOrientation="LEFT_TO_RIGHT" selectionStart="1" size="21" strokeType="INSIDE" styleClass="minimize-btn" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="30.0" />
                </graphic></Label>
-            <Label fx:id="maximize" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#maximizeStage" prefHeight="30.0" prefWidth="30.0" styleClass="minimize-btn" stylesheets="@../Stylesheets/MasterStylesheet.css" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="maximize" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#maximizeStage" prefHeight="30.0" prefWidth="30.0" styleClass="minimize-btn" stylesheets="@../stylesheets/MasterStylesheet.css" textAlignment="CENTER" textFill="WHITE">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="SQUARE_ALT" size="21" styleClass="minimize-btn" textAlignment="CENTER" wrappingWidth="30.0" />
                </graphic>
@@ -43,8 +43,8 @@
                         <Font size="24.0" />
                      </font>
                      <stylesheets>
-                        <URL value="@../Stylesheets/MasterStylesheet.css" />
-                        <URL value="@../Stylesheets/LoginStylesheet.css" />
+                        <URL value="@../stylesheets/MasterStylesheet.css" />
+                        <URL value="@../stylesheets/LoginStylesheet.css" />
                      </stylesheets>
                   </TextField>
                   <Button fx:id="loginButton" layoutX="17.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleLogin" prefHeight="50.0" prefWidth="300.0" styleClass="login-btn" text="Login">
@@ -52,8 +52,8 @@
                         <Font size="18.0" />
                      </font>
                      <stylesheets>
-                        <URL value="@../Stylesheets/MasterStylesheet.css" />
-                        <URL value="@../Stylesheets/LoginStylesheet.css" />
+                        <URL value="@../stylesheets/MasterStylesheet.css" />
+                        <URL value="@../stylesheets/LoginStylesheet.css" />
                      </stylesheets>
                   </Button>
                   <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="129.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="300.0">
@@ -63,8 +63,8 @@
                   </Label>
                   <ChoiceBox fx:id="regions" layoutX="17.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="70.0" styleClass="region-dropdown">
                      <stylesheets>
-                        <URL value="@../Stylesheets/MasterStylesheet.css" />
-                        <URL value="@../Stylesheets/LoginStylesheet.css" />
+                        <URL value="@../stylesheets/MasterStylesheet.css" />
+                        <URL value="@../stylesheets/LoginStylesheet.css" />
                      </stylesheets></ChoiceBox>
                </children>
             </AnchorPane>
