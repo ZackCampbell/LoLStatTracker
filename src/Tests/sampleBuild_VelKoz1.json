@@ -1,0 +1,1350 @@
+[
+  {
+    "name": "Doran's Ring",
+    "description": "<stats>+60 Health<br>+15 Ability Power<br><mana>+5 Mana per 5 seconds</mana></stats><br><br><passive>Passive: </passive>Basic attacks deal an additional 5 physical damage to minions on hit.",
+    "colloq": ";dring",
+    "plaintext": "Good starting item for casters",
+    "image": {
+      "full": "1056.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 144,
+      "y": 96,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 400,
+      "sell": 160,
+      "base": 400
+    },
+    "tags": [
+      "Health",
+      "Lane",
+      "ManaRegen",
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 15.0,
+      "FlatHPPoolMod": 60.0
+    },
+    "effect": {
+      "Effect1Amount": 0.0,
+      "Effect2Amount": 5.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Health Potion",
+    "description": "<groupLimit>Limited to 5 at one time. Limited to 1 type of Healing Potion.</groupLimit><br><br><consumable>Click to Consume:</consumable> Restores 150 Health over 15 seconds.",
+    "colloq": ";",
+    "plaintext": "Consume to restore Health over time",
+    "image": {
+      "full": "2003.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 336,
+      "y": 144,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 50,
+      "sell": 20,
+      "base": 50
+    },
+    "tags": [
+      "Consumable",
+      "Jungle",
+      "Lane"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {},
+    "effect": {
+      "Effect1Amount": 150.0,
+      "Effect2Amount": 15.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": true,
+    "consumeOnFull": false,
+    "stacks": 5.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Health Potion",
+    "description": "<groupLimit>Limited to 5 at one time. Limited to 1 type of Healing Potion.</groupLimit><br><br><consumable>Click to Consume:</consumable> Restores 150 Health over 15 seconds.",
+    "colloq": ";",
+    "plaintext": "Consume to restore Health over time",
+    "image": {
+      "full": "2003.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 336,
+      "y": 144,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 50,
+      "sell": 20,
+      "base": 50
+    },
+    "tags": [
+      "Consumable",
+      "Jungle",
+      "Lane"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {},
+    "effect": {
+      "Effect1Amount": 150.0,
+      "Effect2Amount": 15.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": true,
+    "consumeOnFull": false,
+    "stacks": 5.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Warding Totem (Trinket)",
+    "description": "<groupLimit>Limited to 1 Trinket.</groupLimit><br><br><active>Active:</active> Consume a charge to place an invisible <font color='#BBFFFF'>Stealth Ward</font> which reveals the surrounding area for <scaleLevel>90 - 120</scaleLevel> seconds. <br><br>Stores one charge every <scaleLevel>240 - 120</scaleLevel> seconds, up to 2 maximum charges.<br><br>Ward duration and recharge time gradually improve with level.<br><br><rules>(Limit 3 <font color='#BBFFFF'>Stealth Wards</font> on the map per player.)</rules>",
+    "colloq": "yellow; totem; trinket",
+    "plaintext": "Periodically place a Stealth Ward",
+    "image": {
+      "full": "3340.png",
+      "sprite": "item2.png",
+      "group": "item",
+      "x": 432,
+      "y": 48,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 0,
+      "sell": 0,
+      "base": 0
+    },
+    "tags": [
+      "Active",
+      "Jungle",
+      "Lane",
+      "Trinket",
+      "Vision"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": false,
+      "10": false
+    },
+    "stats": {},
+    "effect": {
+      "Effect8Amount": 120.0,
+      "Effect5Amount": 2.0,
+      "Effect3Amount": 120.0,
+      "Effect7Amount": 30.0,
+      "Effect1Amount": 90.0,
+      "Effect6Amount": 9.0,
+      "Effect2Amount": 240.0,
+      "Effect4Amount": 120.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Sapphire Crystal",
+    "description": "<stats><mana>+250 Mana</mana></stats>",
+    "colloq": ";blue",
+    "plaintext": "Increases Mana",
+    "into": [
+      "3057",
+      "3070",
+      "3010",
+      "3024",
+      "3073",
+      "1402",
+      "1414",
+      "3802",
+      "4104"
+    ],
+    "image": {
+      "full": "1027.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 288,
+      "y": 0,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 350,
+      "sell": 245,
+      "base": 350
+    },
+    "tags": [
+      "Mana"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMPPoolMod": 250.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Control Ward",
+    "description": "<groupLimit>Can only carry 2 Control Wards in inventory.</groupLimit><br><br><consumable>Click to Consume:</consumable> Places a ward that grants vision of the surrounding area. This device will also reveal invisible traps and reveal / disable wards. Control Wards do not disable other Control Wards. Camouflaged units will also be revealed. <br><br>Limit 1 <font color='#BBFFFF'>Control Ward</font> on the map per player.",
+    "colloq": "orange;",
+    "plaintext": "Used to disable wards and invisible traps in an area.",
+    "image": {
+      "full": "2055.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 144,
+      "y": 240,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 75,
+      "sell": 30,
+      "base": 75
+    },
+    "tags": [
+      "Consumable",
+      "Lane",
+      "Stealth",
+      "Vision"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": false,
+      "10": false
+    },
+    "stats": {},
+    "effect": {
+      "Effect1Amount": 1.0,
+      "Effect2Amount": 2.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": true,
+    "consumeOnFull": false,
+    "stacks": 2.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Health Potion",
+    "description": "<groupLimit>Limited to 5 at one time. Limited to 1 type of Healing Potion.</groupLimit><br><br><consumable>Click to Consume:</consumable> Restores 150 Health over 15 seconds.",
+    "colloq": ";",
+    "plaintext": "Consume to restore Health over time",
+    "image": {
+      "full": "2003.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 336,
+      "y": 144,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 50,
+      "sell": 20,
+      "base": 50
+    },
+    "tags": [
+      "Consumable",
+      "Jungle",
+      "Lane"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {},
+    "effect": {
+      "Effect1Amount": 150.0,
+      "Effect2Amount": 15.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": true,
+    "consumeOnFull": false,
+    "stacks": 5.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Health Potion",
+    "description": "<groupLimit>Limited to 5 at one time. Limited to 1 type of Healing Potion.</groupLimit><br><br><consumable>Click to Consume:</consumable> Restores 150 Health over 15 seconds.",
+    "colloq": ";",
+    "plaintext": "Consume to restore Health over time",
+    "image": {
+      "full": "2003.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 336,
+      "y": 144,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 50,
+      "sell": 20,
+      "base": 50
+    },
+    "tags": [
+      "Consumable",
+      "Jungle",
+      "Lane"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {},
+    "effect": {
+      "Effect1Amount": 150.0,
+      "Effect2Amount": 15.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": true,
+    "consumeOnFull": false,
+    "stacks": 5.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Control Ward",
+    "description": "<groupLimit>Can only carry 2 Control Wards in inventory.</groupLimit><br><br><consumable>Click to Consume:</consumable> Places a ward that grants vision of the surrounding area. This device will also reveal invisible traps and reveal / disable wards. Control Wards do not disable other Control Wards. Camouflaged units will also be revealed. <br><br>Limit 1 <font color='#BBFFFF'>Control Ward</font> on the map per player.",
+    "colloq": "orange;",
+    "plaintext": "Used to disable wards and invisible traps in an area.",
+    "image": {
+      "full": "2055.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 144,
+      "y": 240,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 75,
+      "sell": 30,
+      "base": 75
+    },
+    "tags": [
+      "Consumable",
+      "Lane",
+      "Stealth",
+      "Vision"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": false,
+      "10": false
+    },
+    "stats": {},
+    "effect": {
+      "Effect1Amount": 1.0,
+      "Effect2Amount": 2.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": true,
+    "consumeOnFull": false,
+    "stacks": 2.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Lost Chapter",
+    "description": "<stats>+40 Ability Power<br><mana>+300 Mana</mana></stats><br><br><unique>UNIQUE Passive - Haste:</unique> +10% Cooldown Reduction<br><unique>UNIQUE Passive:</unique> Upon levelling up, restores 20% of your maximum Mana over 3 seconds.",
+    "colloq": ";",
+    "plaintext": "Restores Mana upon levelling up.",
+    "into": [
+      "3003",
+      "3007",
+      "3030",
+      "3285"
+    ],
+    "from": [
+      "1052",
+      "1027",
+      "1052"
+    ],
+    "image": {
+      "full": "3802.png",
+      "sprite": "item2.png",
+      "group": "item",
+      "x": 144,
+      "y": 432,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 1300,
+      "sell": 910,
+      "base": 80
+    },
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "ManaRegen",
+      "CooldownReduction"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 40.0,
+      "FlatMPPoolMod": 300.0
+    },
+    "effect": {
+      "Effect8Amount": 3.0,
+      "Effect5Amount": 20.0,
+      "Effect3Amount": 15.0,
+      "Effect7Amount": 0.2,
+      "Effect1Amount": 25.0,
+      "Effect6Amount": 5.0,
+      "Effect2Amount": -0.1,
+      "Effect4Amount": 10.0
+    },
+    "depth": 2,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Sapphire Crystal",
+    "description": "<stats><mana>+250 Mana</mana></stats>",
+    "colloq": ";blue",
+    "plaintext": "Increases Mana",
+    "into": [
+      "3057",
+      "3070",
+      "3010",
+      "3024",
+      "3073",
+      "1402",
+      "1414",
+      "3802",
+      "4104"
+    ],
+    "image": {
+      "full": "1027.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 288,
+      "y": 0,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 350,
+      "sell": 245,
+      "base": 350
+    },
+    "tags": [
+      "Mana"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMPPoolMod": 250.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Amplifying Tome",
+    "description": "<stats>+20 Ability Power</stats>",
+    "colloq": ";amptome",
+    "plaintext": "Slightly increases Ability Power",
+    "into": [
+      "3108",
+      "3191",
+      "3136",
+      "3135",
+      "3145",
+      "3113",
+      "3090",
+      "3124",
+      "3116",
+      "3673",
+      "3802",
+      "3916"
+    ],
+    "image": {
+      "full": "1052.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 432,
+      "y": 48,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 435,
+      "sell": 305,
+      "base": 435
+    },
+    "tags": [
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 20.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Blasting Wand",
+    "description": "<stats>+40 Ability Power</stats>",
+    "colloq": ";",
+    "plaintext": "Moderately increases Ability Power",
+    "into": [
+      "3135",
+      "3029",
+      "3151",
+      "3027",
+      "3100",
+      "3102",
+      "3116",
+      "3165",
+      "3285",
+      "3312"
+    ],
+    "image": {
+      "full": "1026.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 240,
+      "y": 0,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 850,
+      "sell": 595,
+      "base": 850
+    },
+    "tags": [
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 40.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Fiendish Codex",
+    "description": "<stats>+35 Ability Power</stats><br><br><unique>UNIQUE Passive:</unique> +10% Cooldown Reduction",
+    "colloq": ";",
+    "plaintext": "Increases Ability Power and Cooldown Reduction",
+    "into": [
+      "3174",
+      "3115",
+      "3157",
+      "1402",
+      "1414",
+      "3128",
+      "3102",
+      "3905",
+      "4104"
+    ],
+    "from": [
+      "1052"
+    ],
+    "image": {
+      "full": "3108.png",
+      "sprite": "item1.png",
+      "group": "item",
+      "x": 144,
+      "y": 192,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 900,
+      "sell": 630,
+      "base": 465
+    },
+    "tags": [
+      "CooldownReduction",
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 35.0
+    },
+    "effect": {
+      "Effect1Amount": -0.1
+    },
+    "depth": 2,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Amplifying Tome",
+    "description": "<stats>+20 Ability Power</stats>",
+    "colloq": ";amptome",
+    "plaintext": "Slightly increases Ability Power",
+    "into": [
+      "3108",
+      "3191",
+      "3136",
+      "3135",
+      "3145",
+      "3113",
+      "3090",
+      "3124",
+      "3116",
+      "3673",
+      "3802",
+      "3916"
+    ],
+    "image": {
+      "full": "1052.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 432,
+      "y": 48,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 435,
+      "sell": 305,
+      "base": 435
+    },
+    "tags": [
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 20.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Null-Magic Mantle",
+    "description": "<stats>+25 Magic Resist</stats>",
+    "colloq": ";",
+    "plaintext": "Slightly increases Magic Resist",
+    "into": [
+      "3111",
+      "3211",
+      "1057",
+      "3028",
+      "3140",
+      "3155",
+      "3105",
+      "3190",
+      "3102",
+      "3194"
+    ],
+    "image": {
+      "full": "1033.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 0,
+      "y": 48,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 450,
+      "sell": 315,
+      "base": 450
+    },
+    "tags": [
+      "SpellBlock"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatSpellBlockMod": 25.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Banshee's Veil",
+    "description": "<stats>+75 Ability Power<br>+60 Magic Resist<br>+10% Cooldown Reduction</stats><br><br><unique>UNIQUE Passive:</unique> Grants a spell shield that blocks the next enemy ability. This shield refreshes after no damage is taken from enemy champions for 40 seconds.",
+    "colloq": ";bv",
+    "plaintext": "Periodically blocks enemy abilities",
+    "from": [
+      "3108",
+      "1033",
+      "1026"
+    ],
+    "image": {
+      "full": "3102.png",
+      "sprite": "item1.png",
+      "group": "item",
+      "x": 432,
+      "y": 144,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 3000,
+      "sell": 2100,
+      "base": 800
+    },
+    "tags": [
+      "SpellBlock",
+      "SpellDamage",
+      "CooldownReduction"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatSpellBlockMod": 60.0,
+      "FlatMagicDamageMod": 75.0
+    },
+    "effect": {
+      "Effect5Amount": 8.0,
+      "Effect3Amount": 10.0,
+      "Effect1Amount": 40.0,
+      "Effect6Amount": 2.0,
+      "Effect2Amount": 45.0,
+      "Effect4Amount": -0.1
+    },
+    "depth": 3,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Fiendish Codex",
+    "description": "<stats>+35 Ability Power</stats><br><br><unique>UNIQUE Passive:</unique> +10% Cooldown Reduction",
+    "colloq": ";",
+    "plaintext": "Increases Ability Power and Cooldown Reduction",
+    "into": [
+      "3174",
+      "3115",
+      "3157",
+      "1402",
+      "1414",
+      "3128",
+      "3102",
+      "3905",
+      "4104"
+    ],
+    "from": [
+      "1052"
+    ],
+    "image": {
+      "full": "3108.png",
+      "sprite": "item1.png",
+      "group": "item",
+      "x": 144,
+      "y": 192,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 900,
+      "sell": 630,
+      "base": 465
+    },
+    "tags": [
+      "CooldownReduction",
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 35.0
+    },
+    "effect": {
+      "Effect1Amount": -0.1
+    },
+    "depth": 2,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Null-Magic Mantle",
+    "description": "<stats>+25 Magic Resist</stats>",
+    "colloq": ";",
+    "plaintext": "Slightly increases Magic Resist",
+    "into": [
+      "3111",
+      "3211",
+      "1057",
+      "3028",
+      "3140",
+      "3155",
+      "3105",
+      "3190",
+      "3102",
+      "3194"
+    ],
+    "image": {
+      "full": "1033.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 0,
+      "y": 48,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 450,
+      "sell": 315,
+      "base": 450
+    },
+    "tags": [
+      "SpellBlock"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatSpellBlockMod": 25.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Blasting Wand",
+    "description": "<stats>+40 Ability Power</stats>",
+    "colloq": ";",
+    "plaintext": "Moderately increases Ability Power",
+    "into": [
+      "3135",
+      "3029",
+      "3151",
+      "3027",
+      "3100",
+      "3102",
+      "3116",
+      "3165",
+      "3285",
+      "3312"
+    ],
+    "image": {
+      "full": "1026.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 240,
+      "y": 0,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 850,
+      "sell": 595,
+      "base": 850
+    },
+    "tags": [
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 40.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Sorcerer's Shoes",
+    "description": "<groupLimit>Limited to 1 pair of boots.</groupLimit><br><br><stats>+18 <a href='FlatMagicPen'>Magic Penetration</a></stats><br><br><unique>UNIQUE Passive - Enhanced Movement:</unique> +45 Movement Speed",
+    "colloq": ";",
+    "plaintext": "Enhances Movement Speed and magic damage",
+    "from": [
+      "1001"
+    ],
+    "image": {
+      "full": "3020.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 96,
+      "y": 384,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 1100,
+      "sell": 770,
+      "base": 800
+    },
+    "tags": [
+      "Boots",
+      "MagicPenetration"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMovementSpeedMod": 45.0
+    },
+    "effect": {
+      "Effect1Amount": 18.0
+    },
+    "depth": 2,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Slightly Magical Boots",
+    "description": "<groupLimit>Limited to 1 pair of boots.</groupLimit><br><br><unique>UNIQUE Passive - Enhanced Movement:</unique> +25 Movement Speed<br><br><unique>UNIQUE Passive:</unique> +10 Movement Speed<br><br>Boots that build from Slightly Magical Boots retain the +10 Movement Speed.",
+    "colloq": ";",
+    "plaintext": "Slightly increases Movement Speed",
+    "into": [
+      "3006",
+      "3047",
+      "3020",
+      "3158",
+      "3111",
+      "3117",
+      "3009"
+    ],
+    "image": {
+      "full": "2422.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 0,
+      "y": 336,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": false,
+      "total": 300,
+      "sell": 210,
+      "base": 300
+    },
+    "tags": [
+      "Boots"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMovementSpeedMod": 25.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Blasting Wand",
+    "description": "<stats>+40 Ability Power</stats>",
+    "colloq": ";",
+    "plaintext": "Moderately increases Ability Power",
+    "into": [
+      "3135",
+      "3029",
+      "3151",
+      "3027",
+      "3100",
+      "3102",
+      "3116",
+      "3165",
+      "3285",
+      "3312"
+    ],
+    "image": {
+      "full": "1026.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 240,
+      "y": 0,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 850,
+      "sell": 595,
+      "base": 850
+    },
+    "tags": [
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 40.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Luden's Echo",
+    "description": "<stats>+90 Ability Power<br><mana>+600 Mana</mana><br>+10% Cooldown Reduction</stats><br><br><unique>UNIQUE Passive - Haste:</unique> This item gains an additional 10% Cooldown Reduction.<br><unique>UNIQUE Passive - Echo:</unique> Gain charges upon moving or casting. At 100 charges, the next damaging spell hit expends all charges to deal 100 (+10% of Ability Power) bonus magic damage to up to 4 targets on hit.",
+    "colloq": ";",
+    "plaintext": "Increases Ability Power, Mana, and Cooldown Reduction",
+    "into": [
+      "3390"
+    ],
+    "from": [
+      "3802",
+      "1026"
+    ],
+    "image": {
+      "full": "3285.png",
+      "sprite": "item2.png",
+      "group": "item",
+      "x": 288,
+      "y": 0,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 3200,
+      "sell": 2240,
+      "base": 1050
+    },
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "CooldownReduction",
+      "OnHit"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 90.0,
+      "FlatMPPoolMod": 600.0
+    },
+    "effect": {
+      "Effect8Amount": 0.0,
+      "Effect9Amount": -0.1,
+      "Effect5Amount": 35.0,
+      "Effect3Amount": 4.0,
+      "Effect7Amount": 0.0,
+      "Effect1Amount": 100.0,
+      "Effect6Amount": 10.0,
+      "Effect2Amount": 100.0,
+      "Effect4Amount": 0.1
+    },
+    "depth": 3,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Lost Chapter",
+    "description": "<stats>+40 Ability Power<br><mana>+300 Mana</mana></stats><br><br><unique>UNIQUE Passive - Haste:</unique> +10% Cooldown Reduction<br><unique>UNIQUE Passive:</unique> Upon levelling up, restores 20% of your maximum Mana over 3 seconds.",
+    "colloq": ";",
+    "plaintext": "Restores Mana upon levelling up.",
+    "into": [
+      "3003",
+      "3007",
+      "3030",
+      "3285"
+    ],
+    "from": [
+      "1052",
+      "1027",
+      "1052"
+    ],
+    "image": {
+      "full": "3802.png",
+      "sprite": "item2.png",
+      "group": "item",
+      "x": 144,
+      "y": 432,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 1300,
+      "sell": 910,
+      "base": 80
+    },
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "ManaRegen",
+      "CooldownReduction"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 40.0,
+      "FlatMPPoolMod": 300.0
+    },
+    "effect": {
+      "Effect8Amount": 3.0,
+      "Effect5Amount": 20.0,
+      "Effect3Amount": 15.0,
+      "Effect7Amount": 0.2,
+      "Effect1Amount": 25.0,
+      "Effect6Amount": 5.0,
+      "Effect2Amount": -0.1,
+      "Effect4Amount": 10.0
+    },
+    "depth": 2,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  },
+  {
+    "name": "Blasting Wand",
+    "description": "<stats>+40 Ability Power</stats>",
+    "colloq": ";",
+    "plaintext": "Moderately increases Ability Power",
+    "into": [
+      "3135",
+      "3029",
+      "3151",
+      "3027",
+      "3100",
+      "3102",
+      "3116",
+      "3165",
+      "3285",
+      "3312"
+    ],
+    "image": {
+      "full": "1026.png",
+      "sprite": "item0.png",
+      "group": "item",
+      "x": 240,
+      "y": 0,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "purchasable": true,
+      "total": 850,
+      "sell": 595,
+      "base": 850
+    },
+    "tags": [
+      "SpellDamage"
+    ],
+    "maps": {
+      "11": true,
+      "22": false,
+      "12": true,
+      "10": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 40.0
+    },
+    "depth": 0,
+    "hideFromAll": false,
+    "consumed": false,
+    "consumeOnFull": false,
+    "stacks": 0.0,
+    "inStore": false,
+    "specialRecipe": 0.0
+  }
+]
