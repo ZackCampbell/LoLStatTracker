@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.*;
 
 @Getter
@@ -29,7 +30,7 @@ import java.util.*;
             options = @IndexOptions(name = "match_champions")
     )
 })
-public class Match {
+public class Match implements Serializable {
     private static RiotAPIHandler handler = new RiotAPIHandler();
 
     @Id
@@ -378,6 +379,10 @@ public class Match {
         public static Role fromValue(final String value) {
             return reverseLookup.getOrDefault(value, NONE);
         }
+    }
+
+    public long getId() {
+        return this.id;
     }
 
     public enum PatchMatchMode {

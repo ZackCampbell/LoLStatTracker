@@ -21,28 +21,38 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.bson.Document;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import Utils.Utils;
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
+
+import static Utils.Utils.initializeLogger;
+
+// TODO: Move most of this functionality to the server - only maintain this as a client to make requests to the server
 public class DatabaseManager {
     public static String latestDDVersion;
     private static final String DATASTORE_NAME = "test";
     private static DatabaseManager instance;
-    private Morphia morphia;
+    private static Logger logger = initializeLogger(DatabaseManager.class.getName());
     private Datastore datastore;
 
-    public DatabaseManager() {
+    private DatabaseManager() {
         /// This is a localhost client.. connection string can be specified in create()
         /// TODO: close the connection
-        this.morphia = new Morphia();
+        //Morphia morphia = new Morphia();
 
-        this.morphia.mapPackage("GameElements");
+        //morphia.mapPackage("GameElements");
 
-        this.datastore = this.morphia.createDatastore(new MongoClient(), DATASTORE_NAME);
-        this.datastore.ensureIndexes();
+        //this.datastore = morphia.createDatastore(new MongoClient(), DATASTORE_NAME);
+        //this.datastore.ensureIndexes();
     }
 
     public void addMatches(List<Match> matches) {
@@ -130,103 +140,53 @@ public class DatabaseManager {
         return instance;
     }
 
-    @SuppressWarnings("all")
-    public static void updateDataDragonResources() {
-        try {
-            int majorVersion = 0;
-            int minorVersion = 0;
-            int patches = 0;
-            String latestVersion = null;
-            Generex generex = new Generex("([0-9]\\.[0-9]{2}\\.[0-9])");
-            List<String> matchingStrings = generex.getAllMatchedStrings();
-            for (String version : matchingStrings) {
-                File testtgzFile = new File(Utils.getRelativePath() + "/lib/DataDragon/dragontail-" + version + ".tgz");
-                if (testtgzFile.exists()) {
-                    int currMajorVersion = Integer.parseInt(version.split("\\.")[0]);
-                    int currMinorVersion = Integer.parseInt(version.split("\\.")[1]);
-                    int currPatches = Integer.parseInt(version.split("\\.")[2]);
-                    if (currMajorVersion >= majorVersion && currMinorVersion >= minorVersion && currPatches >= patches) {
-                        latestVersion = version;
-                        majorVersion = currMajorVersion;
-                        minorVersion = currMinorVersion;
-                        patches = currPatches;
-                    }
+    // TODO: Test these client methods for interacting with the API and update the URLs to connect to the correct database
 
-                }
-
-            }
-            boolean containsFiles = false;
-            File ddDirectory = new File(Utils.getRelativePath() + "/lib/DataDragon");
-            if (ddDirectory.isDirectory() && ddDirectory.list().length > 0) {
-                containsFiles = true;
-            }
-            if (latestVersion == null && !containsFiles) {
-                throw new FileNotFoundException();
-            } else if (latestVersion == null) {
-                File dir = new File(Utils.getRelativePath() + "/lib/DataDragon/data");
-                if (dir.isDirectory()) {
-                    for (File file : dir.listFiles()) {
-                        Pattern pattern = Pattern.compile("^(\\d*).+$");
-                        Matcher matcher = pattern.matcher(file.getName().substring(0, 1));
-                        if (file.isDirectory() && !matcher.group(1).isEmpty()) {
-                            latestDDVersion = file.getName();
-                            break;
-                        }
-                    }
-                }
-                return;
-            }
-            latestDDVersion = latestVersion;
-            File newDDtgzFile = new File(Utils.getRelativePath() + "/lib/DataDragon/dragontail-" + latestVersion + ".tgz");
-            unTar(unGzip(newDDtgzFile, new File(Utils.getRelativePath() + "/lib/DataDragon/tars")), new File(Utils.getRelativePath() + "/lib/DataDragon/data"));
-            newDDtgzFile.delete() ;
-
-        } catch (IOException | ArchiveException e) {
-            System.out.println("Exception caught on updating DataDragon resources: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1)
+            sb.append((char) cp);
+        return sb.toString();
     }
 
-    private static File unGzip(final File inputFile, final File outputDir) throws FileNotFoundException, IOException {
-        final File outputFile = new File(outputDir, inputFile.getName().substring(0, inputFile.getName().length() - 3));
+    @Nullable
+    private static JSONObject getMatch(long id) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL("<Insert URL Here>/matches/match/" + id).openConnection();
 
-        final GZIPInputStream in = new GZIPInputStream(new FileInputStream(inputFile));
-        final FileOutputStream out = new FileOutputStream(outputFile);
-
-        IOUtils.copy(in, out);
-
-        in.close();
-        out.close();
-
-        return outputFile;
+        connection.setRequestMethod("GET");
+        int responseCode = connection.getResponseCode();
+        if (responseCode == 200) {
+            logger.info("GET on match " + id + " successful");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")));
+            String jsonText = readAll(reader);
+            return new JSONObject(jsonText);
+        }
+        else if (responseCode >= 400 && responseCode < 500)
+            logger.severe("Post failed for match " + id + " - Client side error: " + responseCode + "\n" + connection.getResponseMessage());
+        else if (responseCode >= 500)
+            logger.severe("Post failed for match " + id + " - Server side error: " + responseCode + "\n" + connection.getResponseMessage());
+        return null;
     }
 
-    private static List<File> unTar(final File inputFile, final File outputDir) throws FileNotFoundException, IOException, ArchiveException {
+    private static void postMatch(Match match) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL("<Insert URL Here>/matches/match/" + match.getId()).openConnection();
 
-        final List<File> untaredFiles = new LinkedList<>();
-        final InputStream is = new FileInputStream(inputFile);
-        final TarArchiveInputStream debInputStream = (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream("tar", is);
-        TarArchiveEntry entry;
-        while ((entry = (TarArchiveEntry)debInputStream.getNextEntry()) != null) {
-            final File outputFile = new File(outputDir, entry.getName());
-            if (entry.isDirectory()) {
-                if (!outputFile.exists()) {
-                    if (!outputFile.mkdirs()) {
-                        throw new IllegalStateException(String.format("Couldn't create directory %s.", outputFile.getAbsolutePath()));
-                    }
-                }
-            } else {
-                final OutputStream outputFileStream = new FileOutputStream(outputFile);
-                IOUtils.copy(debInputStream, outputFileStream);
-                outputFileStream.close();
-            }
-            untaredFiles.add(outputFile);
-        }
-        debInputStream.close();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        ObjectOutputStream writer = new ObjectOutputStream(connection.getOutputStream());
+        writer.writeObject(match);
+        writer.flush();
 
-        return untaredFiles;
+        int responseCode = connection.getResponseCode();
+        if (responseCode == 200)
+            logger.info("Post on match " + match.getId() + " successful");
+        else if (responseCode >= 400 && responseCode < 500)
+            logger.severe("Post failed for match " + match.getId() + " - Client side error: " + responseCode + "\n" + connection.getResponseMessage());
+        else if (responseCode >= 500)
+            logger.severe("Post failed for match " + match.getId() + " - Server side error: " + responseCode + "\n" + connection.getResponseMessage());
+
+        writer.close();
     }
 
 }

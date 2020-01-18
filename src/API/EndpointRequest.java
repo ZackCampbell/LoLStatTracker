@@ -6,6 +6,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+
+import static Utils.Utils.initializeLogger;
 
 public class EndpointRequest<T> implements Runnable {
 
@@ -15,6 +18,7 @@ public class EndpointRequest<T> implements Runnable {
     private Class<T> responseClass;
     private T response;
     private CountDownLatch latch;
+    private static Logger logger = initializeLogger(EndpointRequest.class.getName());
 
     EndpointRequest(Endpoint endpoint, URL requestUrl, Endpoint.RequestMethod requestMethod, Class<T> responseClass) {
         this.endpoint = endpoint;
@@ -26,12 +30,12 @@ public class EndpointRequest<T> implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Sending: " + this.requestUrl.toString()); // TODO move to a logger
+        logger.info("Sending: " + this.requestUrl.toString());
         try {
             this.response = this.endpoint.send(this.requestUrl, this.requestMethod, this.responseClass);
             this.latch.countDown();
         } catch (RateLimitException rle) {
-            System.out.println("Retrying after: " + rle.retryAfterXSeconds);
+            logger.warning("Retrying after: " + rle.retryAfterXSeconds);
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             scheduler.schedule(this, rle.retryAfterXSeconds, TimeUnit.SECONDS);
         } catch (IOException e) {
